@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>購入済み動画一覧 | Video-Store</title>
+  <title>マイページ | Video-Store</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
       </a>
       <nav class="header-nav">
         <a class="nav-link" data-page="product.html" href="product.html">商品</a>
-        <a class="nav-link" data-page="mypage.html" href="mypage.html">購入済み動画一覧</a>
+        <a class="nav-link" data-page="mypage.html" href="mypage.html">マイページ</a>
         <a class="nav-link" data-page="login.html" href="login.html">ログイン</a>
       </nav>
     </div>
@@ -23,10 +23,13 @@
 
   <main class="container">
     <section class="card section">
-      <h1 style="margin-top: 0;">購入済み動画一覧</h1>
-      <p class="lead">アカウント情報と購入済みコンテンツを確認できます。</p>
+      <h1 style="margin-top: 0;">マイページ</h1>
+      <p class="lead">アカウント情報と購入済み動画・お気に入り動画を確認できます。</p>
       <div id="accountSummary" style="margin-bottom: 16px;"></div>
+      <h2>購入済み動画</h2>
       <div id="purchasedList" class="video-grid"></div>
+      <h2 style="margin-top: 26px;">お気に入り動画</h2>
+      <div id="favoriteList" class="video-grid"></div>
     </section>
   </main>
 
@@ -46,6 +49,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
