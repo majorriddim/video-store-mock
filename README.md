@@ -13,6 +13,9 @@
 - `mypage.html` 購入済み動画一覧ページ
 - `watch.html` 動画視聴ページ
 - `contact.html` お問い合わせページ
+- `faq.html` よくある質問ページ
+- `payment-failed.html` 決済失敗ページ
+- `404.html` 404ページ
 - `tokusho.html` 特定商取引法に基づく表記
 - `terms.html` 利用規約
 - `privacy.html` プライバシーポリシー

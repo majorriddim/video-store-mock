@@ -528,6 +528,7 @@ function initPurchaseConfirmPage() {
       <div class="cta-group">
         <button class="btn btn-primary" id="confirmPurchase" disabled>購入を確定する</button>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
+        <a class="btn btn-ghost" href="payment-failed.html?video=${encodeURIComponent(video.id)}">決済失敗時の画面を見る</a>
       </div>
     </article>
   `;
@@ -545,6 +546,37 @@ function initPurchaseConfirmPage() {
     if (!ok) return;
     window.location.href = `thankyou.html?video=${encodeURIComponent(video.id)}`;
   });
+}
+
+function initPaymentFailedPage() {
+  const root = document.querySelector("#paymentFailed");
+  if (!root) return;
+
+  const url = new URL(window.location.href);
+  const videoId = url.searchParams.get("video") || "v1";
+  const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
+
+  root.innerHTML = `
+    <article class="card section" style="max-width: 760px; margin-inline: auto;">
+      <span class="badge">決済エラー</span>
+      <h1 style="margin-top: 12px;">決済が完了しませんでした</h1>
+      <p class="lead">通信状況やカード認証の都合で、購入処理が完了しなかった可能性があります。</p>
+      <div class="notice notice-warning">
+        対象商品: ${video.title}<br>
+        価格: ${video.price} 税込 / 買い切り
+      </div>
+      <h2 style="margin-top: 16px;">再購入・お支払い方法について</h2>
+      <ul class="list">
+        <li>再度クレジットカード決済をお試しいただけます。</li>
+        <li>銀行振込でのお支払いをご希望の場合は、お問い合わせよりご連絡ください。</li>
+      </ul>
+      <div class="cta-group">
+        <a class="btn btn-primary" href="purchase-confirm.html?video=${encodeURIComponent(video.id)}">再度購入する</a>
+        <a class="btn btn-secondary" href="contact.html">お問い合わせする</a>
+        <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
+      </div>
+    </article>
+  `;
 }
 
 function initLoginPage() {
@@ -750,4 +782,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initMyPage();
   initWatchPage();
   initContactPage();
+  initPaymentFailedPage();
 });
