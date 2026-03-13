@@ -24,6 +24,17 @@ function parsePriceToNumber(priceText) {
   return Number(String(priceText).replace(/[^\d]/g, "")) || 0;
 }
 
+function buildCardPrimaryAction(videoId, isLoggedIn, isPurchased) {
+  if (!isLoggedIn) {
+    const redirect = encodeURIComponent(`purchase-confirm.html?video=${videoId}`);
+    return `<a class="btn btn-primary" href="login.html?redirect=${redirect}">ログインして購入</a>`;
+  }
+  if (isPurchased) {
+    return `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(videoId)}">視聴する</a>`;
+  }
+  return `<button class="btn btn-primary" data-action="buy-now" data-video-id="${videoId}">この動画を購入</button>`;
+}
+
 function getState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -203,6 +214,7 @@ function initProductPage() {
   const homePagedList = document.querySelector("#homePagedList");
   if (!homeList && !homePagedList) return;
   const state = getState();
+  const isLoggedIn = Boolean(state.loggedIn);
   const ownedSet = new Set(state.purchases);
 
   const newest = [...DEMO_VIDEOS].sort(
@@ -216,7 +228,7 @@ function initProductPage() {
           <div class="badge-row" style="margin-bottom: 8px;">
             <span class="badge">${video.genre}</span>
             ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-            ${ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
+            ${isLoggedIn && ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
@@ -224,9 +236,7 @@ function initProductPage() {
           <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
-          ${ownedSet.has(video.id)
-            ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
-            : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
+          ${buildCardPrimaryAction(video.id, isLoggedIn, isLoggedIn && ownedSet.has(video.id))}
           <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
         </div>
       </article>
@@ -289,6 +299,7 @@ function initVideosPage() {
   const catalog = document.querySelector("#productCatalog");
   if (!catalog) return;
   const state = getState();
+  const isLoggedIn = Boolean(state.loggedIn);
   const ownedSet = new Set(state.purchases);
 
   const keywordInput = document.querySelector("#searchKeyword");
@@ -320,7 +331,7 @@ function initVideosPage() {
           <div class="badge-row" style="margin-bottom: 8px;">
             <span class="badge">${video.genre}</span>
             ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-            ${ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
+            ${isLoggedIn && ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
@@ -328,11 +339,8 @@ function initVideosPage() {
           <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
-          ${ownedSet.has(video.id)
-            ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
-            : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
+          ${buildCardPrimaryAction(video.id, isLoggedIn, isLoggedIn && ownedSet.has(video.id))}
           <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
-          ${ownedSet.has(video.id) ? "" : `<a class="btn btn-secondary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴ページへ</a>`}
         </div>
       </article>
     `).join("");
@@ -439,14 +447,15 @@ function initProductDetailPage() {
   const videoId = url.searchParams.get("video") || "v1";
   const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
   const state = getState();
-  const owned = state.purchases.includes(video.id);
+  const isLoggedIn = Boolean(state.loggedIn);
+  const isPurchased = isLoggedIn && state.purchases.includes(video.id);
 
   root.innerHTML = `
     <article class="card section">
       <div class="badge-row">
         <span class="badge">${video.genre}</span>
         ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-        ${owned ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
+        ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
       </div>
       <h1 style="margin-top: 12px;">${video.title}</h1>
       <p class="lead">${video.description}</p>
@@ -482,9 +491,7 @@ function initProductDetailPage() {
         <div class="meta-key">端末</div><div>スマートフォン、タブレット、PC</div>
       </div>
       <div class="cta-group">
-        ${owned
-          ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
-          : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
+        ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
         <a class="btn btn-ghost" href="product.html">商品一覧へ戻る</a>
       </div>
     </article>

@@ -504,16 +504,23 @@ textarea {
 }
 
 .pager {
-  margin-top: 14px;
+  margin: 24px 0;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .pager-info {
   font-weight: 700;
   color: var(--muted);
+  min-width: 60px;
+  text-align: center;
+}
+
+.pager .btn {
+  min-width: 90px;
 }
 
 .site-footer {
