@@ -148,6 +148,7 @@ main {
   gap: 20px;
   grid-template-columns: 1.6fr 1fr;
   align-items: stretch;
+  margin-top: 22px;
 }
 
 .card {
