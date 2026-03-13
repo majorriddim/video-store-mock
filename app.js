@@ -83,26 +83,71 @@ function renderHeaderNav() {
   if (!nav) return;
   const state = getState();
 
-  if (!state.loggedIn) {
-    nav.innerHTML = `
-      <a class="nav-link" data-page="product.html" href="product.html">商品</a>
-      <a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>
-      <a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>
-      <a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>
-      <a class="nav-link" data-page="login.html" href="login.html">ログイン</a>
-      <a class="nav-link" data-page="register.html" href="register.html">会員登録</a>
+  function renderNavShell(primaryLinks, secondaryLinks) {
+    return `
+      <div class="nav-primary">
+        ${primaryLinks.join("")}
+      </div>
+      <div class="nav-secondary-desktop">
+        ${secondaryLinks.join("")}
+      </div>
+      <div class="nav-mobile-more">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+        <div class="menu-dropdown" id="mobileMenu">
+          ${secondaryLinks.join("")}
+        </div>
+      </div>
     `;
+  }
+
+  if (!state.loggedIn) {
+    nav.innerHTML = renderNavShell(
+      [
+        `<a class="nav-link" data-page="product.html" href="product.html">商品</a>`,
+        `<a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>`,
+        `<a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>`
+      ],
+      [
+        `<a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>`,
+        `<a class="nav-link" data-page="login.html" href="login.html">ログイン</a>`,
+        `<a class="nav-link" data-page="register.html" href="register.html">会員登録</a>`
+      ]
+    );
     return;
   }
 
-  nav.innerHTML = `
-    <a class="nav-link" data-page="product.html" href="product.html">商品</a>
-    <a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>
-    <a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>
-    <a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>
-    <a class="nav-link" data-page="mypage.html" href="mypage.html">購入済み動画一覧</a>
-    <a class="nav-link" href="#" data-action="header-logout">ログアウト</a>
-  `;
+  nav.innerHTML = renderNavShell(
+    [
+      `<a class="nav-link" data-page="product.html" href="product.html">商品</a>`,
+      `<a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>`,
+      `<a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>`
+    ],
+    [
+      `<a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>`,
+      `<a class="nav-link" data-page="mypage.html" href="mypage.html">購入済み動画一覧</a>`,
+      `<a class="nav-link" href="#" data-action="header-logout">ログアウト</a>`
+    ]
+  );
+}
+
+function initMobileMenu() {
+  const toggle = document.querySelector(".menu-toggle");
+  const dropdown = document.querySelector(".menu-dropdown");
+  if (!toggle || !dropdown) return;
+
+  toggle.addEventListener("click", () => {
+    const opened = dropdown.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", opened ? "true" : "false");
+  });
+
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+    if (!(target instanceof Element)) return;
+    if (!target.closest(".nav-mobile-more")) {
+      dropdown.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
 }
 
 function bindCommonActions() {
@@ -674,6 +719,7 @@ function setActiveNav() {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderHeaderNav();
+  initMobileMenu();
   setStatusText();
   bindCommonActions();
   setActiveNav();

@@ -54,6 +54,7 @@ body {
   color: var(--text);
   text-decoration: none;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .logo-mark {
@@ -66,8 +67,55 @@ body {
 
 .header-nav {
   display: flex;
+  align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+}
+
+.nav-primary,
+.nav-secondary-desktop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-mobile-more {
+  display: none;
+  position: relative;
+}
+
+.menu-toggle {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 190px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+  z-index: 20;
+}
+
+.menu-dropdown.is-open {
+  display: block;
+}
+
+.menu-dropdown .nav-link {
+  display: block;
 }
 
 .nav-link {
@@ -478,8 +526,10 @@ footer {
   }
 
   .header-inner {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 0;
+    gap: 10px;
   }
 
   .meta-grid {
@@ -492,5 +542,45 @@ footer {
 
   .directory-grid {
     grid-template-columns: 1fr;
+  }
+
+  .header-nav {
+    margin-left: auto;
+    gap: 8px;
+  }
+
+  .nav-primary {
+    gap: 2px;
+  }
+
+  .nav-primary .nav-link {
+    padding: 6px 8px;
+    font-size: 0.86rem;
+    white-space: nowrap;
+  }
+
+  .nav-secondary-desktop {
+    display: none;
+  }
+
+  .nav-mobile-more {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo {
+    font-size: 0.92rem;
+    gap: 8px;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav-primary .nav-link {
+    padding: 5px 6px;
+    font-size: 0.8rem;
   }
 }
