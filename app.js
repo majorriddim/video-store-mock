@@ -69,6 +69,18 @@ function buildFavoriteButton(videoId, isFavorite) {
   `;
 }
 
+function buildGenreLink(genre) {
+  return `<a class="badge badge-link" href="videos.html?genre=${encodeURIComponent(genre)}">${genre}</a>`;
+}
+
+function buildCastLink(cast) {
+  return `<a class="meta-link" href="videos.html?cast=${encodeURIComponent(cast)}">${cast}</a>`;
+}
+
+function buildSaleLink() {
+  return `<a class="mini-badge mini-badge-sale" href="videos.html?sale=1">🔥期間限定価格</a>`;
+}
+
 function buildCardPrimaryAction(videoId, isLoggedIn, isPurchased) {
   if (!isLoggedIn) {
     const redirect = encodeURIComponent(`purchase-confirm.html?video=${videoId}`);
@@ -91,7 +103,7 @@ function buildVideoCard(video, state, options = {}) {
   const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`;
   const extraBadges = [];
   if (isSaleVideo(video)) {
-    extraBadges.push(`<span class="mini-badge mini-badge-sale">🔥期間限定価格</span>`);
+    extraBadges.push(buildSaleLink());
   }
   if (isPurchased) {
     extraBadges.push(`<span class="mini-badge mini-badge-owned">購入済み</span>`);
@@ -101,7 +113,7 @@ function buildVideoCard(video, state, options = {}) {
     <article class="video-item">
       <div class="video-main">
         <div class="badge-row">
-          <span class="badge">${video.genre}</span>
+          ${buildGenreLink(video.genre)}
           ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
           ${extraBadges.join("")}
         </div>
@@ -110,7 +122,7 @@ function buildVideoCard(video, state, options = {}) {
           ${showFavorite ? buildFavoriteButton(video.id, favoritesSet.has(video.id)) : ""}
         </div>
         <p>${video.description}</p>
-        <p class="helper">出演者: ${video.cast}</p>
+        <p class="helper">出演者: ${buildCastLink(video.cast)}</p>
         <p class="helper">再生時間: ${video.duration}</p>
       </div>
       <div class="video-actions">
@@ -444,6 +456,7 @@ function initVideosPage() {
   const genreSelect = document.querySelector("#filterGenre");
   const castSelect = document.querySelector("#filterCast");
   const priceSelect = document.querySelector("#filterPrice");
+  const saleOnlyCheckbox = document.querySelector("#filterSaleOnly");
   const sortSelect = document.querySelector("#sortOrder");
   const resultCount = document.querySelector("#resultCount");
 
@@ -479,6 +492,7 @@ function initVideosPage() {
     const genre = genreSelect?.value || "";
     const cast = castSelect?.value || "";
     const priceRange = priceSelect?.value || "";
+    const saleOnly = Boolean(saleOnlyCheckbox?.checked);
     const sortOrder = sortSelect?.value || "new";
 
     let filtered = DEMO_VIDEOS.filter((video) => {
@@ -493,7 +507,8 @@ function initVideosPage() {
         matchPrice = priceNum >= min && priceNum <= max;
       }
 
-      return matchKeyword && matchGenre && matchCast && matchPrice;
+      const matchSale = !saleOnly || isSaleVideo(video);
+      return matchKeyword && matchGenre && matchCast && matchPrice && matchSale;
     });
 
     filtered = filtered.sort((a, b) => {
@@ -517,13 +532,16 @@ function initVideosPage() {
   const url = new URL(window.location.href);
   const qGenre = url.searchParams.get("genre") || "";
   const qCast = url.searchParams.get("cast") || "";
+  const qSaleOnly = url.searchParams.get("sale") === "1";
   if (qGenre && genreSelect) genreSelect.value = qGenre;
   if (qCast && castSelect) castSelect.value = qCast;
+  if (saleOnlyCheckbox) saleOnlyCheckbox.checked = qSaleOnly;
 
   keywordInput?.addEventListener("input", applyFilters);
   genreSelect?.addEventListener("change", applyFilters);
   castSelect?.addEventListener("change", applyFilters);
   priceSelect?.addEventListener("change", applyFilters);
+  saleOnlyCheckbox?.addEventListener("change", applyFilters);
   sortSelect?.addEventListener("change", applyFilters);
 
   applyFilters();
@@ -579,13 +597,12 @@ function initProductDetailPage() {
         <div class="detail-media">
           <h2 style="margin: 0 0 10px;">無料サンプル動画</h2>
           <div class="video-player">サンプル動画プレイヤー（ダミー）</div>
-          <p class="helper">冒頭約60秒のサンプルを想定した表示です。</p>
         </div>
         <aside class="detail-summary">
           <div class="badge-row">
-            <span class="badge">${video.genre}</span>
+            ${buildGenreLink(video.genre)}
             ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-            ${isSaleVideo(video) ? `<span class="mini-badge mini-badge-sale">🔥期間限定価格</span>` : ""}
+            ${isSaleVideo(video) ? buildSaleLink() : ""}
             ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <div class="detail-price-block">
@@ -600,34 +617,29 @@ function initProductDetailPage() {
           <h2 style="margin-top: 16px;">動画情報</h2>
           <div class="detail-inline-meta">
             <div class="detail-info-item"><span class="meta-key">再生時間</span><span>${video.duration}</span></div>
-            <div class="detail-info-item"><span class="meta-key">出演者</span><span>${video.cast}</span></div>
+            <div class="detail-info-item"><span class="meta-key">出演者</span><span>${buildCastLink(video.cast)}</span></div>
             <div class="detail-info-item"><span class="meta-key">配信形式</span><span>買い切り</span></div>
           </div>
         </aside>
       </div>
 
       <h2 style="margin-top: 18px;">動画の説明文</h2>
-      <p class="lead">${video.description}</p>
       <div class="notice notice-info" style="margin-top: 10px;">${video.detailDescription || "テキストテキスト"}</div>
       <h2 style="margin-top: 18px;">収録内容</h2>
-      <ul class="list">
-        <li>本編映像（${video.duration}）</li>
-        <li>チャプター分割（シーンごとに再生可能）</li>
-        <li>ダイジェストクリップ（約3分）</li>
-      </ul>
+      <div class="notice notice-info">収録時間: ${video.duration}</div>
       <h2 style="margin-top: 18px;">視聴方法</h2>
       <div class="notice notice-info">購入後、マイページからブラウザで視聴できます。</div>
       <h2 style="margin-top: 18px;">注意事項</h2>
-      <ul class="list">
-        <li>本商品は買い切り型のデジタル動画です。</li>
-        <li>権利保護のため、録画・転載・再配布は禁止されています。</li>
-        <li>通信環境によって再生品質が変動する場合があります。</li>
-      </ul>
+      <div class="notice notice-info">
+        ・本商品は買い切り型のデジタル動画です。<br>
+        ・権利保護のため、録画・転載・再配布は禁止されています。<br>
+        ・通信環境によって再生品質が変動する場合があります。
+      </div>
       <h2 style="margin-top: 18px;">推奨環境</h2>
-      <div class="meta-grid">
-        <div class="meta-key">ブラウザ</div><div>最新の Chrome / Safari / Edge / Firefox</div>
-        <div class="meta-key">回線</div><div>下り 10Mbps 以上推奨</div>
-        <div class="meta-key">端末</div><div>スマートフォン、タブレット、PC</div>
+      <div class="notice notice-info">
+        ブラウザ: 最新の Chrome / Safari / Edge / Firefox<br>
+        回線: 下り 10Mbps 以上推奨<br>
+        端末: スマートフォン、タブレット、PC
       </div>
       <div class="detail-bottom-cta">
         ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
