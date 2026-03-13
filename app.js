@@ -652,6 +652,20 @@ function initRegisterPage() {
   });
 }
 
+function initForgotPasswordPage() {
+  const form = document.querySelector("#forgotPasswordForm");
+  if (!form) return;
+  const message = document.querySelector("#forgotMessage");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (message) {
+      message.textContent = "再設定用メールを送信しました（モック）。メールをご確認ください。";
+      message.className = "notice notice-info";
+    }
+  });
+}
+
 function initThanksPage() {
   const finalizeBtn = document.querySelector("[data-action='finalize-purchase']");
   const state = getState();
@@ -777,6 +791,9 @@ function setActiveNav() {
   if (page === "register.html") {
     page = "login.html";
   }
+  if (page === "forgot-password.html") {
+    page = "login.html";
+  }
   document.querySelectorAll(".nav-link[data-page]").forEach((el) => {
     if (el.getAttribute("data-page") === page) {
       el.classList.add("is-active");
@@ -798,6 +815,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPurchaseConfirmPage();
   initLoginPage();
   initRegisterPage();
+  initForgotPasswordPage();
   initThanksPage();
   initMyPage();
   initWatchPage();

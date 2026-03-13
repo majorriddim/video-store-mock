@@ -9,6 +9,7 @@
 - `purchase-confirm.html` 購入確認ページ
 - `thankyou.html` サンクスページ
 - `login.html` ログインページ
+- `forgot-password.html` パスワード再設定ページ
 - `register.html` 会員登録ページ
 - `mypage.html` 購入済み動画一覧ページ
 - `watch.html` 動画視聴ページ
