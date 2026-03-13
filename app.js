@@ -202,6 +202,8 @@ function initProductPage() {
   const homeList = document.querySelector("#homeVideoList");
   const homePagedList = document.querySelector("#homePagedList");
   if (!homeList && !homePagedList) return;
+  const state = getState();
+  const ownedSet = new Set(state.purchases);
 
   const newest = [...DEMO_VIDEOS].sort(
     (a, b) => Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""))
@@ -214,6 +216,7 @@ function initProductPage() {
           <div class="badge-row" style="margin-bottom: 8px;">
             <span class="badge">${video.genre}</span>
             ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+            ${ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
@@ -221,7 +224,9 @@ function initProductPage() {
           <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
-          <button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>
+          ${ownedSet.has(video.id)
+            ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
+            : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
           <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
         </div>
       </article>
@@ -283,6 +288,8 @@ function initProductPage() {
 function initVideosPage() {
   const catalog = document.querySelector("#productCatalog");
   if (!catalog) return;
+  const state = getState();
+  const ownedSet = new Set(state.purchases);
 
   const keywordInput = document.querySelector("#searchKeyword");
   const genreSelect = document.querySelector("#filterGenre");
@@ -313,6 +320,7 @@ function initVideosPage() {
           <div class="badge-row" style="margin-bottom: 8px;">
             <span class="badge">${video.genre}</span>
             ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+            ${ownedSet.has(video.id) ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
@@ -320,9 +328,11 @@ function initVideosPage() {
           <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
-          <button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>
+          ${ownedSet.has(video.id)
+            ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
+            : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
           <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
-          <a class="btn btn-secondary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴ページへ</a>
+          ${ownedSet.has(video.id) ? "" : `<a class="btn btn-secondary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴ページへ</a>`}
         </div>
       </article>
     `).join("");
@@ -436,6 +446,7 @@ function initProductDetailPage() {
       <div class="badge-row">
         <span class="badge">${video.genre}</span>
         ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+        ${owned ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
       </div>
       <h1 style="margin-top: 12px;">${video.title}</h1>
       <p class="lead">${video.description}</p>
@@ -471,8 +482,10 @@ function initProductDetailPage() {
         <div class="meta-key">端末</div><div>スマートフォン、タブレット、PC</div>
       </div>
       <div class="cta-group">
-        <button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>
-        ${owned ? `<a class="btn btn-secondary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>` : `<a class="btn btn-ghost" href="product.html">商品一覧へ戻る</a>`}
+        ${owned
+          ? `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(video.id)}">視聴する</a>`
+          : `<button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>`}
+        <a class="btn btn-ghost" href="product.html">商品一覧へ戻る</a>
       </div>
     </article>
   `;

@@ -187,6 +187,12 @@ main {
   border: 1px solid #bee9df;
 }
 
+.mini-badge-owned {
+  color: #0d5d57;
+  background: #e5faf7;
+  border-color: #bdebe6;
+}
+
 h1 {
   margin: 14px 0 10px;
   font-size: clamp(1.5rem, 3vw, 2rem);
