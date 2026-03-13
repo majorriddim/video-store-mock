@@ -168,7 +168,7 @@ function initProductPage() {
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
-          <p class="helper">再生時間: ${video.duration} / 価格: ${video.price}</p>
+          <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
           <button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>
@@ -206,7 +206,7 @@ function initProductDetailPage() {
       <h1 style="margin-top: 12px;">${video.title}</h1>
       <p class="lead">${video.description}</p>
       <div class="meta-grid">
-        <div class="meta-key">価格</div><div>${video.price}（税込）</div>
+        <div class="meta-key">価格</div><div>${video.price} 税込 / 買い切り</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
         <div class="meta-key">配信形式</div><div>買い切り / ブラウザ視聴</div>
       </div>
@@ -271,7 +271,7 @@ function initPurchaseConfirmPage() {
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
-        <div class="meta-key">お支払い総額</div><div>${video.price}（税込）</div>
+        <div class="meta-key">お支払い総額</div><div>${video.price} 税込 / 買い切り</div>
         <div class="meta-key">商品代金以外の費用</div><div>通信料（お客様負担）</div>
         <div class="meta-key">支払方法</div><div>クレジットカード（モック）</div>
         <div class="meta-key">支払時期</div><div>購入確定時に決済</div>
