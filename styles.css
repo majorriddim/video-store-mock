@@ -509,8 +509,15 @@ textarea {
   color: var(--muted);
 }
 
-footer {
-  padding: 30px 0 38px;
+.site-footer {
+  margin-top: 40px;
+  border-top: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.footer-inner {
+  padding-top: 24px;
+  padding-bottom: 32px;
   color: var(--muted);
   font-size: 0.85rem;
 }
