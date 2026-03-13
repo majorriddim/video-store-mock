@@ -732,7 +732,7 @@ function initWatchPage() {
 
   if (!isOwned(videoId)) {
     gate.innerHTML = `
-      <div class='notice notice-danger'>この動画を視聴するには購入が必要です</div>
+      <div class='notice notice-danger'>この動画は購入後に視聴できます</div>
       <div class='cta-group'>
         <a class='btn btn-primary' href='purchase-confirm.html?video=${encodeURIComponent(videoId)}'>この動画を購入する</a>
         <a class='btn btn-secondary' href='product-detail.html?video=${encodeURIComponent(videoId)}'>商品詳細を見る</a>
