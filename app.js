@@ -696,6 +696,21 @@ function initWatchPage() {
     <p class='lead' style='margin: 0;'>${video.description}</p>`;
 }
 
+function initContactPage() {
+  const form = document.querySelector("#contactForm");
+  if (!form) return;
+  const message = document.querySelector("#contactMessage");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (message) {
+      message.textContent = "お問い合わせを受け付けました（モック）。通常2営業日以内に返信します。";
+      message.className = "notice notice-info";
+    }
+    form.reset();
+  });
+}
+
 function setActiveNav() {
   let page = location.pathname.split("/").pop();
   if (page === "product-detail.html") {
@@ -734,4 +749,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initThanksPage();
   initMyPage();
   initWatchPage();
+  initContactPage();
 });

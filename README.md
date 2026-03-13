@@ -12,6 +12,7 @@
 - `register.html` 会員登録ページ
 - `mypage.html` 購入済み動画一覧ページ
 - `watch.html` 動画視聴ページ
+- `contact.html` お問い合わせページ
 - `tokusho.html` 特定商取引法に基づく表記
 - `terms.html` 利用規約
 - `privacy.html` プライバシーポリシー
