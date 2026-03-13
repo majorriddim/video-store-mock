@@ -2,6 +2,9 @@
 
 ## 画面
 - `product.html` 商品ページ
+- `videos.html` 動画検索ページ
+- `casts.html` 出演者一覧ページ
+- `genres.html` ジャンル一覧ページ
 - `product-detail.html` 商品詳細ページ
 - `purchase-confirm.html` 購入確認ページ
 - `thankyou.html` サンクスページ
@@ -24,7 +27,12 @@
 
 ## 購入フロー（モック）
 - `商品/商品詳細` -> `purchase-confirm.html` -> `thankyou.html` -> `mypage.html`
-- 購入確認ページでは、`利用規約とプライバシーポリシーに同意` チェックがないと確定不可
+- 購入確認ページでは、`利用規約と特定商取引法に基づく表記に同意` チェックがないと確定不可
+
+## 動画の探し方（モック）
+- トップページは注目動画のみ表示（全件は表示しない）
+- 全動画（50本想定）は `videos.html` で検索・絞り込み
+- `casts.html` / `genres.html` から対象条件付きで `videos.html` へ遷移
 
 ## 会員導線（モック）
 - `login.html` から `register.html` へ遷移可能

@@ -1,37 +1,28 @@
 ﻿const STORAGE_KEY = "videoStoreMockState";
 
-const DEMO_VIDEOS = [
-  {
-    id: "v1",
-    title: "テキストテキスト",
+const LONG_DETAIL_TEXT = "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。";
+const GENRES = ["ジャンル名A", "ジャンル名B", "ジャンル名C", "ジャンル名D", "ジャンル名E"];
+const CASTS = ["出演者A", "出演者B", "出演者C", "出演者D", "出演者E", "出演者F", "出演者G", "出演者H"];
+
+const DEMO_VIDEOS = Array.from({ length: 50 }, (_, i) => {
+  const index = i + 1;
+  const price = 980 + (i % 6) * 200;
+  return {
+    id: `v${index}`,
+    title: `テキストテキスト ${String(index).padStart(2, "0")}`,
     description: "テキストテキスト",
-    detailDescription: "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。",
-    duration: "56分",
-    price: "¥1,200",
-    genre: "ジャンル名",
-    tags: ["新着", "おすすめ"]
-  },
-  {
-    id: "v2",
-    title: "テキストテキスト",
-    description: "テキストテキスト",
-    detailDescription: "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。",
-    duration: "42分",
-    price: "¥980",
-    genre: "ジャンル名",
-    tags: ["おすすめ"]
-  },
-  {
-    id: "v3",
-    title: "テキストテキスト",
-    description: "テキストテキスト",
-    detailDescription: "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。",
-    duration: "68分",
-    price: "¥1,500",
-    genre: "ジャンル名",
-    tags: ["新着"]
-  }
-];
+    detailDescription: LONG_DETAIL_TEXT,
+    duration: `${45 + (i % 8) * 5}分`,
+    price: `¥${price.toLocaleString("ja-JP")}`,
+    genre: GENRES[i % GENRES.length],
+    cast: CASTS[i % CASTS.length],
+    tags: index <= 10 ? ["新着", "おすすめ"] : index % 3 === 0 ? ["おすすめ"] : ["新着"]
+  };
+});
+
+function parsePriceToNumber(priceText) {
+  return Number(String(priceText).replace(/[^\d]/g, "")) || 0;
+}
 
 function getState() {
   try {
@@ -95,6 +86,9 @@ function renderHeaderNav() {
   if (!state.loggedIn) {
     nav.innerHTML = `
       <a class="nav-link" data-page="product.html" href="product.html">商品</a>
+      <a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>
+      <a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>
+      <a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>
       <a class="nav-link" data-page="login.html" href="login.html">ログイン</a>
       <a class="nav-link" data-page="register.html" href="register.html">会員登録</a>
     `;
@@ -103,7 +97,10 @@ function renderHeaderNav() {
 
   nav.innerHTML = `
     <a class="nav-link" data-page="product.html" href="product.html">商品</a>
-    <a class="nav-link" data-page="mypage.html" href="mypage.html">マイページ</a>
+    <a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>
+    <a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>
+    <a class="nav-link" data-page="genres.html" href="genres.html">ジャンル一覧</a>
+    <a class="nav-link" data-page="mypage.html" href="mypage.html">購入済み動画一覧</a>
     <a class="nav-link" href="#" data-action="header-logout">ログアウト</a>
   `;
 }
@@ -157,9 +154,16 @@ function bindCommonActions() {
 }
 
 function initProductPage() {
-  const catalog = document.querySelector("#productCatalog");
-  if (catalog) {
-    catalog.innerHTML = DEMO_VIDEOS.map((video) => `
+  const homeList = document.querySelector("#homeVideoList");
+  const homePagedList = document.querySelector("#homePagedList");
+  if (!homeList && !homePagedList) return;
+
+  const newest = [...DEMO_VIDEOS].sort(
+    (a, b) => Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""))
+  );
+
+  function renderCards(items) {
+    return items.map((video) => `
       <article class="video-item">
         <div>
           <div class="badge-row" style="margin-bottom: 8px;">
@@ -168,6 +172,106 @@ function initProductPage() {
           </div>
           <h3>${video.title}</h3>
           <p>${video.description}</p>
+          <p class="helper">出演者: ${video.cast}</p>
+          <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
+        </div>
+        <div class="inline-actions">
+          <button class="btn btn-primary" data-action="buy-now" data-video-id="${video.id}">この動画を購入</button>
+          <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function bindBuyActions(root) {
+    if (!root) return;
+    root.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const videoId = btn.getAttribute("data-video-id") || "v1";
+        ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
+      });
+    });
+  }
+
+  if (homeList) {
+    const featured = newest.slice(0, 6);
+    homeList.innerHTML = renderCards(featured);
+    bindBuyActions(homeList);
+  }
+
+  if (homePagedList) {
+    const pageSize = 10;
+    const totalPages = Math.ceil(newest.length / pageSize);
+    let currentPage = 1;
+    const prevBtn = document.querySelector("#homePrevPage");
+    const nextBtn = document.querySelector("#homeNextPage");
+    const pageInfo = document.querySelector("#homePageInfo");
+
+    function renderPaged() {
+      const start = (currentPage - 1) * pageSize;
+      const items = newest.slice(start, start + pageSize);
+      homePagedList.innerHTML = renderCards(items);
+      bindBuyActions(homePagedList);
+      if (pageInfo) pageInfo.textContent = `${currentPage} / ${totalPages}`;
+      if (prevBtn) prevBtn.disabled = currentPage === 1;
+      if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+    }
+
+    prevBtn?.addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage -= 1;
+        renderPaged();
+      }
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        currentPage += 1;
+        renderPaged();
+      }
+    });
+
+    renderPaged();
+  }
+}
+
+function initVideosPage() {
+  const catalog = document.querySelector("#productCatalog");
+  if (!catalog) return;
+
+  const keywordInput = document.querySelector("#searchKeyword");
+  const genreSelect = document.querySelector("#filterGenre");
+  const castSelect = document.querySelector("#filterCast");
+  const priceSelect = document.querySelector("#filterPrice");
+  const sortSelect = document.querySelector("#sortOrder");
+  const resultCount = document.querySelector("#resultCount");
+
+  function bindBuyActions() {
+    document.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const videoId = btn.getAttribute("data-video-id") || "v1";
+        ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
+      });
+    });
+  }
+
+  function renderCatalog(items) {
+    if (items.length === 0) {
+      catalog.innerHTML = "<div class='notice notice-warning'>条件に一致する動画はありません。検索条件を変更してください。</div>";
+      if (resultCount) resultCount.textContent = `0件 / 全${DEMO_VIDEOS.length}件`;
+      return;
+    }
+
+    catalog.innerHTML = items.map((video) => `
+      <article class="video-item">
+        <div>
+          <div class="badge-row" style="margin-bottom: 8px;">
+            <span class="badge">${video.genre}</span>
+            ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+          </div>
+          <h3>${video.title}</h3>
+          <p>${video.description}</p>
+          <p class="helper">出演者: ${video.cast}</p>
           <p class="helper">再生時間: ${video.duration} / 価格: ${video.price} 税込 / 買い切り</p>
         </div>
         <div class="inline-actions">
@@ -177,14 +281,99 @@ function initProductPage() {
         </div>
       </article>
     `).join("");
+
+    if (resultCount) resultCount.textContent = `${items.length}件 / 全${DEMO_VIDEOS.length}件`;
+    bindBuyActions();
   }
 
-  document.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const videoId = btn.getAttribute("data-video-id") || "v1";
-      ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
+  function populateSelect(select, options, allLabel) {
+    if (!select) return;
+    select.innerHTML = `<option value="">${allLabel}</option>${options.map((o) => `<option value="${o}">${o}</option>`).join("")}`;
+  }
+
+  function applyFilters() {
+    const keyword = (keywordInput?.value || "").trim().toLowerCase();
+    const genre = genreSelect?.value || "";
+    const cast = castSelect?.value || "";
+    const priceRange = priceSelect?.value || "";
+    const sortOrder = sortSelect?.value || "new";
+
+    let filtered = DEMO_VIDEOS.filter((video) => {
+      const matchKeyword = !keyword || video.title.toLowerCase().includes(keyword);
+      const matchGenre = !genre || video.genre === genre;
+      const matchCast = !cast || video.cast === cast;
+      let matchPrice = true;
+
+      if (priceRange) {
+        const [min, max] = priceRange.split("-").map((v) => Number(v));
+        const priceNum = parsePriceToNumber(video.price);
+        matchPrice = priceNum >= min && priceNum <= max;
+      }
+
+      return matchKeyword && matchGenre && matchCast && matchPrice;
     });
-  });
+
+    filtered = filtered.sort((a, b) => {
+      if (sortOrder === "price-asc") {
+        return parsePriceToNumber(a.price) - parsePriceToNumber(b.price);
+      }
+      if (sortOrder === "price-desc") {
+        return parsePriceToNumber(b.price) - parsePriceToNumber(a.price);
+      }
+      return Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""));
+    });
+
+    renderCatalog(filtered);
+  }
+
+  const uniqueGenres = Array.from(new Set(DEMO_VIDEOS.map((v) => v.genre)));
+  const uniqueCasts = Array.from(new Set(DEMO_VIDEOS.map((v) => v.cast)));
+  populateSelect(genreSelect, uniqueGenres, "すべてのジャンル");
+  populateSelect(castSelect, uniqueCasts, "すべての出演者");
+
+  const url = new URL(window.location.href);
+  const qGenre = url.searchParams.get("genre") || "";
+  const qCast = url.searchParams.get("cast") || "";
+  if (qGenre && genreSelect) genreSelect.value = qGenre;
+  if (qCast && castSelect) castSelect.value = qCast;
+
+  keywordInput?.addEventListener("input", applyFilters);
+  genreSelect?.addEventListener("change", applyFilters);
+  castSelect?.addEventListener("change", applyFilters);
+  priceSelect?.addEventListener("change", applyFilters);
+  sortSelect?.addEventListener("change", applyFilters);
+
+  applyFilters();
+}
+
+function initCastListPage() {
+  const root = document.querySelector("#castList");
+  if (!root) return;
+  const casts = Array.from(new Set(DEMO_VIDEOS.map((v) => v.cast)));
+  root.innerHTML = casts.map((cast) => {
+    const count = DEMO_VIDEOS.filter((v) => v.cast === cast).length;
+    return `
+      <a class="directory-item" href="videos.html?cast=${encodeURIComponent(cast)}">
+        <h3>${cast}</h3>
+        <p>${count}本の動画</p>
+      </a>
+    `;
+  }).join("");
+}
+
+function initGenreListPage() {
+  const root = document.querySelector("#genreList");
+  if (!root) return;
+  const genres = Array.from(new Set(DEMO_VIDEOS.map((v) => v.genre)));
+  root.innerHTML = genres.map((genre) => {
+    const count = DEMO_VIDEOS.filter((v) => v.genre === genre).length;
+    return `
+      <a class="directory-item" href="videos.html?genre=${encodeURIComponent(genre)}">
+        <h3>${genre}</h3>
+        <p>${count}本の動画</p>
+      </a>
+    `;
+  }).join("");
 }
 
 function initProductDetailPage() {
@@ -208,6 +397,7 @@ function initProductDetailPage() {
       <div class="meta-grid">
         <div class="meta-key">価格</div><div>${video.price} 税込 / 買い切り</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
+        <div class="meta-key">出演者</div><div>${video.cast}</div>
         <div class="meta-key">配信形式</div><div>買い切り / ブラウザ視聴</div>
       </div>
       <h2 style="margin-top: 18px;">サンプル動画</h2>
@@ -270,6 +460,7 @@ function initPurchaseConfirmPage() {
       <div class="meta-grid">
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
+        <div class="meta-key">出演者</div><div>${video.cast}</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
         <div class="meta-key">お支払い総額</div><div>${video.price} 税込 / 買い切り</div>
         <div class="meta-key">商品代金以外の費用</div><div>通信料（お客様負担）</div>
@@ -366,19 +557,18 @@ function initRegisterPage() {
 
 function initThanksPage() {
   const finalizeBtn = document.querySelector("[data-action='finalize-purchase']");
-  if (!finalizeBtn) return;
+  const state = getState();
+  if (!state.loggedIn) return;
 
-  finalizeBtn.addEventListener("click", () => {
-    const state = getState();
-    if (!state.loggedIn) {
-      window.location.href = "login.html?redirect=thankyou.html";
-      return;
-    }
-
-    const url = new URL(window.location.href);
-    const videoId = url.searchParams.get("video") || "v1";
-    const nextPurchases = Array.from(new Set([...state.purchases, videoId]));
+  const url = new URL(window.location.href);
+  const videoId = url.searchParams.get("video") || "v1";
+  const nextPurchases = Array.from(new Set([...state.purchases, videoId]));
+  if (nextPurchases.length !== state.purchases.length) {
     setState({ ...state, purchases: nextPurchases });
+  }
+
+  if (!finalizeBtn) return;
+  finalizeBtn.addEventListener("click", () => {
     window.location.href = "mypage.html";
   });
 }
@@ -488,6 +678,9 @@ document.addEventListener("DOMContentLoaded", () => {
   bindCommonActions();
   setActiveNav();
   initProductPage();
+  initVideosPage();
+  initCastListPage();
+  initGenreListPage();
   initProductDetailPage();
   initPurchaseConfirmPage();
   initLoginPage();
