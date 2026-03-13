@@ -88,7 +88,7 @@ function buildVideoCard(video, state, options = {}) {
   const showFavorite = options.showFavorite !== false;
 
   const primaryAction = options.primaryActionHtml || buildCardPrimaryAction(video.id, isLoggedIn, isPurchased);
-  const detailLink = options.detailLinkHtml || "";
+  const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`;
   const extraBadges = [];
   if (isSaleVideo(video)) {
     extraBadges.push(`<span class="mini-badge mini-badge-sale">🔥期間限定価格</span>`);
@@ -377,11 +377,20 @@ function initProductPage() {
     });
   }
 
-  if (heroPrimaryAction) {
+  if (heroPrimaryAction instanceof HTMLAnchorElement) {
     const heroVideoId = "v1";
     const isPurchased = isLoggedIn && ownedSet.has(heroVideoId);
-    heroPrimaryAction.innerHTML = buildCardPrimaryAction(heroVideoId, isLoggedIn, isPurchased);
-    bindBuyActions(heroPrimaryAction);
+    if (!isLoggedIn) {
+      const redirect = encodeURIComponent(`purchase-confirm.html?video=${heroVideoId}`);
+      heroPrimaryAction.textContent = "ログインして視聴";
+      heroPrimaryAction.href = `login.html?redirect=${redirect}`;
+    } else if (isPurchased) {
+      heroPrimaryAction.textContent = "視聴する";
+      heroPrimaryAction.href = `watch.html?video=${encodeURIComponent(heroVideoId)}`;
+    } else {
+      heroPrimaryAction.textContent = "この動画を視聴";
+      heroPrimaryAction.href = `purchase-confirm.html?video=${encodeURIComponent(heroVideoId)}`;
+    }
   }
 
   if (homeList) {
@@ -619,6 +628,9 @@ function initProductDetailPage() {
         <div class="meta-key">ブラウザ</div><div>最新の Chrome / Safari / Edge / Firefox</div>
         <div class="meta-key">回線</div><div>下り 10Mbps 以上推奨</div>
         <div class="meta-key">端末</div><div>スマートフォン、タブレット、PC</div>
+      </div>
+      <div class="detail-bottom-cta">
+        ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
       </div>
     </article>
     <section class="card section">
@@ -862,10 +874,10 @@ function initMyPage() {
 
     if (favoriteList) {
       if (favorites.length === 0) {
-        favoriteList.innerHTML = "<div class='notice notice-warning'>お気に入り動画はまだありません。動画一覧の♡から追加できます。</div>";
+        favoriteList.innerHTML = "<div class='notice notice-warning'>お気に入り動画はまだありません。動画詳細ページから追加できます。</div>";
       } else {
         favoriteList.innerHTML = favorites
-          .map((video) => buildVideoCard(video, latestState))
+          .map((video) => buildVideoCard(video, latestState, { showFavorite: false }))
           .join("");
         favoriteList.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -873,7 +885,6 @@ function initMyPage() {
             ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
           });
         });
-        bindFavoriteActions(favoriteList, () => renderSections());
       }
     }
   }

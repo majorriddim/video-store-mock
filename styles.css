@@ -243,9 +243,8 @@ h1 {
 
 #heroPrimaryAction {
   display: inline-flex;
-}
-
-#heroPrimaryAction .btn {
+  align-items: center;
+  justify-content: center;
   min-width: 210px;
   min-height: 62px;
   padding: 16px 24px;
@@ -257,6 +256,9 @@ h1 {
   border: none;
   border-radius: 10px;
   padding: 12px 18px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.2;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -582,6 +584,15 @@ h2 {
   height: 100%;
 }
 
+.detail-bottom-cta {
+  margin-top: 16px;
+}
+
+.detail-bottom-cta .btn {
+  min-width: 220px;
+  min-height: 52px;
+}
+
 .related-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -832,6 +843,11 @@ textarea {
     min-width: 0;
   }
 
+  .video-item .inline-actions .btn {
+    min-height: 54px;
+    font-size: 1rem;
+  }
+
   .detail-top-grid {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -839,6 +855,11 @@ textarea {
 
   .detail-inline-meta {
     grid-template-columns: 1fr;
+  }
+
+  .detail-bottom-cta .btn {
+    width: 100%;
+    min-width: 0;
   }
 
   .detail-price-block {
