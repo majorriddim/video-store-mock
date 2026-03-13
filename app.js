@@ -70,25 +70,25 @@ function buildFavoriteButton(videoId, isFavorite) {
 }
 
 function buildCardPrimaryAction(videoId, isLoggedIn, isPurchased) {
+  if (!isLoggedIn) {
+    const redirect = encodeURIComponent(`purchase-confirm.html?video=${videoId}`);
+    return `<a class="btn btn-primary" href="login.html?redirect=${redirect}">ログインして視聴</a>`;
+  }
   if (isPurchased) {
     return `<a class="btn btn-primary" href="watch.html?video=${encodeURIComponent(videoId)}">視聴する</a>`;
   }
-  if (!isLoggedIn) {
-    const redirect = encodeURIComponent(`purchase-confirm.html?video=${videoId}`);
-    return `<a class="btn btn-primary" href="login.html?redirect=${redirect}">ログインして購入</a>`;
-  }
-  return `<button class="btn btn-primary" data-action="buy-now" data-video-id="${videoId}">この動画を購入</button>`;
+  return `<button class="btn btn-primary" data-action="buy-now" data-video-id="${videoId}">この動画を視聴</button>`;
 }
 
 function buildVideoCard(video, state, options = {}) {
   const isLoggedIn = Boolean(state.loggedIn);
   const ownedSet = new Set(state.purchases || []);
   const favoritesSet = new Set(state.favorites || []);
-  const isPurchased = ownedSet.has(video.id);
+  const isPurchased = isLoggedIn && ownedSet.has(video.id);
   const showFavorite = options.showFavorite !== false;
 
   const primaryAction = options.primaryActionHtml || buildCardPrimaryAction(video.id, isLoggedIn, isPurchased);
-  const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`;
+  const detailLink = options.detailLinkHtml || "";
   const extraBadges = [];
   if (isSaleVideo(video)) {
     extraBadges.push(`<span class="mini-badge mini-badge-sale">🔥期間限定価格</span>`);
@@ -106,7 +106,7 @@ function buildVideoCard(video, state, options = {}) {
           ${extraBadges.join("")}
         </div>
         <div class="video-title-row">
-          <h3>${video.title}</h3>
+          <h3><a class="video-title-link" href="product-detail.html?video=${encodeURIComponent(video.id)}">${video.title}</a></h3>
           ${showFavorite ? buildFavoriteButton(video.id, favoritesSet.has(video.id)) : ""}
         </div>
         <p>${video.description}</p>
@@ -255,7 +255,7 @@ function renderHeaderNav() {
   if (!state.loggedIn) {
     nav.innerHTML = renderNavShell(
       [
-        `<a class="nav-link" data-page="product.html" href="product.html">商品</a>`,
+        `<a class="nav-link" data-page="product.html" href="product.html">トップ</a>`,
         `<a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>`,
         `<a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>`
       ],
@@ -270,7 +270,7 @@ function renderHeaderNav() {
 
   nav.innerHTML = renderNavShell(
     [
-      `<a class="nav-link" data-page="product.html" href="product.html">商品</a>`,
+      `<a class="nav-link" data-page="product.html" href="product.html">トップ</a>`,
       `<a class="nav-link" data-page="videos.html" href="videos.html">動画を探す</a>`,
       `<a class="nav-link" data-page="casts.html" href="casts.html">出演者一覧</a>`
     ],
@@ -353,8 +353,11 @@ function bindCommonActions() {
 function initProductPage() {
   const homeList = document.querySelector("#homeVideoList");
   const homePagedList = document.querySelector("#homePagedList");
-  if (!homeList && !homePagedList) return;
+  const heroPrimaryAction = document.querySelector("#heroPrimaryAction");
+  if (!homeList && !homePagedList && !heroPrimaryAction) return;
   const state = getState();
+  const isLoggedIn = Boolean(state.loggedIn);
+  const ownedSet = new Set(state.purchases || []);
 
   const newest = [...DEMO_VIDEOS].sort(
     (a, b) => Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""))
@@ -372,6 +375,13 @@ function initProductPage() {
         ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
       });
     });
+  }
+
+  if (heroPrimaryAction) {
+    const heroVideoId = "v1";
+    const isPurchased = isLoggedIn && ownedSet.has(heroVideoId);
+    heroPrimaryAction.innerHTML = buildCardPrimaryAction(heroVideoId, isLoggedIn, isPurchased);
+    bindBuyActions(heroPrimaryAction);
   }
 
   if (homeList) {
@@ -549,7 +559,7 @@ function initProductDetailPage() {
   const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
   const state = getState();
   const isLoggedIn = Boolean(state.loggedIn);
-  const isPurchased = state.purchases.includes(video.id);
+  const isPurchased = isLoggedIn && state.purchases.includes(video.id);
   const favoriteSet = new Set(state.favorites || []);
   const related = getRandomRelatedVideos(video.id, 5);
 
@@ -626,8 +636,11 @@ function initProductDetailPage() {
     </section>
   `;
 
-  root.querySelector("[data-action='buy-now']")?.addEventListener("click", () => {
-    ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(video.id)}`);
+  root.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-video-id") || video.id;
+      ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(targetId)}`);
+    });
   });
   bindFavoriteActions(root);
 }
@@ -650,20 +663,18 @@ function initPurchaseConfirmPage() {
   root.innerHTML = `
     <article class="card section" style="max-width: 760px; margin-inline: auto;">
       <span class="badge">購入確認</span>
-      <h1 style="margin-top: 12px;">本当に購入してよろしいですか？</h1>
-      <p class="lead">この画面は最終確認画面です。購入内容と返品特約を確認のうえ、購入を確定してください。</p>
+      <h1 style="margin-top: 12px;">購入内容の確認</h1>
+      <p class="lead">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
       <div class="meta-grid">
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
         <div class="meta-key">出演者</div><div>${video.cast}</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
         <div class="meta-key">お支払い総額</div><div>${getCurrentPriceText(video)} 税込 / 買い切り</div>
-        <div class="meta-key">商品代金以外の費用</div><div>通信料（お客様負担）</div>
-        <div class="meta-key">支払方法</div><div>クレジットカード（モック）</div>
-        <div class="meta-key">支払時期</div><div>購入確定時に決済</div>
+        <div class="meta-key">支払方法</div><div>PayPal</div>
         <div class="meta-key">販売形式</div><div>買い切り（追加課金なし）</div>
       </div>
-      <h2 style="margin-top: 18px;">返品特約（重要）</h2>
+      <h2 style="margin-top: 18px;">返品・キャンセルについて</h2>
       <div class="notice notice-warning">
         デジタルコンテンツの性質上、購入確定後の返品・キャンセルはできません。<br>
         不具合時は返金ではなく、再配信・代替提供等で対応する場合があります。
@@ -676,9 +687,8 @@ function initPurchaseConfirmPage() {
         <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> をご確認ください。
       </p>
       <div class="cta-group">
-        <button class="btn btn-primary" id="confirmPurchase" disabled>購入を確定する</button>
+        <button class="btn btn-primary" id="confirmPurchase" disabled>PayPalで購入する</button>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
-        <a class="btn btn-ghost" href="payment-failed.html?video=${encodeURIComponent(video.id)}">決済失敗時の画面を見る</a>
       </div>
     </article>
   `;
@@ -855,9 +865,7 @@ function initMyPage() {
         favoriteList.innerHTML = "<div class='notice notice-warning'>お気に入り動画はまだありません。動画一覧の♡から追加できます。</div>";
       } else {
         favoriteList.innerHTML = favorites
-          .map((video) => buildVideoCard(video, latestState, {
-            detailLinkHtml: `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`
-          }))
+          .map((video) => buildVideoCard(video, latestState))
           .join("");
         favoriteList.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
           btn.addEventListener("click", () => {
