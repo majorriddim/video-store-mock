@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>出演者詳細 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a class="active" href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">出演者詳細</h1>
+          <p class="page-subtitle">出演者ID: CAST-0012</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./casts.html">一覧へ戻る</a>
+          <a class="btn primary" href="./cast-edit.html">編集する</a>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">出演者情報</h2></div>
+            <div class="card-body">
+              <dl class="detail-list">
+                <div class="detail-row"><dt>名前</dt><dd>佐藤 梨花</dd></div>
+                <div class="detail-row"><dt>公開状態</dt><dd><span class="pill success">公開</span></dd></div>
+                <div class="detail-row"><dt>最終更新</dt><dd>2026/03/13</dd></div>
+                <div class="detail-row detail-row-block"><dt>紹介文</dt><dd>テキストテキスト。出演者紹介文。</dd></div>
+              </dl>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">紐づく動画</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>動画</th><th>公開状態</th><th>価格</th><th>購入数</th></tr></thead>
+                <tbody>
+                  <tr><td><a href="./video-detail.html">テキストテキスト</a></td><td><span class="pill success">公開中</span></td><td>¥6,800</td><td>291</td></tr>
+                  <tr><td><a href="./video-detail.html">テキストテキスト</a></td><td><span class="pill warning">公開予約</span></td><td>¥9,800</td><td>238</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

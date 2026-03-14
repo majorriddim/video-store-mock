@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お問い合わせ管理 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a class="active" href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">お問い合わせ管理</h1>
+          <p class="page-subtitle">通常問い合わせと銀行振込申込を一元管理</p>
+        </div>
+        <div class="admin-user">未対応 7件 / 対応中 3件 / 入金待ち 4件</div>
+      </header>
+
+      <div class="content">
+        <section class="toolbar">
+          <div class="filters">
+            <select class="select" aria-label="種別">
+              <option selected>すべての種別</option>
+              <option>通常問い合わせ</option>
+              <option>銀行振込申込</option>
+            </select>
+            <select class="select" aria-label="ステータス">
+              <option selected>すべてのステータス</option>
+              <option>未対応</option>
+              <option>対応中</option>
+              <option>入金待ち</option>
+              <option>完了</option>
+            </select>
+            <input class="input" type="text" value="山田" aria-label="名前検索">
+            <input class="input" type="text" value="example.jp" aria-label="メール・商品検索">
+            <button class="btn">絞り込み</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">お問い合わせ一覧（248件）</h2>
+            <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
+          </div>
+          <div class="card-body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>受付日時</th>
+                  <th>種別</th>
+                  <th>ステータス</th>
+                  <th>お名前</th>
+                  <th>メールアドレス</th>
+                  <th>商品名</th>
+                  <th>価格</th>
+                  <th>振込予定名義</th>
+                  <th>問い合わせ概要</th>
+                  <th class="text-right">詳細</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2026/03/14 09:42</td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill danger">未対応</span></td>
+                  <td>山田 美紀</td>
+                  <td>yamada.miki@example.jp</td>
+                  <td class="muted">-</td>
+                  <td class="muted">-</td>
+                  <td class="muted">-</td>
+                  <td>会員登録メールが届かない</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
+                </tr>
+                <tr>
+                  <td>2026/03/14 08:31</td>
+                  <td>銀行振込申込</td>
+                  <td><span class="pill warning">入金待ち</span></td>
+                  <td>中村 翼</td>
+                  <td>nakamura.tsubasa@example.jp</td>
+                  <td>テキストテキスト</td>
+                  <td>¥9,800</td>
+                  <td>ナカムラ ツバサ</td>
+                  <td>銀行振込で購入希望</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
+                </tr>
+                <tr>
+                  <td>2026/03/13 17:45</td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill info">対応中</span></td>
+                  <td>伊藤 由佳</td>
+                  <td>ito.yuka@example.jp</td>
+                  <td>テキストテキスト</td>
+                  <td>¥6,800</td>
+                  <td class="muted">-</td>
+                  <td>視聴エラーが発生する</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
+                </tr>
+                <tr>
+                  <td>2026/03/13 10:02</td>
+                  <td>銀行振込申込</td>
+                  <td><span class="pill success">完了</span></td>
+                  <td>阿部 真美</td>
+                  <td>abe.mami@example.jp</td>
+                  <td>テキストテキスト</td>
+                  <td>¥4,200</td>
+                  <td>アベ マミ</td>
+                  <td>入金確認完了の連絡希望</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
+                </tr>
+                <tr>
+                  <td>2026/03/12 21:18</td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill danger">未対応</span></td>
+                  <td>佐藤 実奈</td>
+                  <td>sato.mina@example.jp</td>
+                  <td class="muted">-</td>
+                  <td class="muted">-</td>
+                  <td class="muted">-</td>
+                  <td>退会方法を知りたい</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>動画編集 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a class="active" href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">動画編集</h1>
+          <p class="page-subtitle">商品ID: VID-1032 / WordPress商品編集想定</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./video-detail.html">詳細へ戻る</a>
+          <button class="btn primary">更新する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">動画情報編集</h2></div>
+            <div class="card-body form-stack">
+              <label class="field"><span>タイトル</span><input class="input" type="text" value="テキストテキスト"></label>
+              <label class="field"><span>説明</span><textarea class="input textarea" rows="7">テキストテキスト。作品紹介文が入ります。会員向け販売動画として公開中です。</textarea></label>
+              <label class="field"><span>通常価格</span><input class="input" type="text" value="6800"></label>
+              <label class="field"><span>セール価格</span><input class="input" type="text" value="5980"></label>
+              <label class="field"><span>動画URL（配信用リンク）</span><input class="input" type="url" value="https://cdn.example.com/videos/vid-1032/master.m3u8"></label>
+              <label class="field"><span>公開状態</span>
+                <select class="select">
+                  <option selected>公開中</option>
+                  <option>公開予約</option>
+                  <option>非公開</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>サムネイル（WordPressメディア）</span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/vid-1032-thumb.jpg">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+              </label>
+              <fieldset class="field">
+                <span>表示タグ</span>
+                <div class="check-row">
+                  <label><input type="checkbox" checked> 新着</label>
+                  <label><input type="checkbox" checked> 注目動画</label>
+                  <label><input type="checkbox"> おすすめ</label>
+                </div>
+              </fieldset>
+            </div>
+          </article>
+
+          <div class="stack">
+            <article class="card">
+              <div class="card-head"><h2 class="card-title">紐づけ情報</h2></div>
+              <div class="card-body form-stack">
+                <label class="field"><span>出演者</span>
+                  <select class="select">
+                    <option selected>佐藤 梨花</option>
+                    <option>鈴木 由奈</option>
+                    <option>高橋 美咲</option>
+                  </select>
+                </label>
+                <label class="field"><span>ジャンル</span>
+                  <select class="select">
+                    <option selected>テキスト</option>
+                    <option>テキスト2</option>
+                    <option>テキスト3</option>
+                  </select>
+                </label>
+                <label class="field"><span>販売開始日時</span><input class="input" type="datetime-local" value="2026-02-20T10:00"></label>
+                <label class="field"><span>販売終了日時（任意）</span><input class="input" type="datetime-local" value=""></label>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><h2 class="card-title">運用メモ</h2></div>
+              <div class="card-body form-stack">
+                <label class="field">
+                  <span>管理メモ</span>
+                  <textarea class="input textarea" rows="6">3月末までセール。公開中バナー差し替え済み。</textarea>
+                </label>
+                <div class="action-row">
+                  <button class="btn primary">更新する</button>
+                  <a class="btn" href="./videos.html">一覧へ戻る</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会員詳細 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a class="active" href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">会員詳細</h1>
+          <p class="page-subtitle">会員ID: U-004982 / 購入・視聴・問い合わせの統合ビュー</p>
+        </div>
+        <a class="btn" href="./members.html">一覧へ戻る</a>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">会員情報</h2></div>
+            <div class="card-body">
+              <dl class="detail-list">
+                <div class="detail-row"><dt>会員ID</dt><dd>U-004982</dd></div>
+                <div class="detail-row"><dt>氏名</dt><dd>田中 莉奈</dd></div>
+                <div class="detail-row"><dt>メールアドレス</dt><dd>tanaka.rina@example.jp</dd></div>
+                <div class="detail-row"><dt>会員ステータス</dt><dd><span class="pill success">有効</span></dd></div>
+                <div class="detail-row"><dt>登録日</dt><dd>2025/12/08</dd></div>
+                <div class="detail-row"><dt>最終ログイン</dt><dd>2026/03/14 08:52</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <div class="stack">
+            <article class="card">
+              <div class="card-head"><h2 class="card-title">購入履歴</h2></div>
+              <div class="card-body table-wrap">
+                <table>
+                  <thead><tr><th>注文番号</th><th>商品</th><th>金額</th><th>支払</th><th>日時</th></tr></thead>
+                  <tbody>
+                    <tr><td><a href="./order-detail.html">#2026-0314-0891</a></td><td><a href="./video-detail.html">テキストテキスト</a></td><td>¥6,800</td><td><span class="pill success">完了</span></td><td>2026/03/14 09:12</td></tr>
+                    <tr><td><a href="./order-detail.html">#2026-0228-0671</a></td><td>テキストテキスト</td><td>¥4,200</td><td><span class="pill success">完了</span></td><td>2026/02/28 20:18</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><h2 class="card-title">視聴権限・問い合わせ</h2></div>
+              <div class="card-body">
+                <dl class="detail-list">
+                  <div class="detail-row"><dt>視聴可能本数</dt><dd>6本（失効なし）</dd></div>
+                  <div class="detail-row"><dt>手動付与案件</dt><dd>0件</dd></div>
+                  <div class="detail-row"><dt>関連問い合わせ</dt><dd><a href="./inquiry-detail.html">1件（視聴エラー）</a></dd></div>
+                </dl>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ編集 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a class="active" href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">FAQ編集</h1>
+          <p class="page-subtitle">FAQ投稿の編集（質問 / 回答 / 表示順 / 公開状態）</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./contents.html">コンテンツ管理へ戻る</a>
+          <button class="btn primary">更新する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">FAQ編集項目</h2></div>
+          <div class="card-body form-stack">
+            <label class="field"><span>質問</span><input class="input" type="text" value="銀行振込の入金確認はいつ反映されますか？"></label>
+            <label class="field"><span>回答</span><textarea class="input textarea" rows="10">銀行振込は、営業日ベースで入金確認後に視聴権限を付与します。反映まで最大1営業日程度かかる場合があります。</textarea></label>
+            <label class="field"><span>カテゴリ</span>
+              <select class="select">
+                <option selected>お支払い</option>
+                <option>会員登録</option>
+                <option>視聴トラブル</option>
+              </select>
+            </label>
+            <label class="field"><span>表示順</span><input class="input" type="number" value="3"></label>
+            <label class="field"><span>公開状態</span>
+              <select class="select">
+                <option selected>公開</option>
+                <option>下書き</option>
+                <option>非公開</option>
+              </select>
+            </label>
+            <div class="action-row">
+              <button class="btn primary">更新する</button>
+              <a class="btn" href="./contents.html">戻る</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
