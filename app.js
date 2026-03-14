@@ -53,18 +53,16 @@ function buildCardPriceBlock(video) {
   if (!isSaleVideo(video)) {
     return `
       <div class="price-stack">
-        <p class="card-price-current">${getCurrentPriceText(video)}</p>
-        <p class="price-subnote">税込 / 買い切り</p>
+        <p class="card-price-current">${getCurrentPriceText(video)}（税込）</p>
       </div>
     `;
   }
   const regularText = formatYen(parsePriceToNumber(video.basePrice || video.price));
   return `
     <div class="sale-price-block price-stack">
-      <p class="card-price-regular">通常 ${regularText}</p>
+      <p class="card-price-regular">通常 ${regularText}（税込）</p>
       <p class="card-price-arrow">↓</p>
-      <p class="card-price-sale">${getCurrentPriceText(video)}</p>
-      <p class="price-subnote">税込 / 買い切り</p>
+      <p class="card-price-sale">${getCurrentPriceText(video)}（税込）</p>
     </div>
   `;
 }
@@ -776,7 +774,7 @@ function initProductDetailPage() {
           <div class="detail-inline-meta">
             <div class="detail-info-item"><span class="meta-key">再生時間</span><span>${video.duration}</span></div>
             <div class="detail-info-item"><span class="meta-key">出演者</span><span>${buildCastLink(video.cast)}</span></div>
-            <div class="detail-info-item"><span class="meta-key">配信形式</span><span>買い切り</span></div>
+            <div class="detail-info-item"><span class="meta-key">配信形式</span><span>ストリーミング視聴権</span></div>
           </div>
         </aside>
       </div>
@@ -789,7 +787,7 @@ function initProductDetailPage() {
       <div class="notice notice-info">購入後、マイページからブラウザで視聴できます。</div>
       <h2 style="margin-top: 18px;">注意事項</h2>
       <div class="notice notice-info">
-        ・本商品は買い切り型のデジタル動画です。<br>
+        ・本商品は本サービス上でのストリーミング視聴権の提供です。<br>
         ・権利保護のため、録画・転載・再配布は禁止されています。<br>
         ・通信環境によって再生品質が変動する場合があります。
       </div>
@@ -804,7 +802,7 @@ function initProductDetailPage() {
           <article class="related-card">
             <div class="thumb-placeholder">サムネイル</div>
             <h3 class="related-title">${item.title}</h3>
-            <p class="helper related-price">${isSaleVideo(item) ? `期間限定 ${getCurrentPriceText(item)} 税込 / 買い切り` : `${getCurrentPriceText(item)} 税込 / 買い切り`}</p>
+            <p class="helper related-price">${isSaleVideo(item) ? `期間限定 ${getCurrentPriceText(item)}（税込）` : `${getCurrentPriceText(item)}（税込）`}</p>
             <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(item.id)}">詳細を見る</a>
           </article>
         `).join("")}
@@ -846,42 +844,140 @@ function initPurchaseConfirmPage() {
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
         <div class="meta-key">出演者</div><div>${video.cast}</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
-        <div class="meta-key">お支払い総額</div><div>${getCurrentPriceText(video)} 税込 / 買い切り</div>
+        <div class="meta-key">お支払い総額</div><div>${getCurrentPriceText(video)}（税込）</div>
         <div class="meta-key">支払方法</div><div>PayPal</div>
-        <div class="meta-key">販売形式</div><div>買い切り（追加課金なし）</div>
+        <div class="meta-key">販売形式</div><div>本サービス上での視聴権の購入（追加課金なし）</div>
       </div>
       <h2 style="margin-top: 18px;">返品・キャンセルについて</h2>
       <div class="notice notice-warning">
-        デジタルコンテンツの性質上、購入確定後の返品・キャンセルはできません。<br>
-        不具合時は返金ではなく、再配信・代替提供等で対応する場合があります。
+        本商品は、動画データ自体の売買ではなく、本サービス上でのストリーミング視聴権の提供です。<br>
+        デジタルコンテンツの性質上、法令上必要な場合を除き、購入確定後の返品・キャンセル・返金はできません。<br><br>
+        不具合時は、再配信、代替提供その他当社所定の方法で対応する場合があります。
       </div>
-      <label style="margin-top: 18px;">
+      <label id="agreeTermsLabel" style="margin-top: 18px; display:block; border-radius:8px; padding:2px 0;">
         <input id="agreeTerms" type="checkbox" style="width:auto; margin-right:8px;">
-        利用規約と特定商取引法に基づく表記に同意の上購入します
+        利用規約、特定商取引法に基づく表記、および本商品がストリーミング視聴権であることに同意の上、購入します
       </label>
       <p class="helper">
         <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> をご確認ください。
       </p>
-      <div class="cta-group">
-        <button class="btn btn-primary" id="confirmPurchase" disabled>PayPalで購入する</button>
+      <div class="cta-group" id="purchaseActionsGroup" aria-describedby="purchaseConsentActionHint">
+        <button class="btn btn-primary" id="confirmPurchase" type="button" aria-disabled="true">PayPalで購入する</button>
+        <a class="btn btn-secondary" id="bankTransferPurchase" href="contact.html?mode=bank-transfer&video=${encodeURIComponent(video.id)}&productUrl=${encodeURIComponent(`product-detail.html?video=${video.id}`)}" aria-disabled="true">銀行振込で購入する</a>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
       </div>
+      <p id="purchaseConsentActionHint" class="notice notice-warning" style="margin-top:8px; padding:8px 10px;" hidden>購入には利用規約等への同意が必要です</p>
     </article>
   `;
 
   const agreeTerms = root.querySelector("#agreeTerms");
+  const agreeTermsLabel = root.querySelector("#agreeTermsLabel");
   const confirmButton = root.querySelector("#confirmPurchase");
+  const bankTransferLink = root.querySelector("#bankTransferPurchase");
+  const actionsGroup = root.querySelector("#purchaseActionsGroup");
+  const consentActionHint = root.querySelector("#purchaseConsentActionHint");
+  const consentMessage = "購入には利用規約等への同意が必要です";
+  const consentActionMessage = "購入には利用規約等への同意が必要です";
+
+  let agreeHighlightTimer = null;
+  const showConsentActionHint = (withGuide) => {
+    if (consentActionHint) {
+      consentActionHint.textContent = consentActionMessage;
+      consentActionHint.dataset.touched = "1";
+      consentActionHint.hidden = false;
+    }
+    if (!withGuide) return;
+    if (agreeTermsLabel) {
+      agreeTermsLabel.style.background = "#fff8e6";
+      agreeTermsLabel.style.boxShadow = "0 0 0 2px #f3c969 inset";
+      agreeTermsLabel.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (agreeHighlightTimer) window.clearTimeout(agreeHighlightTimer);
+      agreeHighlightTimer = window.setTimeout(() => {
+        if (!agreeTermsLabel) return;
+        agreeTermsLabel.style.background = "";
+        agreeTermsLabel.style.boxShadow = "";
+      }, 1600);
+    }
+  };
+
+  const updatePurchaseButtons = () => {
+    const agreed = !!agreeTerms?.checked;
+    if (confirmButton) {
+      confirmButton.disabled = false;
+      confirmButton.setAttribute("aria-describedby", "purchaseConsentActionHint");
+      confirmButton.setAttribute("aria-disabled", agreed ? "false" : "true");
+      confirmButton.title = agreed ? "" : consentMessage;
+      confirmButton.style.opacity = agreed ? "" : "0.55";
+      confirmButton.style.cursor = agreed ? "" : "not-allowed";
+    }
+    if (bankTransferLink) {
+      bankTransferLink.setAttribute("aria-describedby", "purchaseConsentActionHint");
+      if (agreed) {
+        bankTransferLink.removeAttribute("aria-disabled");
+        bankTransferLink.style.opacity = "";
+        bankTransferLink.style.cursor = "";
+        bankTransferLink.title = "";
+      } else {
+        bankTransferLink.setAttribute("aria-disabled", "true");
+        bankTransferLink.style.opacity = "0.55";
+        bankTransferLink.style.cursor = "not-allowed";
+        bankTransferLink.title = consentMessage;
+      }
+    }
+    if (actionsGroup) {
+      actionsGroup.title = agreed ? "" : consentMessage;
+    }
+    if (consentActionHint) {
+      if (agreed) {
+        consentActionHint.hidden = true;
+        consentActionHint.dataset.touched = "0";
+      } else {
+        consentActionHint.hidden = consentActionHint.dataset.touched !== "1";
+      }
+    }
+  };
 
   agreeTerms?.addEventListener("change", () => {
-    if (confirmButton) confirmButton.disabled = !agreeTerms.checked;
+    updatePurchaseButtons();
   });
 
-  confirmButton?.addEventListener("click", () => {
-    if (!agreeTerms?.checked) return;
+  const handleBlockedPurchaseAction = (event, withGuide = false) => {
+    if (agreeTerms?.checked) return false;
+    event.preventDefault();
+    showConsentActionHint(withGuide);
+    return true;
+  };
+
+  confirmButton?.addEventListener("mouseenter", () => {
+    if (!agreeTerms?.checked) showConsentActionHint(false);
+  });
+  confirmButton?.addEventListener("focus", () => {
+    if (!agreeTerms?.checked) showConsentActionHint(false);
+  });
+
+  bankTransferLink?.addEventListener("mouseenter", () => {
+    if (!agreeTerms?.checked) showConsentActionHint(false);
+  });
+  bankTransferLink?.addEventListener("focus", () => {
+    if (!agreeTerms?.checked) showConsentActionHint(false);
+  });
+
+  bankTransferLink?.addEventListener("click", (e) => {
+    if (handleBlockedPurchaseAction(e, true)) return;
+  });
+
+  bankTransferLink?.addEventListener("keydown", (e) => {
+    if ((e.key === "Enter" || e.key === " ") && handleBlockedPurchaseAction(e, true)) return;
+  });
+
+  confirmButton?.addEventListener("click", (e) => {
+    if (handleBlockedPurchaseAction(e, true)) return;
     const ok = window.confirm("この内容で購入手続きに進みます。よろしいですか？");
     if (!ok) return;
     window.location.href = `thankyou.html?video=${encodeURIComponent(video.id)}`;
   });
+
+  updatePurchaseButtons();
 }
 
 function initPaymentFailedPage() {
@@ -899,7 +995,7 @@ function initPaymentFailedPage() {
       <p class="lead">通信状況やカード認証の都合で、購入処理が完了しなかった可能性があります。</p>
       <div class="notice notice-warning">
         対象商品: ${video.title}<br>
-        価格: ${getCurrentPriceText(video)} 税込 / 買い切り
+        価格: ${getCurrentPriceText(video)}（税込）
       </div>
       <h2 style="margin-top: 16px;">再購入・お支払い方法について</h2>
       <ul class="list">
@@ -988,10 +1084,77 @@ function initThanksPage() {
   if (!state.loggedIn) return;
 
   const url = new URL(window.location.href);
+  const source = url.searchParams.get("source") || "purchase";
   const videoId = url.searchParams.get("video") || "v1";
-  const nextPurchases = Array.from(new Set([...state.purchases, videoId]));
-  if (nextPurchases.length !== state.purchases.length) {
-    setState({ ...state, purchases: nextPurchases });
+  const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
+  if (source !== "bank-transfer") {
+    const nextPurchases = Array.from(new Set([...state.purchases, videoId]));
+    if (nextPurchases.length !== state.purchases.length) {
+      setState({ ...state, purchases: nextPurchases });
+    }
+  }
+
+  if (source === "bank-transfer") {
+    const badge = document.querySelector(".badge");
+    const heading = document.querySelector("h1");
+    const lead = document.querySelector(".lead");
+    const infoNotice = document.querySelector(".notice.notice-info");
+    const ctaGroup = document.querySelector(".cta-group");
+    const email = url.searchParams.get("email") || state.email || "demo@example.com";
+    const transferName = url.searchParams.get("transferName") || "未入力";
+    const transferDate = url.searchParams.get("transferDate") || "未指定";
+    const transferDeadline = new Date();
+    transferDeadline.setDate(transferDeadline.getDate() + 3);
+    const deadlineText = `${transferDeadline.getFullYear()}/${String(transferDeadline.getMonth() + 1).padStart(2, "0")}/${String(transferDeadline.getDate()).padStart(2, "0")} 23:59`;
+
+    if (badge) badge.textContent = "お問い合わせ送信完了";
+    if (heading) heading.textContent = "銀行振込のご案内";
+    if (infoNotice) {
+      infoNotice.innerHTML = `銀行振込のお申し込みを受け付けました。入金確認は手動で行います。<br>確認完了後、視聴案内メールをお送りします。`;
+    }
+    if (lead) {
+      lead.textContent = "本ページと自動返信メール（モック）に記載の振込先情報をご確認のうえ、振込期限内にお手続きください。";
+    }
+
+    if (lead) {
+      lead.insertAdjacentHTML("afterend", `
+        <div class="notice notice-warning">
+          <strong>振込先情報</strong><br>
+          銀行名: テキスト銀行 / 支店名: テキスト支店（普通）<br>
+          口座番号: 1234567 / 口座名義: カ）ビデオストア<br><br>
+          <strong>対象商品</strong><br>
+          商品名: ${video.title}<br>
+          商品ID: ${video.id}<br>
+          価格: ${getCurrentPriceText(video)}（税込）<br><br>
+          <strong>振込予定情報</strong><br>
+          振込予定名義: ${transferName}<br>
+          振込予定日: ${transferDate}<br><br>
+          <strong>振込期限</strong><br>
+          ${deadlineText}<br><br>
+          <strong>振込名義の注意事項</strong><br>
+          お振込みの際は、フォームにご入力いただいた振込予定名義をご使用ください。異なる名義でお振込みされる場合は、事前にお問い合わせください。
+        </div>
+        <div class="notice notice-info">
+          <strong>自動返信メール（モック）</strong><br>
+          宛先: ${email}<br>
+          件名: 【Video-Store】銀行振込のご案内（${video.id}）<br>
+          本文: 銀行名 テキスト銀行 / 支店名 テキスト支店 / 普通 1234567 / 口座名義 カ）ビデオストア<br>
+          振込予定名義: ${transferName}<br>
+          振込予定日: ${transferDate}<br>
+          振込期限: ${deadlineText}<br>
+          振込名義の注意: お振込みの際は、フォームにご入力いただいた振込予定名義をご使用ください。異なる名義でお振込みされる場合は、事前にお問い合わせください。<br>
+          入金確認後、視聴開始のご案内をお送りします（手動確認のため反映までお時間をいただく場合があります）。
+        </div>
+      `);
+    }
+
+    if (ctaGroup) {
+      ctaGroup.innerHTML = `
+        <a class="btn btn-primary" href="product.html">トップへ戻る</a>
+        <a class="btn btn-ghost" href="contact.html">お問い合わせ内容を確認する</a>
+      `;
+    }
+    return;
   }
 
   if (!finalizeBtn) return;
@@ -1090,9 +1253,102 @@ function initContactPage() {
   const form = document.querySelector("#contactForm");
   if (!form) return;
   const message = document.querySelector("#contactMessage");
+  const state = getState();
+  const url = new URL(window.location.href);
+  const mode = url.searchParams.get("mode");
+  const videoId = url.searchParams.get("video");
+  const video = DEMO_VIDEOS.find((v) => v.id === videoId);
+  const productUrlParam = url.searchParams.get("productUrl");
+  const resolvedProductUrl = productUrlParam
+    ? new URL(productUrlParam, window.location.href).href
+    : (video ? new URL(`product-detail.html?video=${encodeURIComponent(video.id)}`, window.location.href).href : "");
+
+  if (mode === "bank-transfer" && video) {
+    const contactType = form.querySelector("#contactType");
+    const contactName = form.querySelector("#contactName");
+    const contactEmail = form.querySelector("#contactEmail");
+    const contactBody = form.querySelector("#contactBody");
+    const contactNameRow = contactName?.closest(".form-row");
+    const contactEmailRow = contactEmail?.closest(".form-row");
+    const contactBodyRow = contactBody?.closest(".form-row");
+    const context = document.createElement("div");
+    context.className = "notice notice-info";
+    context.style.marginBottom = "12px";
+    context.innerHTML = `
+      銀行振込での購入申し込みとして受け付けます。<br>
+      商品名: ${video.title}<br>
+      商品ID: ${video.id}<br>
+      価格: ${getCurrentPriceText(video)}（税込）<br>
+      商品URL: ${resolvedProductUrl}<br>
+      支払方法: 銀行振込<br>
+      ログイン中のアカウント情報（メールアドレス）を連絡先として使用します。<br>
+      入金確認後に視聴案内を行います（自動付与されません）。
+    `;
+    form.insertAdjacentElement("afterbegin", context);
+
+    if (contactNameRow) contactNameRow.style.display = "none";
+    if (contactEmailRow) contactEmailRow.style.display = "none";
+    if (contactName) {
+      contactName.required = false;
+      contactName.value = "ログイン済みユーザー";
+    }
+    if (contactEmail) {
+      contactEmail.required = false;
+      contactEmail.value = state.email || "demo@example.com";
+    }
+
+    const transferNameRow = document.createElement("div");
+    transferNameRow.className = "form-row";
+    transferNameRow.innerHTML = `
+      <label for="bankTransferName">振込予定名義（カタカナ・必須）</label>
+      <input id="bankTransferName" name="bankTransferPlannedName" type="text" value="" required>
+      <p class="helper">実際にお振込みに使用する口座名義をご入力ください。入金確認に使用します。必須項目です。</p>
+    `;
+
+    const transferDateRow = document.createElement("div");
+    transferDateRow.className = "form-row";
+    transferDateRow.innerHTML = `
+      <label for="bankTransferDate">振込予定日（任意）</label>
+      <input id="bankTransferDate" name="bankTransferPlannedDate" type="date">
+    `;
+
+    if (contactBodyRow) {
+      contactBodyRow.insertAdjacentElement("beforebegin", transferDateRow);
+      contactBodyRow.insertAdjacentElement("beforebegin", transferNameRow);
+    }
+
+    if (contactType) contactType.value = "billing";
+    if (contactBody) {
+      contactBody.value = `銀行振込で購入を希望します。\n商品名: ${video.title}\n商品ID: ${video.id}\n価格: ${getCurrentPriceText(video)}（税込）\n商品URL: ${resolvedProductUrl}`;
+    }
+
+    [
+      { name: "productId", value: video.id },
+      { name: "productTitle", value: video.title },
+      { name: "productPrice", value: `${getCurrentPriceText(video)}（税込）` },
+      { name: "productUrl", value: resolvedProductUrl },
+      { name: "paymentMethod", value: "bank-transfer" }
+    ].forEach((item) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = item.name;
+      input.value = item.value;
+      form.appendChild(input);
+    });
+  }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (mode === "bank-transfer" && video) {
+      const contactEmail = form.querySelector("#contactEmail");
+      const transferNameInput = form.querySelector("#bankTransferName");
+      const transferDateInput = form.querySelector("#bankTransferDate");
+      const email = contactEmail?.value || state.email || "demo@example.com";
+      const transferName = transferNameInput?.value || "";
+      const transferDate = transferDateInput?.value || "";
+      window.location.href = `thankyou.html?source=bank-transfer&video=${encodeURIComponent(video.id)}&email=${encodeURIComponent(email)}&transferName=${encodeURIComponent(transferName)}&transferDate=${encodeURIComponent(transferDate)}`;
+      return;
+    }
     if (message) {
       message.textContent = "お問い合わせを受け付けました（モック）。通常2営業日以内に返信します。";
       message.className = "notice notice-info";
@@ -1114,9 +1370,6 @@ function setActiveNav() {
   }
   if (page === "thankyou.html") {
     page = "product.html";
-  }
-  if (page === "register.html") {
-    page = "login.html";
   }
   if (page === "forgot-password.html") {
     page = "login.html";
