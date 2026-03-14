@@ -1351,6 +1351,23 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .detail-info-item {
+    grid-template-columns: 6.8em minmax(0, 1fr);
+    align-items: start;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .detail-info-item .meta-key {
+    white-space: nowrap;
+    font-size: 0.82rem;
+  }
+
+  .detail-info-item > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .detail-bottom-cta .btn {
     width: 100%;
     min-width: 0;
@@ -1376,6 +1393,27 @@ textarea {
 
   .meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .purchase-meta-grid {
+    grid-template-columns: 7.4em minmax(0, 1fr);
+    gap: 6px 10px;
+  }
+
+  .purchase-meta-grid .meta-key {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+
+  .purchase-meta-grid .meta-key::after {
+    content: "：";
+    margin-left: 2px;
+  }
+
+  .purchase-meta-grid > div:nth-child(2n) {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .filter-grid {

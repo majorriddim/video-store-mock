@@ -830,7 +830,7 @@ function initPurchaseConfirmPage() {
       <span class="badge">購入確認</span>
       <h1 style="margin-top: 12px;">購入内容の確認</h1>
       <p class="lead">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
-      <div class="meta-grid">
+      <div class="meta-grid purchase-meta-grid">
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
         <div class="meta-key">出演者</div><div>${video.cast}</div>
