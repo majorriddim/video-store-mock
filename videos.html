@@ -40,14 +40,7 @@
               <option value="1500-99999">1,500円以上</option>
             </select>
           </div>
-          <div>
-            <label for="sortOrder">並び替え</label>
-            <select id="sortOrder">
-              <option value="new">新着順</option>
-              <option value="price-asc">価格が安い順</option>
-              <option value="price-desc">価格が高い順</option>
-            </select>
-          </div>
+          <div></div>
           <div>
             <label for="filterCast">出演者で絞り込み</label>
             <select id="filterCast"></select>
@@ -63,7 +56,25 @@
             </label>
           </div>
         </div>
-        <p class="helper" id="resultCount">0件</p>
+        <div class="filter-actions">
+          <button id="applyFiltersBtn" class="btn btn-primary" type="button">検索</button>
+          <button id="resetFiltersBtn" class="btn btn-ghost" type="button">条件をリセット</button>
+        </div>
+      </div>
+      <div class="results-divider" aria-hidden="true"></div>
+      <div class="results-header">
+        <div>
+          <h2 class="results-title">検索結果</h2>
+          <p class="helper result-count" id="resultCount">0 / 50 件</p>
+        </div>
+        <div class="results-sort">
+          <label for="sortOrder">並び替え</label>
+          <select id="sortOrder">
+            <option value="new">新着順</option>
+            <option value="price-asc">価格が安い順</option>
+            <option value="price-desc">価格が高い順</option>
+          </select>
+        </div>
       </div>
       <div id="productCatalog" class="video-grid"></div>
     </section>

@@ -24,41 +24,48 @@
 
   <main class="container">
     <section class="card section">
-      <h2>Video-Storeについて</h2>
-      <p class="lead" style="margin-bottom: 0;">
-        テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
-      </p>
+      <div class="about-layout">
+        <div class="about-copy">
+          <h2>Video-Storeについて</h2>
+          <p class="lead" style="margin-bottom: 0;">
+            テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
+          </p>
+        </div>
+        <div class="about-showcase" id="aboutShowcase">
+          <div class="about-slider" id="aboutSlider">
+            <div class="about-slider-track" data-slider-track>
+              <figure class="about-slide">
+                <div class="about-slide-media" style="--about-h: 210;" role="img" aria-label="作品視聴シーンのイメージ"></div>
+                <figcaption class="about-slide-caption">作品の世界観を気軽に楽しめる単品レンタル体験</figcaption>
+              </figure>
+              <figure class="about-slide">
+                <div class="about-slide-media" style="--about-h: 142;" role="img" aria-label="出演者一覧のイメージ"></div>
+                <figcaption class="about-slide-caption">出演者やジャンルから自分に合った動画を探せる</figcaption>
+              </figure>
+              <figure class="about-slide">
+                <div class="about-slide-media" style="--about-h: 262;" role="img" aria-label="スマホ視聴のイメージ"></div>
+                <figcaption class="about-slide-caption">スマホ中心でも見比べやすく、購入導線がわかりやすい</figcaption>
+              </figure>
+            </div>
+            <button class="about-slider-nav about-slider-prev" type="button" data-slider-prev aria-label="前のスライド">‹</button>
+            <button class="about-slider-nav about-slider-next" type="button" data-slider-next aria-label="次のスライド">›</button>
+          </div>
+          <div class="about-slider-dots" data-slider-dots aria-label="スライド選択"></div>
+        </div>
+      </div>
     </section>
 
-    <section class="hero">
-      <article class="card hero-main">
-        <div class="badge-row">
-          <span class="badge">今週の注目作品</span>
-          <span class="mini-badge">新着</span>
-          <span class="mini-badge">おすすめ</span>
-        </div>
-        <h1>テキストテキスト</h1>
-        <p class="lead">テキストテキスト</p>
-        <div class="price-box">
-          <span class="price">¥1,200</span>
-          <span class="tax-note">税込 / 買い切り</span>
-        </div>
-        <div class="cta-group">
-          <a id="heroPrimaryAction" class="btn btn-primary" href="login.html">ログインして視聴</a>
-          <a class="btn btn-secondary" href="product-detail.html?video=v1">詳細を見る</a>
-        </div>
-      </article>
-
-      <aside class="card side-panel mock-panel">
+    <section class="card section mock-panel">
+      <div class="mock-panel-head">
         <h2>モック確認パネル</h2>
         <p><span data-auth-status class="status-chip status-guest">未ログイン</span></p>
-        <p class="helper">このパネルはクライアント確認用です。本番では表示しません。</p>
-        <div class="inline-actions">
-          <button class="btn btn-ghost" data-action="mock-login">ログイン済みにする</button>
-          <button class="btn btn-ghost" data-action="mock-logout">未ログインに戻す</button>
-          <button class="btn btn-ghost" data-action="mock-clear">未購入に戻す</button>
-        </div>
-      </aside>
+      </div>
+      <p class="helper">このパネルはクライアント確認用です。本番では表示しません。</p>
+      <div class="inline-actions">
+        <button class="btn btn-ghost" data-action="mock-login">ログイン済みにする</button>
+        <button class="btn btn-ghost" data-action="mock-logout">未ログインに戻す</button>
+        <button class="btn btn-ghost" data-action="mock-clear">未購入に戻す</button>
+      </div>
     </section>
 
     <section class="card section">

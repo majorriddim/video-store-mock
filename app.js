@@ -12,6 +12,7 @@ const DEMO_VIDEOS = Array.from({ length: 50 }, (_, i) => {
   const index = i + 1;
   const basePrice = 980 + (i % 6) * 200;
   const salePrice = index % 4 === 0 ? Math.max(680, Math.floor(basePrice * 0.55 / 10) * 10) : null;
+  const thumbHue = (index * 37) % 360;
   return {
     id: `v${index}`,
     title: `テキストテキスト ${String(index).padStart(2, "0")}`,
@@ -20,6 +21,7 @@ const DEMO_VIDEOS = Array.from({ length: 50 }, (_, i) => {
     duration: `${45 + (i % 8) * 5}分`,
     basePrice,
     salePrice,
+    thumbHue,
     price: formatYen(basePrice),
     genre: GENRES[i % GENRES.length],
     cast: CASTS[i % CASTS.length],
@@ -49,14 +51,20 @@ function getCurrentPriceText(video) {
 
 function buildCardPriceBlock(video) {
   if (!isSaleVideo(video)) {
-    return `<p class="card-price-current">${getCurrentPriceText(video)} <span class="tax-note-inline">税込 / 買い切り</span></p>`;
+    return `
+      <div class="price-stack">
+        <p class="card-price-current">${getCurrentPriceText(video)}</p>
+        <p class="price-subnote">税込 / 買い切り</p>
+      </div>
+    `;
   }
   const regularText = formatYen(parsePriceToNumber(video.basePrice || video.price));
   return `
-    <div class="sale-price-block">
+    <div class="sale-price-block price-stack">
       <p class="card-price-regular">通常 ${regularText}</p>
       <p class="card-price-arrow">↓</p>
-      <p class="card-price-sale"><span class="limited-tag">🔥 期間限定</span> ${getCurrentPriceText(video)} <span class="tax-note-inline">税込 / 買い切り</span></p>
+      <p class="card-price-sale"><span class="limited-tag">🔥 期間限定</span> ${getCurrentPriceText(video)}</p>
+      <p class="price-subnote">税込 / 買い切り</p>
     </div>
   `;
 }
@@ -81,6 +89,25 @@ function buildSaleLink() {
   return `<a class="mini-badge mini-badge-sale" href="videos.html?sale=1">🔥期間限定価格</a>`;
 }
 
+function buildVideoThumb(video) {
+  const detailUrl = `product-detail.html?video=${encodeURIComponent(video.id)}`;
+  if (video.thumbnailUrl) {
+    return `
+      <a class="video-thumb-link" href="${detailUrl}" aria-label="${video.title}の詳細を見る">
+        <img class="video-thumb-image" src="${video.thumbnailUrl}" alt="${video.title}">
+      </a>
+    `;
+  }
+  return `
+    <a class="video-thumb-link" href="${detailUrl}" aria-label="${video.title}の詳細を見る">
+      <div class="video-thumb-placeholder" style="--thumb-h:${video.thumbHue || 210}">
+        <span class="thumb-cast">${video.cast}</span>
+        <span class="thumb-label">サムネイル</span>
+      </div>
+    </a>
+  `;
+}
+
 function buildCardPrimaryAction(videoId, isLoggedIn, isPurchased) {
   if (!isLoggedIn) {
     const redirect = encodeURIComponent(`purchase-confirm.html?video=${videoId}`);
@@ -98,6 +125,7 @@ function buildVideoCard(video, state, options = {}) {
   const favoritesSet = new Set(state.favorites || []);
   const isPurchased = isLoggedIn && ownedSet.has(video.id);
   const showFavorite = options.showFavorite !== false;
+  const showPrice = options.showPrice !== false;
 
   const primaryAction = options.primaryActionHtml || buildCardPrimaryAction(video.id, isLoggedIn, isPurchased);
   const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`;
@@ -111,22 +139,25 @@ function buildVideoCard(video, state, options = {}) {
 
   return `
     <article class="video-item">
+      <div class="video-thumb-col">
+        ${buildVideoThumb(video)}
+      </div>
       <div class="video-main">
+        <div class="video-cast-row">
+          <a class="video-cast-name" href="videos.html?cast=${encodeURIComponent(video.cast)}">${video.cast}</a>
+          ${showFavorite ? buildFavoriteButton(video.id, favoritesSet.has(video.id)) : ""}
+        </div>
+        <h3><a class="video-title-link" href="product-detail.html?video=${encodeURIComponent(video.id)}">${video.title}</a></h3>
+        <p class="video-description">${video.description}</p>
+        <p class="helper">再生時間: ${video.duration}</p>
         <div class="badge-row">
           ${buildGenreLink(video.genre)}
           ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
           ${extraBadges.join("")}
         </div>
-        <div class="video-title-row">
-          <h3><a class="video-title-link" href="product-detail.html?video=${encodeURIComponent(video.id)}">${video.title}</a></h3>
-          ${showFavorite ? buildFavoriteButton(video.id, favoritesSet.has(video.id)) : ""}
-        </div>
-        <p>${video.description}</p>
-        <p class="helper">出演者: ${buildCastLink(video.cast)}</p>
-        <p class="helper">再生時間: ${video.duration}</p>
       </div>
       <div class="video-actions">
-        ${buildCardPriceBlock(video)}
+        ${showPrice ? buildCardPriceBlock(video) : ""}
         <div class="inline-actions">
           ${primaryAction}
           ${detailLink}
@@ -139,10 +170,12 @@ function buildVideoCard(video, state, options = {}) {
 function buildPurchasedCard(video) {
   return `
     <article class="video-item purchased-item">
+      <div class="video-thumb-col">
+        ${buildVideoThumb(video)}
+      </div>
       <div class="video-main">
-        <div class="thumb-placeholder purchased-thumb">サムネイル</div>
-        <h3>${video.title}</h3>
-        <p class="helper">出演者: ${video.cast}</p>
+        <h3><a class="video-title-link" href="product-detail.html?video=${encodeURIComponent(video.id)}">${video.title}</a></h3>
+        <p class="helper purchased-meta">出演者: ${buildCastLink(video.cast)}</p>
         <p class="helper">再生時間: ${video.duration}</p>
       </div>
       <div class="video-actions">
@@ -366,10 +399,13 @@ function initProductPage() {
   const homeList = document.querySelector("#homeVideoList");
   const homePagedList = document.querySelector("#homePagedList");
   const heroPrimaryAction = document.querySelector("#heroPrimaryAction");
+  const heroMainVisual = document.querySelector("#heroMainVisual");
+  const heroMainVisualImage = document.querySelector("#heroMainVisualImage");
   if (!homeList && !homePagedList && !heroPrimaryAction) return;
   const state = getState();
   const isLoggedIn = Boolean(state.loggedIn);
   const ownedSet = new Set(state.purchases || []);
+  const heroVideo = DEMO_VIDEOS.find((video) => video.id === "v1") || DEMO_VIDEOS[0];
 
   const newest = [...DEMO_VIDEOS].sort(
     (a, b) => Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""))
@@ -387,6 +423,20 @@ function initProductPage() {
         ensureLogin(`purchase-confirm.html?video=${encodeURIComponent(videoId)}`);
       });
     });
+  }
+
+  if (heroVideo) {
+    if (heroMainVisual instanceof HTMLElement && heroMainVisualImage instanceof HTMLImageElement) {
+      if (heroVideo.thumbnailUrl) {
+        heroMainVisualImage.src = heroVideo.thumbnailUrl;
+        heroMainVisualImage.alt = `${heroVideo.title}のサムネイル`;
+        heroMainVisual.classList.add("has-image");
+      } else {
+        heroMainVisual.classList.remove("has-image");
+        heroMainVisualImage.removeAttribute("src");
+        heroMainVisualImage.alt = "";
+      }
+    }
   }
 
   if (heroPrimaryAction instanceof HTMLAnchorElement) {
@@ -447,6 +497,84 @@ function initProductPage() {
   }
 }
 
+function initAboutSlider() {
+  const root = document.querySelector("#aboutSlider");
+  if (!root) return;
+  const track = root.querySelector("[data-slider-track]");
+  const dotsRoot = document.querySelector("[data-slider-dots]");
+  const prevBtn = root.querySelector("[data-slider-prev]");
+  const nextBtn = root.querySelector("[data-slider-next]");
+  if (!(track instanceof HTMLElement) || !(dotsRoot instanceof HTMLElement)) return;
+
+  const slides = Array.from(track.querySelectorAll(".about-slide"));
+  if (slides.length <= 1) return;
+
+  let currentIndex = 0;
+  let timerId = null;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  dotsRoot.innerHTML = slides
+    .map((_, index) => `<button class="about-slider-dot${index === 0 ? " is-active" : ""}" type="button" data-slider-dot="${index}" aria-label="${index + 1}枚目を表示"></button>`)
+    .join("");
+
+  const dots = Array.from(dotsRoot.querySelectorAll("[data-slider-dot]"));
+
+  function render() {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === currentIndex);
+    });
+  }
+
+  function goTo(index) {
+    currentIndex = (index + slides.length) % slides.length;
+    render();
+  }
+
+  function startAutoplay() {
+    if (prefersReducedMotion) return;
+    stopAutoplay();
+    timerId = window.setInterval(() => {
+      goTo(currentIndex + 1);
+    }, 5200);
+  }
+
+  function stopAutoplay() {
+    if (timerId !== null) {
+      window.clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  prevBtn?.addEventListener("click", () => {
+    goTo(currentIndex - 1);
+    startAutoplay();
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    goTo(currentIndex + 1);
+    startAutoplay();
+  });
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const index = Number(dot.getAttribute("data-slider-dot"));
+      if (!Number.isNaN(index)) {
+        goTo(index);
+        startAutoplay();
+      }
+    });
+  });
+
+  root.addEventListener("mouseenter", stopAutoplay);
+  root.addEventListener("mouseleave", startAutoplay);
+  root.addEventListener("focusin", stopAutoplay);
+  root.addEventListener("focusout", startAutoplay);
+
+  render();
+  startAutoplay();
+}
+
 function initVideosPage() {
   const catalog = document.querySelector("#productCatalog");
   if (!catalog) return;
@@ -458,6 +586,8 @@ function initVideosPage() {
   const priceSelect = document.querySelector("#filterPrice");
   const saleOnlyCheckbox = document.querySelector("#filterSaleOnly");
   const sortSelect = document.querySelector("#sortOrder");
+  const applyFiltersBtn = document.querySelector("#applyFiltersBtn");
+  const resetFiltersBtn = document.querySelector("#resetFiltersBtn");
   const resultCount = document.querySelector("#resultCount");
 
   function bindBuyActions() {
@@ -472,13 +602,13 @@ function initVideosPage() {
   function renderCatalog(items) {
     if (items.length === 0) {
       catalog.innerHTML = "<div class='notice notice-warning'>条件に一致する動画はありません。検索条件を変更してください。</div>";
-      if (resultCount) resultCount.textContent = `0件 / 全${DEMO_VIDEOS.length}件`;
+      if (resultCount) resultCount.textContent = `0 / ${DEMO_VIDEOS.length} 件`;
       return;
     }
 
     catalog.innerHTML = items.map((video) => buildVideoCard(video, state, { showFavorite: false })).join("");
 
-    if (resultCount) resultCount.textContent = `${items.length}件 / 全${DEMO_VIDEOS.length}件`;
+    if (resultCount) resultCount.textContent = `${items.length} / ${DEMO_VIDEOS.length} 件`;
     bindBuyActions();
   }
 
@@ -537,12 +667,23 @@ function initVideosPage() {
   if (qCast && castSelect) castSelect.value = qCast;
   if (saleOnlyCheckbox) saleOnlyCheckbox.checked = qSaleOnly;
 
-  keywordInput?.addEventListener("input", applyFilters);
-  genreSelect?.addEventListener("change", applyFilters);
-  castSelect?.addEventListener("change", applyFilters);
-  priceSelect?.addEventListener("change", applyFilters);
-  saleOnlyCheckbox?.addEventListener("change", applyFilters);
+  applyFiltersBtn?.addEventListener("click", applyFilters);
   sortSelect?.addEventListener("change", applyFilters);
+  resetFiltersBtn?.addEventListener("click", () => {
+    if (keywordInput) keywordInput.value = "";
+    if (genreSelect) genreSelect.value = "";
+    if (castSelect) castSelect.value = "";
+    if (priceSelect) priceSelect.value = "";
+    if (saleOnlyCheckbox) saleOnlyCheckbox.checked = false;
+    if (sortSelect) sortSelect.value = "new";
+    applyFilters();
+  });
+  keywordInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      applyFilters();
+    }
+  });
 
   applyFilters();
 }
@@ -889,7 +1030,7 @@ function initMyPage() {
         favoriteList.innerHTML = "<div class='notice notice-warning'>お気に入り動画はまだありません。動画詳細ページから追加できます。</div>";
       } else {
         favoriteList.innerHTML = favorites
-          .map((video) => buildVideoCard(video, latestState, { showFavorite: false }))
+          .map((video) => buildVideoCard(video, latestState, { showFavorite: false, showPrice: false }))
           .join("");
         favoriteList.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -983,6 +1124,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindCommonActions();
   setActiveNav();
   initProductPage();
+  initAboutSlider();
   initVideosPage();
   initCastListPage();
   initGenreListPage();
