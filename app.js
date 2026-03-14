@@ -776,12 +776,6 @@ function initProductDetailPage() {
         ・権利保護のため、録画・転載・再配布は禁止されています。<br>
         ・通信環境によって再生品質が変動する場合があります。
       </div>
-      <h2 style="margin-top: 18px;">推奨環境</h2>
-      <div class="notice notice-info">
-        ブラウザ: 最新の Chrome / Safari / Edge / Firefox<br>
-        回線: 下り 10Mbps 以上推奨<br>
-        端末: スマートフォン、タブレット、PC
-      </div>
       <div class="detail-bottom-cta">
         ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
       </div>
