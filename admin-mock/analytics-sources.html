@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>流入元分析 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+      <p class="analytics-menu-title">アクセス解析</p>
+      <ul class="menu">
+        <li><a href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a class="active" href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a href="./analytics-heatmaps.html">ヒートマップ</a></li>
+      </ul>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">流入元分析</h1>
+          <p class="page-subtitle">referer / UTMの両軸で成果流入を把握</p>
+        </div>
+      </header>
+      <div class="content">
+        <section class="toolbar">
+          <div class="filters">
+            <select class="select"><option selected>チャネル別</option><option>キャンペーン別</option></select>
+            <select class="select"><option selected>CVR順</option><option>セッション順</option></select>
+            <button class="btn">更新</button>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">流入元別パフォーマンス</h2></div>
+          <div class="card-body table-wrap">
+            <table>
+              <thead><tr><th>referer / source</th><th>medium</th><th>campaign</th><th>セッション</th><th>CV数</th><th>CVR</th><th>平均閲覧ページ</th><th>主要流入ページ</th><th>購入貢献導線上位</th></tr></thead>
+              <tbody>
+                <tr><td>google</td><td>organic</td><td class="muted">-</td><td>12,441</td><td>683</td><td>5.49%</td><td>3.8</td><td>/videos</td><td>一覧 → 詳細 → 購入</td></tr>
+                <tr><td>instagram</td><td>social</td><td>spring_cast</td><td>8,202</td><td>472</td><td>5.75%</td><td>4.1</td><td>/casts</td><td>出演者 → 詳細 → 会員登録</td></tr>
+                <tr><td>meta</td><td>cpc</td><td>newuser_campaign</td><td>5,880</td><td>401</td><td>6.82%</td><td>3.3</td><td>/（トップページ）</td><td>流入ページ → 登録 → 購入</td></tr>
+                <tr><td>youtube.com</td><td>referral</td><td class="muted">-</td><td>2,144</td><td>66</td><td>3.08%</td><td>2.7</td><td>/product/vid-1032</td><td>詳細 → 購入</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

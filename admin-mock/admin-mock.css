@@ -532,8 +532,244 @@ tr:last-child td {
   font-size: 0.82rem;
 }
 
+.analytics-menu-title {
+  color: #93a1b0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 10px 16px 2px;
+  text-transform: uppercase;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kpi-card {
+  padding: 12px;
+}
+
+.kpi-card .kpi-value {
+  font-size: 1.35rem;
+}
+
+.trend-up {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.trend-down {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.chart-box {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfcfd;
+  padding: 10px;
+}
+
+.bars {
+  display: grid;
+  gap: 8px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr) 60px;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.bar-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e7edf4;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--brand);
+}
+
+.bar-fill.warning {
+  background: #dba617;
+}
+
+.bar-fill.danger {
+  background: #d63638;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab-chip {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 0.78rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tab-chip.active {
+  background: var(--brand-soft);
+  border-color: #8dbde7;
+  color: #0f4f7f;
+  font-weight: 700;
+}
+
+.note-box {
+  border: 1px solid #f0ddb1;
+  background: #fff8e9;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 0.79rem;
+}
+
+.flow-list {
+  display: grid;
+  gap: 8px;
+}
+
+.flow-item {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fbfcfd;
+  padding: 9px 10px;
+  font-size: 0.8rem;
+}
+
+.flow-path {
+  font-weight: 700;
+  margin: 0;
+}
+
+.flow-meta {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.funnel {
+  display: grid;
+  gap: 8px;
+}
+
+.funnel-step {
+  border: 1px solid var(--line);
+  border-left: 5px solid #72aee6;
+  border-radius: 9px;
+  background: #fbfcfd;
+  padding: 9px 10px;
+}
+
+.funnel-step.warning {
+  border-left-color: #dba617;
+  background: #fffaf0;
+}
+
+.funnel-step.danger {
+  border-left-color: #d63638;
+  background: #fff4f4;
+}
+
+.funnel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.funnel-meta {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.heatmap-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+  gap: 12px;
+}
+
+.page-preview {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.preview-head {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.preview-canvas {
+  position: relative;
+  height: 420px;
+  background: linear-gradient(180deg, #fafcff 0%, #f3f7fb 100%);
+}
+
+.preview-block {
+  position: absolute;
+  border: 1px solid #d8e2ec;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.heat-dot {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(214, 54, 56, 0.35);
+  border: 1px solid rgba(214, 54, 56, 0.5);
+}
+
+.heat-dot.mid {
+  background: rgba(219, 166, 23, 0.35);
+  border-color: rgba(219, 166, 23, 0.55);
+}
+
+.heat-dot.low {
+  background: rgba(34, 113, 177, 0.30);
+  border-color: rgba(34, 113, 177, 0.55);
+}
+
 @media (max-width: 1400px) {
   .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kpi-grid,
+  .three-col {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -567,7 +803,9 @@ tr:last-child td {
   }
 
   .dashboard-grid,
-  .section-grid {
+  .section-grid,
+  .two-col,
+  .heatmap-layout {
     grid-template-columns: 1fr;
   }
 }
@@ -583,6 +821,11 @@ tr:last-child td {
   }
 
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-grid,
+  .three-col {
     grid-template-columns: 1fr;
   }
 

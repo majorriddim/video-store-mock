@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ページ分析詳細 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+      <p class="analytics-menu-title">アクセス解析</p>
+      <ul class="menu">
+        <li><a href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a class="active" href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a href="./analytics-heatmaps.html">ヒートマップ</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">ページ分析詳細</h1>
+          <p class="page-subtitle">対象ページ: 動画詳細（VID-1032） / /product/vid-1032</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./analytics-pages.html">一覧へ戻る</a>
+          <a class="btn" href="./analytics-heatmap-detail.html">ヒートマップを見る</a>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="kpi-grid">
+          <article class="card kpi-card"><p class="kpi-label">PV</p><p class="kpi-value">19,884</p><p class="small-meta trend-up">+8.1%</p></article>
+          <article class="card kpi-card"><p class="kpi-label">セッション</p><p class="kpi-value">8,540</p><p class="small-meta">平均滞在 02:31</p></article>
+          <article class="card kpi-card"><p class="kpi-label">CTAクリック率</p><p class="kpi-value">12.1%</p><p class="small-meta">購入ボタン</p></article>
+          <article class="card kpi-card"><p class="kpi-label">CV貢献</p><p class="kpi-value">530</p><p class="small-meta">CVR 6.2%</p></article>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">PV推移（時系列）</h2></div>
+            <div class="card-body chart-box">
+              <div class="bars">
+                <div class="bar-row"><span>03/09</span><div class="bar-track"><div class="bar-fill" style="width:54%"></div></div><span>2,510</span></div>
+                <div class="bar-row"><span>03/10</span><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><span>2,702</span></div>
+                <div class="bar-row"><span>03/11</span><div class="bar-track"><div class="bar-fill" style="width:61%"></div></div><span>2,811</span></div>
+                <div class="bar-row"><span>03/12</span><div class="bar-track"><div class="bar-fill" style="width:79%"></div></div><span>3,620</span></div>
+                <div class="bar-row"><span>03/13</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span>4,044</span></div>
+                <div class="bar-row"><span>03/14</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span>4,560</span></div>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">流入元 / UTM内訳</h2></div>
+            <div class="card-body">
+              <div class="tabs">
+                <a class="tab-chip active" href="#">流入元</a>
+                <a class="tab-chip" href="#">UTM</a>
+              </div>
+              <div class="chart-box" style="margin-top:8px;">
+                <div class="bars">
+                  <div class="bar-row"><span>instagram / social</span><div class="bar-track"><div class="bar-fill" style="width:34%"></div></div><span>34%</span></div>
+                  <div class="bar-row"><span>google / organic</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span>28%</span></div>
+                  <div class="bar-row"><span>meta / cpc</span><div class="bar-track"><div class="bar-fill" style="width:22%"></div></div><span>22%</span></div>
+                  <div class="bar-row"><span>direct / none</span><div class="bar-track"><div class="bar-fill" style="width:16%"></div></div><span>16%</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">遷移分析</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>直前ページ上位</th><th>遷移数</th><th>構成比</th></tr></thead>
+                <tbody>
+                  <tr><td>動画一覧</td><td>3,120</td><td>36.5%</td></tr>
+                  <tr><td>出演者詳細</td><td>1,540</td><td>18.0%</td></tr>
+                  <tr><td>トップページ</td><td>1,011</td><td>11.8%</td></tr>
+                </tbody>
+              </table>
+              <table style="margin-top:10px;">
+                <thead><tr><th>次ページ遷移先上位</th><th>遷移数</th><th>構成比</th></tr></thead>
+                <tbody>
+                  <tr><td>購入確認</td><td>2,210</td><td>25.9%</td></tr>
+                  <tr><td>会員登録</td><td>1,430</td><td>16.7%</td></tr>
+                  <tr><td>動画一覧</td><td>1,121</td><td>13.1%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">CTA・スクロール・検索</h2></div>
+            <div class="card-body">
+              <dl class="detail-list">
+                <div class="detail-row"><dt>主要CTA</dt><dd>今すぐ購入（クリック率 12.1%）</dd></div>
+                <div class="detail-row"><dt>サブCTA</dt><dd>会員登録して購入（クリック率 4.4%）</dd></div>
+                <div class="detail-row"><dt>スクロール到達率</dt><dd>50%: 88% / 75%: 63% / 100%: 32%</dd></div>
+                <div class="detail-row"><dt>検索流入有無</dt><dd><span class="pill info">一部あり</span></dd></div>
+                <div class="detail-row"><dt>ページ内検索語</dt><dd>「サンプル」「高橋」「価格」</dd></div>
+                <div class="detail-row"><dt>CV貢献</dt><dd>直接CV 530 / 間接CV 214</dd></div>
+              </dl>
+              <div class="note-box" style="margin-top:10px;">
+                改善ヒント: ファーストビューCTAは高反応。75%以降で離脱が増えるため、説明ブロック内に補助CTA追加を検討。
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

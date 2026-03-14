@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>解析ダッシュボード | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+      <p class="analytics-menu-title">アクセス解析</p>
+      <ul class="menu">
+        <li><a class="active" href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a href="./analytics-heatmaps.html">ヒートマップ</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">解析ダッシュボード</h1>
+          <p class="page-subtitle">サイト全体のアクセス・導線・CV状況を集約表示</p>
+        </div>
+        <div class="filters">
+          <input class="input" type="date" value="2026-03-08" aria-label="開始日">
+          <input class="input" type="date" value="2026-03-15" aria-label="終了日">
+          <select class="select" aria-label="ページ種別">
+            <option selected>すべてのページ種別</option>
+            <option>流入ページ（トップ/一覧/詳細/出演者）</option>
+            <option>動画一覧</option>
+            <option>動画詳細</option>
+            <option>会員登録</option>
+            <option>購入関連</option>
+          </select>
+          <button class="btn">更新</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="kpi-grid">
+          <article class="card kpi-card">
+            <p class="kpi-label">総PV</p>
+            <p class="kpi-value">128,420</p>
+            <p class="small-meta trend-up">前週比 +6.8%</p>
+          </article>
+          <article class="card kpi-card">
+            <p class="kpi-label">セッション数</p>
+            <p class="kpi-value">42,861</p>
+            <p class="small-meta trend-up">前週比 +4.2%</p>
+          </article>
+          <article class="card kpi-card">
+            <p class="kpi-label">CV数（購入 / 会員登録）</p>
+            <p class="kpi-value">2,104</p>
+            <p class="small-meta">購入 1,212 / 会員登録 892</p>
+          </article>
+          <article class="card kpi-card">
+            <p class="kpi-label">CVR</p>
+            <p class="kpi-value">4.91%</p>
+            <p class="small-meta trend-down">前週比 -0.4pt</p>
+          </article>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <div class="card-head">
+              <h2 class="card-title">PV推移（7日）</h2>
+              <a class="card-actions" href="./analytics-pages.html">ページ分析へ</a>
+            </div>
+            <div class="card-body chart-box">
+              <div class="bars">
+                <div class="bar-row"><span>03/09</span><div class="bar-track"><div class="bar-fill" style="width:71%"></div></div><span>16.2k</span></div>
+                <div class="bar-row"><span>03/10</span><div class="bar-track"><div class="bar-fill" style="width:74%"></div></div><span>16.9k</span></div>
+                <div class="bar-row"><span>03/11</span><div class="bar-track"><div class="bar-fill" style="width:79%"></div></div><span>18.0k</span></div>
+                <div class="bar-row"><span>03/12</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span>20.1k</span></div>
+                <div class="bar-row"><span>03/13</span><div class="bar-track"><div class="bar-fill" style="width:94%"></div></div><span>21.4k</span></div>
+                <div class="bar-row"><span>03/14</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span>22.7k</span></div>
+                <div class="bar-row"><span>03/15</span><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div><span>18.6k</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h2 class="card-title">流入元内訳</h2>
+              <a class="card-actions" href="./analytics-sources.html">流入元分析へ</a>
+            </div>
+            <div class="card-body chart-box">
+              <div class="bars">
+                <div class="bar-row"><span>自然検索</span><div class="bar-track"><div class="bar-fill" style="width:39%"></div></div><span>39%</span></div>
+                <div class="bar-row"><span>SNS</span><div class="bar-track"><div class="bar-fill" style="width:24%"></div></div><span>24%</span></div>
+                <div class="bar-row"><span>広告（UTM）</span><div class="bar-track"><div class="bar-fill" style="width:21%"></div></div><span>21%</span></div>
+                <div class="bar-row"><span>外部参照</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span>10%</span></div>
+                <div class="bar-row"><span>ダイレクト</span><div class="bar-track"><div class="bar-fill" style="width:6%"></div></div><span>6%</span></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="three-col">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">人気ページ上位</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>ページ</th><th>PV</th><th>CVR</th></tr></thead>
+                <tbody>
+                  <tr><td><a href="./analytics-page-detail.html">動画一覧</a></td><td>31,221</td><td>2.1%</td></tr>
+                  <tr><td><a href="./analytics-page-detail.html">動画詳細（VID-1032）</a></td><td>19,884</td><td>6.2%</td></tr>
+                  <tr><td><a href="./analytics-page-detail.html">会員登録</a></td><td>12,112</td><td>7.4%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">検索ワード上位</h2><a class="card-actions" href="./analytics-search.html">検索分析へ</a></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>検索ワード</th><th>回数</th><th>CV</th></tr></thead>
+                <tbody>
+                  <tr><td>高橋 美咲</td><td>1,244</td><td>88</td></tr>
+                  <tr><td>ポートレート</td><td>983</td><td>64</td></tr>
+                  <tr><td>銀行振込</td><td>611</td><td>32</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">改善優先アラート</h2></div>
+            <div class="card-body">
+              <div class="alert-item danger">
+                <p class="alert-title">離脱率が高いページ</p>
+                <p class="alert-meta">購入確認ページ 58.3%（前週比 +6.2pt）</p>
+              </div>
+              <div class="alert-item warning">
+                <p class="alert-title">CTAクリック率下位</p>
+                <p class="alert-meta">会員登録ページ 1.2%</p>
+              </div>
+              <div class="alert-item">
+                <p class="alert-title">次に見るべき画面</p>
+                <p class="alert-meta"><a href="./analytics-heatmap-detail.html">ヒートマップ詳細（会員登録）</a></p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">購入貢献導線上位</h2><a class="card-actions" href="./analytics-conversion-paths.html">導線分析へ</a></div>
+            <div class="card-body">
+              <div class="flow-list">
+                <div class="flow-item"><p class="flow-path">流入ページ → 動画一覧 → 動画詳細 → 購入確認 → 購入完了</p><p class="flow-meta">寄与CV: 352 / CVR: 6.4%</p></div>
+                <div class="flow-item"><p class="flow-path">出演者ページ → 動画詳細 → 会員登録 → 購入完了</p><p class="flow-meta">寄与CV: 201 / CVR: 5.2%</p></div>
+                <div class="flow-item"><p class="flow-path">サイト内検索 → 動画詳細 → 購入確認 → 購入完了</p><p class="flow-meta">寄与CV: 149 / CVR: 7.1%</p></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">CTAクリック率 上位 / 下位</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>ページ</th><th>CTA</th><th>クリック率</th><th>評価</th></tr></thead>
+                <tbody>
+                  <tr><td>動画詳細（VID-1032）</td><td>今すぐ購入</td><td>12.1%</td><td><span class="pill success">上位</span></td></tr>
+                  <tr><td>動画一覧</td><td>詳細を見る</td><td>9.8%</td><td><span class="pill info">良好</span></td></tr>
+                  <tr><td>会員登録</td><td>登録する</td><td>1.2%</td><td><span class="pill danger">下位</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

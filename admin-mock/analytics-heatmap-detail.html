@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ヒートマップ詳細 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+      <p class="analytics-menu-title">アクセス解析</p>
+      <ul class="menu">
+        <li><a href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a class="active" href="./analytics-heatmaps.html">ヒートマップ</a></li>
+      </ul>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">ヒートマップ詳細</h1>
+          <p class="page-subtitle">対象ページ: 会員登録 /register</p>
+        </div>
+        <div class="filters">
+          <select class="select"><option selected>PC</option><option>スマホ</option></select>
+          <select class="select"><option selected>全体</option><option>CVしたユーザーのみ</option><option>流入元: 広告</option></select>
+          <input class="input" type="date" value="2026-03-08">
+          <input class="input" type="date" value="2026-03-15">
+          <button class="btn">更新</button>
+        </div>
+      </header>
+      <div class="content">
+        <section class="heatmap-layout">
+          <article class="card">
+            <div class="card-head">
+              <h2 class="card-title">ページプレビュー（クリックオーバーレイ）</h2>
+              <a class="card-actions" href="./analytics-heatmaps.html">一覧へ戻る</a>
+            </div>
+            <div class="card-body">
+              <div class="tabs">
+                <a class="tab-chip active" href="#">クリック分布</a>
+                <a class="tab-chip" href="#">スクロール率</a>
+                <a class="tab-chip" href="#">CTA位置</a>
+              </div>
+              <div class="page-preview" style="margin-top:10px;">
+                <div class="preview-head">/register</div>
+                <div class="preview-canvas">
+                  <div class="preview-block" style="left:20px; top:20px; width:92%; height:56px;"></div>
+                  <div class="preview-block" style="left:20px; top:94px; width:92%; height:250px;"></div>
+                  <div class="preview-block" style="left:20px; top:360px; width:92%; height:40px;"></div>
+                  <div class="heat-dot" style="left:70%; top:18%;"></div>
+                  <div class="heat-dot" style="left:72%; top:34%;"></div>
+                  <div class="heat-dot mid" style="left:39%; top:43%;"></div>
+                  <div class="heat-dot low" style="left:24%; top:56%;"></div>
+                  <div class="heat-dot low" style="left:81%; top:81%;"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">サマリー</h2></div>
+            <div class="card-body">
+              <dl class="detail-list">
+                <div class="detail-row"><dt>PV</dt><dd>12,112</dd></div>
+                <div class="detail-row"><dt>クリック総数</dt><dd>5,004</dd></div>
+                <div class="detail-row"><dt>CTAクリック率</dt><dd>1.2%</dd></div>
+                <div class="detail-row"><dt>スクロール到達率</dt><dd>50%: 54% / 75%: 31% / 100%: 14%</dd></div>
+                <div class="detail-row"><dt>主要クリック位置</dt><dd>登録ボタン上部の補助リンク</dd></div>
+              </dl>
+              <div class="note-box" style="margin-top:10px;">
+                改善候補:
+                1. 登録ボタンの視認性強化
+                2. フォーム中段に補助CTAを追加
+                3. 入力項目の分割で離脱を抑制
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
