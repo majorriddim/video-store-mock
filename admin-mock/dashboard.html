@@ -1,0 +1,191 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ダッシュボード | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a class="active" href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">ダッシュボード</h1>
+          <p class="page-subtitle">2026年3月14日 09:30 時点 / 売上KPIと日次運用タスク</p>
+        </div>
+        <div class="admin-user">運用担当: 山田 花子（管理者）</div>
+      </header>
+
+      <div class="content">
+        <section class="stats-grid">
+          <article class="card stat-card">
+            <p class="stat-label">本日の売上</p>
+            <p class="stat-value">¥182,400</p>
+            <p class="stat-note">前日比 +12.4%</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">注文件数</p>
+            <p class="stat-value">64件</p>
+            <p class="stat-note">カード 56件 / 銀行振込 8件</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">有効会員数</p>
+            <p class="stat-value">1,248人</p>
+            <p class="stat-note">今月新規 86人</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">公開中動画数</p>
+            <p class="stat-value">76本</p>
+            <p class="stat-note">公開予約 9本</p>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <div class="stack">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">お気に入り上位動画</h2>
+                <a class="card-actions" href="./videos.html">動画管理へ</a>
+              </div>
+              <div class="card-body table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>動画</th>
+                      <th>出演者</th>
+                      <th>ジャンル</th>
+                      <th>お気に入り数</th>
+                      <th>購入数</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>テキストテキスト</td>
+                      <td>佐藤 梨花</td>
+                      <td>テキスト</td>
+                      <td>482</td>
+                      <td>291</td>
+                    </tr>
+                    <tr>
+                      <td>テキストテキスト</td>
+                      <td>鈴木 由奈</td>
+                      <td>テキスト</td>
+                      <td>405</td>
+                      <td>264</td>
+                    </tr>
+                    <tr>
+                      <td>テキストテキスト</td>
+                      <td>高橋 美咲</td>
+                      <td>テキスト</td>
+                      <td>363</td>
+                      <td>238</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">最近の注文</h2>
+                <a class="card-actions" href="./orders.html">注文一覧へ</a>
+              </div>
+              <div class="card-body table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>注文番号</th>
+                      <th>購入者</th>
+                      <th>商品</th>
+                      <th>金額</th>
+                      <th>支払ステータス</th>
+                      <th>視聴権限</th>
+                      <th>日時</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>#2026-0314-0891</td>
+                      <td>田中 翼</td>
+                      <td>テキストテキスト</td>
+                      <td>¥6,800</td>
+                      <td><span class="pill success">支払完了</span></td>
+                      <td><span class="pill info">付与済み</span></td>
+                      <td>03/14 09:12</td>
+                    </tr>
+                    <tr>
+                      <td>#2026-0314-0874</td>
+                      <td>山田 健太</td>
+                      <td>テキストテキスト</td>
+                      <td>¥9,800</td>
+                      <td><span class="pill warning">入金確認待ち</span></td>
+                      <td><span class="pill warning">付与待ち</span></td>
+                      <td>03/14 07:58</td>
+                    </tr>
+                    <tr>
+                      <td>#2026-0314-0862</td>
+                      <td>中村 彩</td>
+                      <td>テキストテキスト</td>
+                      <td>¥5,500</td>
+                      <td><span class="pill danger">決済失敗</span></td>
+                      <td><span class="pill danger">未付与</span></td>
+                      <td>03/14 06:25</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <div class="badge-box">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">運用タスク</h2>
+              </div>
+              <div class="card-body">
+                <div class="alert-item warning">
+                  <p class="alert-title">入金確認待ち 5件</p>
+                  <p class="alert-meta">銀行振込の確認後、注文管理から視聴権限を手動付与</p>
+                </div>
+                <div class="alert-item warning">
+                  <p class="alert-title">手動付与待ち 2件</p>
+                  <p class="alert-meta">入金確認済みだが視聴権限未付与の注文あり</p>
+                </div>
+                <div class="alert-item">
+                  <p class="alert-title">公開予約中動画 9本</p>
+                  <p class="alert-meta">次回公開: 2026/03/15 10:00（3本）</p>
+                </div>
+                <div class="alert-item danger">
+                  <p class="alert-title">未対応問い合わせ 7件</p>
+                  <p class="alert-meta">本日受信 3件 / 24時間以上未返信 2件</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+
+
+
+

@@ -397,11 +397,13 @@ function bindCommonActions() {
 
 function initProductPage() {
   const homeList = document.querySelector("#homeVideoList");
+  const homeFavoriteSection = document.querySelector("#homeFavoriteSection");
+  const homeFavoriteList = document.querySelector("#homeFavoriteList");
   const homePagedList = document.querySelector("#homePagedList");
   const heroPrimaryAction = document.querySelector("#heroPrimaryAction");
   const heroMainVisual = document.querySelector("#heroMainVisual");
   const heroMainVisualImage = document.querySelector("#heroMainVisualImage");
-  if (!homeList && !homePagedList && !heroPrimaryAction) return;
+  if (!homeList && !homeFavoriteList && !homePagedList && !heroPrimaryAction) return;
   const state = getState();
   const isLoggedIn = Boolean(state.loggedIn);
   const ownedSet = new Set(state.purchases || []);
@@ -459,6 +461,21 @@ function initProductPage() {
     const featured = newest.slice(0, 6);
     homeList.innerHTML = renderCards(featured);
     bindBuyActions(homeList);
+  }
+
+  if (homeFavoriteList && homeFavoriteSection instanceof HTMLElement) {
+    const unpurchasedFavorites = newest
+      .filter((video) => (state.favorites || []).includes(video.id) && !ownedSet.has(video.id))
+      .slice(0, 6);
+
+    if (unpurchasedFavorites.length > 0) {
+      homeFavoriteSection.hidden = false;
+      homeFavoriteList.innerHTML = renderCards(unpurchasedFavorites);
+      bindBuyActions(homeFavoriteList);
+    } else {
+      homeFavoriteSection.hidden = true;
+      homeFavoriteList.innerHTML = "";
+    }
   }
 
   if (homePagedList) {
@@ -997,21 +1014,18 @@ function initMyPage() {
   const account = document.querySelector("#accountSummary");
   if (account) {
     account.innerHTML = `
-      <div class="notice notice-info" style="margin-top:0;">
-        <strong>登録メールアドレス（ダミー）:</strong> ${state.email || "demo@example.com"}
+      <div class="account-email" style="margin-top:0;">
+        <span class="account-email-label">登録メールアドレス（ダミー）</span>
+        <span class="account-email-value">${state.email || "demo@example.com"}</span>
       </div>
-      <button class="btn btn-ghost" data-action="page-logout">ログアウト</button>
     `;
-    account.querySelector("[data-action='page-logout']")?.addEventListener("click", () => {
-      setState({ ...state, loggedIn: false });
-      window.location.href = "product.html";
-    });
   }
 
   function renderSections() {
     const latestState = getState();
     const purchased = DEMO_VIDEOS.filter((v) => latestState.purchases.includes(v.id));
-    const favorites = DEMO_VIDEOS.filter((v) => latestState.favorites.includes(v.id));
+    const purchasedSet = new Set(latestState.purchases || []);
+    const favorites = DEMO_VIDEOS.filter((v) => latestState.favorites.includes(v.id) && !purchasedSet.has(v.id));
 
     if (purchased.length === 0) {
       list.innerHTML = "<div class='notice notice-warning'>購入済み動画はまだありません。商品ページから購入モックを実行してください。</div>";
@@ -1021,7 +1035,7 @@ function initMyPage() {
 
     if (favoriteList) {
       if (favorites.length === 0) {
-        favoriteList.innerHTML = "<div class='notice notice-warning'>お気に入り動画はまだありません。動画詳細ページから追加できます。</div>";
+        favoriteList.innerHTML = "<div class='notice notice-warning'>未購入のお気に入り動画はありません。動画詳細ページから追加できます。</div>";
       } else {
         favoriteList.innerHTML = favorites
           .map((video) => buildVideoCard(video, latestState, { showFavorite: false, showPrice: false }))
@@ -1089,6 +1103,9 @@ function initContactPage() {
 
 function setActiveNav() {
   let page = location.pathname.split("/").pop();
+  if (page === "" || page === "index.html") {
+    page = "product.html";
+  }
   if (page === "product-detail.html") {
     page = "product.html";
   }

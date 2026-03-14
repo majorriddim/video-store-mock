@@ -457,6 +457,104 @@ h1 {
   padding: 24px;
 }
 
+.flow-guide {
+  margin: 8px 0 16px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fbfdff;
+}
+
+.flow-guide-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.flow-guide-head h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.flow-guide-link {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.flow-guide-link a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.flow-guide-link a:hover {
+  text-decoration: underline;
+}
+
+.flow-guide-steps {
+  list-style: none;
+  margin: 9px 0 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid #dbe4f1;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.flow-guide-steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.flow-guide-steps li + li {
+  border-left: 1px solid #e3e9f4;
+}
+
+.flow-step-index {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #edf3fb;
+  color: var(--brand-strong);
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+.flow-step-text {
+  font-size: 0.84rem;
+  line-height: 1.3;
+}
+
+.account-email {
+  margin-top: 0;
+  padding: 10px 12px;
+  border: 1px solid #d9e3f1;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #2f4a72;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.account-email-label {
+  font-weight: 700;
+}
+
+.account-email-value {
+  color: #365f9c;
+}
+
 .about-showcase {
   margin-top: 14px;
 }
@@ -464,6 +562,14 @@ h1 {
 .about-layout {
   display: grid;
   gap: 12px;
+}
+
+.about-title {
+  margin: 0;
+}
+
+.about-copy .lead {
+  margin: 0;
 }
 
 .about-slider {
@@ -561,12 +667,24 @@ h1 {
 @media (min-width: 861px) {
   .about-layout {
     grid-template-columns: minmax(0, 1.34fr) minmax(280px, 0.9fr);
+    grid-template-areas:
+      "title title"
+      "copy showcase";
     align-items: start;
     gap: 18px;
   }
 
+  .about-title {
+    grid-area: title;
+  }
+
+  .about-copy {
+    grid-area: copy;
+  }
+
   .about-showcase {
-    margin-top: 14px;
+    grid-area: showcase;
+    margin-top: -34px;
   }
 
   .about-slide {
@@ -1238,6 +1356,37 @@ textarea {
   .about-slider-nav {
     width: 30px;
     height: 30px;
+  }
+
+  .flow-guide-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .flow-guide {
+    padding: 10px;
+  }
+
+  .flow-guide-head {
+    align-items: center;
+  }
+
+  .flow-guide-link {
+    font-size: 0.76rem;
+  }
+
+  .flow-guide-steps li {
+    padding: 8px 9px;
+  }
+
+  .flow-guide-steps li + li {
+    border-left: 0;
+    border-top: 1px solid #e3e9f4;
+  }
+
+  .flow-step-text {
+    font-size: 0.83rem;
   }
 
   .about-slide-caption {

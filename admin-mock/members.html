@@ -1,0 +1,151 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会員管理 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a class="active" href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">会員管理</h1>
+          <p class="page-subtitle">購入済み動画・お気に入り状況・視聴可能本数を含む会員一覧</p>
+        </div>
+        <div class="admin-user">有効会員 1,248人 / 要確認 32人</div>
+      </header>
+
+      <div class="content">
+        <section class="toolbar">
+          <div class="filters">
+            <input class="input" type="text" value="tanaka@" aria-label="会員検索">
+            <select class="select" aria-label="会員ステータス">
+              <option selected>すべての会員ステータス</option>
+              <option>有効</option>
+              <option>休眠</option>
+              <option>停止</option>
+            </select>
+            <button class="btn">絞り込み</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">会員一覧（1,360件）</h2>
+            <a class="card-actions" href="./orders.html">注文データを見る</a>
+          </div>
+          <div class="card-body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>名前 / 会員ID</th>
+                  <th>メールアドレス</th>
+                  <th>会員ステータス</th>
+                  <th>購入商品数</th>
+                  <th>お気に入り数</th>
+                  <th>直近購入日</th>
+                  <th>視聴可能本数</th>
+                  <th>最終ログイン</th>
+                  <th class="text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <p class="member-name">田中 莉奈</p>
+                    <p class="member-id">U-004982</p>
+                  </td>
+                  <td>tanaka.rina@example.jp</td>
+                  <td><span class="pill success">有効</span></td>
+                  <td>6</td>
+                  <td>14</td>
+                  <td>2026/03/12</td>
+                  <td>6</td>
+                  <td>2026/03/14 08:52</td>
+                  <td class="text-right"><button class="btn link">詳細</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="member-name">鈴木 拓海</p>
+                    <p class="member-id">U-003741</p>
+                  </td>
+                  <td>suzuki.t@example.jp</td>
+                  <td><span class="pill success">有効</span></td>
+                  <td>2</td>
+                  <td>8</td>
+                  <td>2026/02/21</td>
+                  <td>2</td>
+                  <td>2026/03/13 23:11</td>
+                  <td class="text-right"><button class="btn link">詳細</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="member-name">阿部 美香</p>
+                    <p class="member-id">U-005101</p>
+                  </td>
+                  <td>abe.mika@example.jp</td>
+                  <td><span class="pill warning">休眠</span></td>
+                  <td>0</td>
+                  <td>3</td>
+                  <td class="muted">-</td>
+                  <td>0</td>
+                  <td>2026/03/13 19:18</td>
+                  <td class="text-right"><button class="btn link">詳細</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="member-name">中村 匠</p>
+                    <p class="member-id">U-002319</p>
+                  </td>
+                  <td>nakamura.takumi@example.jp</td>
+                  <td><span class="pill danger">停止</span></td>
+                  <td>4</td>
+                  <td>1</td>
+                  <td>2025/12/10</td>
+                  <td>0</td>
+                  <td>2026/01/04 10:02</td>
+                  <td class="text-right"><button class="btn link">詳細</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="member-name">伊藤 由佳</p>
+                    <p class="member-id">U-005122</p>
+                  </td>
+                  <td>ito.yuka@example.jp</td>
+                  <td><span class="pill success">有効</span></td>
+                  <td>1</td>
+                  <td>5</td>
+                  <td>2026/03/14</td>
+                  <td>1</td>
+                  <td>2026/03/14 08:39</td>
+                  <td class="text-right"><button class="btn link">詳細</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+
+
