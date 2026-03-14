@@ -128,7 +128,7 @@ function buildVideoCard(video, state, options = {}) {
   const showPrice = options.showPrice !== false;
 
   const primaryAction = options.primaryActionHtml || buildCardPrimaryAction(video.id, isLoggedIn, isPurchased);
-  const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>`;
+  const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細・サンプルを見る</a>`;
   const extraBadges = [];
   if (isSaleVideo(video)) {
     extraBadges.push(buildSaleLink());
