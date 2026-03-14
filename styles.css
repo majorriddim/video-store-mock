@@ -787,9 +787,9 @@ h2 {
 }
 
 .price-subnote {
-  margin: 4px 0 0;
+  margin: 5px 0 0;
   color: var(--muted);
-  font-size: 0.83rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
@@ -799,35 +799,30 @@ h2 {
 
 .card-price-regular {
   margin: 0;
-  color: #7c889e;
+  color: #8b97ac;
   text-decoration: line-through;
   font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.25;
 }
 
 .card-price-arrow {
-  margin: 2px 0;
-  color: #7c889e;
+  margin: 1px 0 3px;
+  color: #9aa6ba;
   line-height: 1;
+  font-size: 0.86rem;
 }
 
 .card-price-sale {
   margin: 0;
-  color: var(--danger);
+  color: #b4233d;
   font-weight: 800;
-  font-size: 1.06rem;
+  font-size: 1.32rem;
+  line-height: 1.15;
 }
 
-.limited-tag {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 2px 8px;
-  margin-right: 6px;
-  font-size: 0.74rem;
-  font-weight: 800;
-  background: #ffe7ec;
-  color: #b42318;
-  border: 1px solid #f9c3cf;
+.sale-price-block .card-price-sale {
+  color: #b4233d;
 }
 
 .favorite-btn {
@@ -1325,6 +1320,14 @@ textarea {
 
   .card-price-current {
     font-size: 1.45rem;
+  }
+
+  .card-price-sale {
+    font-size: 1.18rem;
+  }
+
+  .card-price-regular {
+    font-size: 0.84rem;
   }
 
   .price-subnote,

@@ -63,7 +63,7 @@ function buildCardPriceBlock(video) {
     <div class="sale-price-block price-stack">
       <p class="card-price-regular">通常 ${regularText}</p>
       <p class="card-price-arrow">↓</p>
-      <p class="card-price-sale"><span class="limited-tag">🔥 期間限定</span> ${getCurrentPriceText(video)}</p>
+      <p class="card-price-sale">${getCurrentPriceText(video)}</p>
       <p class="price-subnote">税込 / 買い切り</p>
     </div>
   `;
