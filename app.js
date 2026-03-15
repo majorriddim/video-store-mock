@@ -934,48 +934,56 @@ function initProductDetailPage() {
       <div class="detail-top-grid">
         <div class="detail-media">
           <div class="video-player">サンプル動画プレイヤー（ダミー）</div>
-          <h1 style="margin: 16px 0 4px;">${video.title}</h1>
-          <div class="detail-price-block">
-            <p class="helper" style="margin:0 0 6px;">価格</p>
+        </div>
+        <aside class="detail-summary">
+          <div class="badge-row detail-badge-row">
+            ${buildGenreLink(video.genre)}
+            ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+            ${isSaleVideo(video) ? buildSaleLink() : ""}
+            ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
+          </div>
+          <h2 class="detail-summary-heading">動画情報</h2>
+          <h1 class="detail-summary-title">${video.title}</h1>
+          <div class="detail-inline-meta">
+            <div class="detail-info-item"><span class="meta-key">再生時間</span><span>${video.duration}</span></div>
+            <div class="detail-info-item"><span class="meta-key">出演者</span><span>${buildCastLink(video.cast)}</span></div>
+            <div class="detail-info-item"><span class="meta-key">購入方式</span><span>購入後の追加課金なし</span></div>
+          </div>
+          <div class="detail-price-block detail-price-block-compact">
+            <p class="helper price-label-subtle">価格</p>
             ${buildCardPriceBlock(video)}
           </div>
           <div class="cta-group detail-cta">
             <div class="detail-cta-main">${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}</div>
             ${buildFavoriteButton(video.id, favoriteSet.has(video.id))}
           </div>
-        </div>
-        <aside class="detail-summary">
-          <div class="badge-row">
-            ${buildGenreLink(video.genre)}
-            ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-            ${isSaleVideo(video) ? buildSaleLink() : ""}
-            ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
-          </div>
-          <p class="helper" style="margin-top: 8px;"><a href="product.html">商品一覧へ戻る</a></p>
-          <h2 style="margin-top: 16px;">動画情報</h2>
-          <div class="detail-inline-meta">
-            <div class="detail-info-item"><span class="meta-key">再生時間</span><span>${video.duration}</span></div>
-            <div class="detail-info-item"><span class="meta-key">出演者</span><span>${buildCastLink(video.cast)}</span></div>
-            <div class="detail-info-item"><span class="meta-key">配信形式</span><span>ストリーミング視聴権</span></div>
-          </div>
         </aside>
       </div>
-
-      <h2 style="margin-top: 18px;">動画の説明文</h2>
-      <div class="notice notice-info" style="margin-top: 10px;">${video.detailDescription || "テキストテキスト"}</div>
-      <h2 style="margin-top: 18px;">収録内容</h2>
-      <div class="notice notice-info">収録時間: ${video.duration}</div>
-      <h2 style="margin-top: 18px;">視聴方法</h2>
-      <div class="notice notice-info">購入後、マイページからブラウザで視聴できます。</div>
-      <h2 style="margin-top: 18px;">注意事項</h2>
-      <div class="notice notice-info">
-        ・本商品は本サービス上でのストリーミング視聴権の提供です。<br>
-        ・権利保護のため、録画・転載・再配布は禁止されています。<br>
-        ・通信環境によって再生品質が変動する場合があります。
+      <div class="detail-body">
+        <section class="detail-description-section">
+          <h2 class="detail-body-heading">動画の説明文</h2>
+          <div class="notice notice-info detail-description-box">${video.detailDescription || "テキストテキスト"}</div>
+        </section>
+        <div class="detail-meta-grid">
+          <section class="detail-meta-card">
+            <h2 class="detail-body-heading">収録内容</h2>
+            <div class="notice notice-info">収録時間: ${video.duration}</div>
+          </section>
+          <section class="detail-meta-card">
+            <h2 class="detail-body-heading">視聴方法</h2>
+            <div class="notice notice-info">購入後、マイページからブラウザで視聴できます。</div>
+          </section>
+          <section class="detail-meta-card detail-meta-wide">
+            <h2 class="detail-body-heading">注意事項</h2>
+            <div class="notice notice-info">
+              ・本商品は本サービス上でのストリーミング視聴権の提供です。<br>
+              ・権利保護のため、録画・転載・再配布は禁止されています。<br>
+              ・通信環境によって再生品質が変動する場合があります。
+            </div>
+          </section>
+        </div>
       </div>
-      <div class="detail-bottom-cta">
-        ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
-      </div>
+      <p class="helper detail-back-link detail-back-link-bottom"><a href="product.html">商品一覧へ戻る</a></p>
       <section class="recommendation-section">
         <h2 style="margin-top: 0;">関連動画</h2>
         <div class="recommendation-grid">

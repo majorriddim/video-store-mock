@@ -1073,6 +1073,19 @@ h2 {
   background: #fbfdff;
 }
 
+.detail-price-block .price-stack {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.detail-price-block .card-price-current {
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
 .detail-top-grid {
   margin-top: 10px;
   display: grid;
@@ -1086,7 +1099,23 @@ h2 {
   min-width: 0;
 }
 
+.detail-summary {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.detail-badge-row {
+  gap: 7px;
+}
+
+.detail-summary-heading {
+  margin: 2px 0 2px;
+  font-size: 1.02rem;
+}
+
 .detail-cta {
+  margin-top: 10px;
   max-width: 100%;
   display: flex;
   align-items: center;
@@ -1116,6 +1145,122 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   align-items: stretch;
+}
+
+.detail-summary-title {
+  margin: 8px 0 2px;
+  font-size: 2rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  letter-spacing: 0.01em;
+}
+
+.detail-price-block-compact {
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.detail-price-block-compact .card-price-current {
+  font-size: 1.72rem;
+  line-height: 1.2;
+}
+
+.detail-back-link {
+  margin: -2px 0 2px;
+  font-size: 0.78rem;
+}
+
+.detail-back-link-bottom {
+  margin: 6px 0 12px;
+}
+
+.price-label-subtle {
+  margin: 0 0 4px;
+  font-size: 0.74rem;
+  color: #7c8798;
+  font-weight: 500;
+}
+
+.detail-body {
+  margin-top: 24px;
+}
+
+.detail-body-heading {
+  margin: 0 0 10px;
+}
+
+.detail-description-box {
+  margin-top: 0;
+  padding: 14px 16px;
+  line-height: 1.9;
+}
+
+.detail-meta-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.detail-meta-card .notice {
+  margin-top: 0;
+}
+
+.detail-meta-wide {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 861px) {
+  .detail-top-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr);
+    gap: 22px;
+  }
+
+  .detail-summary-title {
+    font-size: 1.64rem;
+    line-height: 1.38;
+  }
+
+  .detail-price-block-compact {
+    padding: 10px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom-color: #dfe6f2;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .detail-price-block-compact .card-price-current {
+    font-size: 1.56rem;
+  }
+
+  .detail-cta {
+    margin-top: 16px;
+    gap: 12px;
+  }
+
+  .detail-cta-main .btn {
+    min-height: 46px;
+  }
+
+  .detail-cta .favorite-btn {
+    width: 46px;
+    min-height: 46px;
+  }
+
+  .detail-body {
+    margin-top: 28px;
+  }
+
+  .detail-description-box {
+    font-size: 0.96rem;
+  }
+
+  .detail-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
 }
 
 .detail-info-item {
@@ -1752,6 +1897,14 @@ textarea {
   .detail-info-item > span:last-child {
     min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  .detail-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-meta-wide {
+    grid-column: auto;
   }
 
   .detail-bottom-cta .btn {
