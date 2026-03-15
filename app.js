@@ -29,6 +29,16 @@ const DEMO_VIDEOS = Array.from({ length: 50 }, (_, i) => {
   };
 });
 
+const MANUAL_RELATED_VIDEO_MAP = {
+  v1: ["v2", "v9", "v14", "v18"],
+  v2: ["v1", "v10", "v12", "v21"],
+  v3: ["v8", "v11", "v16", "v24"],
+  v4: ["v6", "v7", "v13", "v19"]
+};
+
+const RECOMMENDED_VIDEO_IDS = ["v4", "v8", "v11", "v15", "v20", "v26"];
+const RECOMMENDED_CASTS = ["出演者A", "出演者C"];
+
 function parsePriceToNumber(priceText) {
   if (typeof priceText === "number") return priceText;
   return Number(String(priceText).replace(/[^\d]/g, "")) || 0;
@@ -212,10 +222,83 @@ function bindFavoriteActions(root, onChange) {
   });
 }
 
-function getRandomRelatedVideos(excludeId, count = 5) {
-  const pool = DEMO_VIDEOS.filter((v) => v.id !== excludeId);
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+function getRelatedVideosByPriority(video, count = 6) {
+  const selected = [];
+  const selectedIds = new Set([video.id]);
+
+  function pushByIds(ids, source) {
+    ids.forEach((id) => {
+      if (selected.length >= count || selectedIds.has(id)) return;
+      const item = DEMO_VIDEOS.find((v) => v.id === id);
+      if (!item) return;
+      selected.push({ ...item, relationSource: source });
+      selectedIds.add(item.id);
+    });
+  }
+
+  function pushByFilter(filter, source) {
+    DEMO_VIDEOS.forEach((item) => {
+      if (selected.length >= count || selectedIds.has(item.id)) return;
+      if (!filter(item)) return;
+      selected.push({ ...item, relationSource: source });
+      selectedIds.add(item.id);
+    });
+  }
+
+  pushByIds(MANUAL_RELATED_VIDEO_MAP[video.id] || [], "手動関連");
+  pushByFilter((item) => item.cast === video.cast, "同じ出演者");
+  pushByFilter((item) => item.genre === video.genre, "同じカテゴリ");
+
+  return selected.slice(0, count);
+}
+
+function getNextRecommendedVideos(video, count = 3) {
+  const picked = [];
+  const pickedIds = new Set([video.id]);
+
+  function push(videoList, source) {
+    videoList.forEach((item) => {
+      if (!item || picked.length >= count || pickedIds.has(item.id)) return;
+      picked.push({ ...item, relationSource: source });
+      pickedIds.add(item.id);
+    });
+  }
+
+  const manual = (MANUAL_RELATED_VIDEO_MAP[video.id] || [])
+    .map((id) => DEMO_VIDEOS.find((item) => item.id === id))
+    .filter(Boolean);
+  const recommended = RECOMMENDED_VIDEO_IDS
+    .map((id) => DEMO_VIDEOS.find((item) => item.id === id))
+    .filter(Boolean);
+  const sameCast = DEMO_VIDEOS.filter((item) => item.cast === video.cast && item.id !== video.id);
+
+  push(manual, "手動おすすめ");
+  push(recommended, "おすすめ設定");
+  push(sameCast, "同じ出演者");
+
+  return picked.slice(0, count);
+}
+
+function buildJourneyVideoCard(video) {
+  const hasNewTag = Array.isArray(video.tags) && video.tags.includes("新着");
+  const badges = [
+    isSaleVideo(video) ? buildSaleLink() : "",
+    hasNewTag ? `<span class="mini-badge">新着</span>` : ""
+  ].join("");
+  const badgeRow = badges ? `<div class="badge-row">${badges}</div>` : "";
+
+  return `
+    <article class="recommendation-card">
+      ${buildVideoThumb(video)}
+      <div class="recommendation-card-body">
+        <h3 class="recommendation-title">${video.title}</h3>
+        ${badgeRow}
+        <p class="recommendation-cast">出演者: ${buildCastLink(video.cast)}</p>
+        <p class="recommendation-price">${getCurrentPriceText(video)}（税込）</p>
+        <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
+      </div>
+    </article>
+  `;
 }
 
 function getState() {
@@ -744,23 +827,14 @@ function initProductDetailPage() {
   const isLoggedIn = Boolean(state.loggedIn);
   const isPurchased = isLoggedIn && state.purchases.includes(video.id);
   const favoriteSet = new Set(state.favorites || []);
-  const related = getRandomRelatedVideos(video.id, 5);
+  const related = getRelatedVideosByPriority(video, 4);
 
   root.innerHTML = `
     <article class="card section">
-      <h1 style="margin-top: 0;">${video.title}</h1>
       <div class="detail-top-grid">
         <div class="detail-media">
-          <h2 style="margin: 0 0 10px;">無料サンプル動画</h2>
           <div class="video-player">サンプル動画プレイヤー（ダミー）</div>
-        </div>
-        <aside class="detail-summary">
-          <div class="badge-row">
-            ${buildGenreLink(video.genre)}
-            ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
-            ${isSaleVideo(video) ? buildSaleLink() : ""}
-            ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
-          </div>
+          <h1 style="margin: 16px 0 4px;">${video.title}</h1>
           <div class="detail-price-block">
             <p class="helper" style="margin:0 0 6px;">価格</p>
             ${buildCardPriceBlock(video)}
@@ -768,6 +842,14 @@ function initProductDetailPage() {
           <div class="cta-group detail-cta">
             <div class="detail-cta-main">${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}</div>
             ${buildFavoriteButton(video.id, favoriteSet.has(video.id))}
+          </div>
+        </div>
+        <aside class="detail-summary">
+          <div class="badge-row">
+            ${buildGenreLink(video.genre)}
+            ${(video.tags || []).map((tag) => `<span class="mini-badge">${tag}</span>`).join("")}
+            ${isSaleVideo(video) ? buildSaleLink() : ""}
+            ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
           <p class="helper" style="margin-top: 8px;"><a href="product.html">商品一覧へ戻る</a></p>
           <h2 style="margin-top: 16px;">動画情報</h2>
@@ -794,20 +876,13 @@ function initProductDetailPage() {
       <div class="detail-bottom-cta">
         ${buildCardPrimaryAction(video.id, isLoggedIn, isPurchased)}
       </div>
+      <section class="recommendation-section">
+        <h2 style="margin-top: 0;">関連動画</h2>
+        <div class="recommendation-grid">
+          ${related.map((item) => buildJourneyVideoCard(item)).join("")}
+        </div>
+      </section>
     </article>
-    <section class="card section">
-      <h2>この動画を見た人はこちらも見ています</h2>
-      <div class="related-grid">
-        ${related.map((item) => `
-          <article class="related-card">
-            <div class="thumb-placeholder">サムネイル</div>
-            <h3 class="related-title">${item.title}</h3>
-            <p class="helper related-price">${isSaleVideo(item) ? `期間限定 ${getCurrentPriceText(item)}（税込）` : `${getCurrentPriceText(item)}（税込）`}</p>
-            <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(item.id)}">詳細を見る</a>
-          </article>
-        `).join("")}
-      </div>
-    </section>
   `;
 
   root.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
@@ -1243,10 +1318,25 @@ function initWatchPage() {
   }
 
   const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
+  const nextRecommendations = getNextRecommendedVideos(video, 3);
+  const relatedVideos = getRelatedVideosByPriority(video, 6);
   gate.innerHTML = `
     <div class='video-player'>動画プレイヤー（ダミー）</div>
     <h2 style='margin-top: 14px;'>${video.title}</h2>
-    <p class='lead' style='margin: 0;'>${video.description}</p>`;
+    <p class='lead' style='margin: 0;'>${video.description}</p>
+    <section class="recommendation-section">
+      <h2>次におすすめ</h2>
+      <div class="recommendation-grid recommendation-grid-next">
+        ${nextRecommendations.map((item) => buildJourneyVideoCard(item)).join("")}
+      </div>
+    </section>
+    <section class="recommendation-section">
+      <h2>関連動画</h2>
+      <div class="recommendation-grid">
+        ${relatedVideos.map((item) => buildJourneyVideoCard(item)).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function initContactPage() {

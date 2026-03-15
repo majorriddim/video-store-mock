@@ -96,6 +96,64 @@
             </article>
 
             <article class="card">
+              <div class="card-head"><h2 class="card-title">おすすめ・関連動画設定</h2></div>
+              <div class="card-body form-stack">
+                <div class="field">
+                  <span>おすすめ動画</span>
+                  <div class="toggle-row">
+                    <label class="toggle-main">
+                      <input id="isRecommendedVideo" type="checkbox" checked>
+                      おすすめ動画に設定する
+                    </label>
+                    <span class="toggle-pill">ONで視聴ページの「次におすすめ」へ優先表示</span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <span>関連動画（手動紐づけ）</span>
+                  <div class="related-manager">
+                    <div class="action-row">
+                      <input id="relatedVideoSearch" class="input" type="search" placeholder="動画タイトル / ID / 出演者で検索">
+                      <select id="relatedVideoSelect" class="select">
+                        <option value="">動画を選択してください</option>
+                      </select>
+                      <button id="addRelatedVideo" class="btn primary" type="button">追加</button>
+                    </div>
+                    <ul id="relatedVideoList" class="related-list">
+                      <li class="related-item" data-id="VID-1010">
+                        <div>
+                          <strong>VID-1010 テキストテキスト 10</strong>
+                          <span>出演者: 佐藤 梨花 / 価格: ¥5,980</span>
+                        </div>
+                        <div class="related-item-actions">
+                          <button class="btn link" type="button" data-action="move-up">上へ</button>
+                          <button class="btn link" type="button" data-action="move-down">下へ</button>
+                          <button class="btn link" type="button" data-action="remove">削除</button>
+                        </div>
+                      </li>
+                      <li class="related-item" data-id="VID-1018">
+                        <div>
+                          <strong>VID-1018 テキストテキスト 18</strong>
+                          <span>出演者: 鈴木 由奈 / 価格: ¥6,800</span>
+                        </div>
+                        <div class="related-item-actions">
+                          <button class="btn link" type="button" data-action="move-up">上へ</button>
+                          <button class="btn link" type="button" data-action="move-down">下へ</button>
+                          <button class="btn link" type="button" data-action="remove">削除</button>
+                        </div>
+                      </li>
+                    </ul>
+                    <p class="small-meta" id="relatedVideoOrder">表示順: VID-1010, VID-1018</p>
+                  </div>
+                </div>
+                <div class="note-box">
+                  自動関連ロジック（設計）: 1. 手動設定関連動画 2. 同じ出演者の動画 3. 同じカテゴリの動画 の順で補完表示（API/DB未接続のためモック）。
+                </div>
+
+              </div>
+            </article>
+
+            <article class="card">
               <div class="card-head"><h2 class="card-title">運用メモ</h2></div>
               <div class="card-body form-stack">
                 <label class="field">
@@ -113,5 +171,98 @@
       </div>
     </main>
   </div>
+  <script>
+    (() => {
+      const relatedVideoSearch = document.querySelector("#relatedVideoSearch");
+      const relatedVideoSelect = document.querySelector("#relatedVideoSelect");
+      const addRelatedVideo = document.querySelector("#addRelatedVideo");
+      const relatedVideoList = document.querySelector("#relatedVideoList");
+      const relatedVideoOrder = document.querySelector("#relatedVideoOrder");
+
+      if (!relatedVideoSearch || !relatedVideoSelect || !addRelatedVideo || !relatedVideoList || !relatedVideoOrder) return;
+
+      const sourceVideos = [
+        { id: "VID-1003", title: "テキストテキスト 03", cast: "佐藤 梨花", price: "¥5,480" },
+        { id: "VID-1007", title: "テキストテキスト 07", cast: "高橋 美咲", price: "¥5,980" },
+        { id: "VID-1012", title: "テキストテキスト 12", cast: "鈴木 由奈", price: "¥6,300" },
+        { id: "VID-1019", title: "テキストテキスト 19", cast: "佐藤 梨花", price: "¥6,800" }
+      ];
+
+      const getCurrentIds = () => Array.from(relatedVideoList.querySelectorAll(".related-item")).map((item) => item.dataset.id);
+      const renderOrder = () => {
+        const ids = getCurrentIds();
+        relatedVideoOrder.textContent = ids.length ? `表示順: ${ids.join(", ")}` : "表示順: 未設定";
+      };
+
+      const bindItemActions = (item) => {
+        item.querySelectorAll("[data-action]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const action = btn.getAttribute("data-action");
+            if (action === "remove") {
+              item.remove();
+              renderOrder();
+              return;
+            }
+            if (action === "move-up" && item.previousElementSibling) {
+              relatedVideoList.insertBefore(item, item.previousElementSibling);
+              renderOrder();
+              return;
+            }
+            if (action === "move-down" && item.nextElementSibling) {
+              relatedVideoList.insertBefore(item.nextElementSibling, item);
+              renderOrder();
+            }
+          });
+        });
+      };
+
+      const renderSelectOptions = () => {
+        const keyword = relatedVideoSearch.value.trim().toLowerCase();
+        const usedIds = new Set(getCurrentIds());
+        const candidates = sourceVideos.filter((video) => {
+          if (usedIds.has(video.id)) return false;
+          if (!keyword) return true;
+          return `${video.id} ${video.title} ${video.cast}`.toLowerCase().includes(keyword);
+        });
+
+        relatedVideoSelect.innerHTML = `<option value="">動画を選択してください</option>` +
+          candidates.map((video) => `<option value="${video.id}">${video.id} / ${video.title} / ${video.cast}</option>`).join("");
+      };
+
+      const createRelatedItem = (video) => {
+        const item = document.createElement("li");
+        item.className = "related-item";
+        item.dataset.id = video.id;
+        item.innerHTML = `
+          <div>
+            <strong>${video.id} ${video.title}</strong>
+            <span>出演者: ${video.cast} / 価格: ${video.price}</span>
+          </div>
+          <div class="related-item-actions">
+            <button class="btn link" type="button" data-action="move-up">上へ</button>
+            <button class="btn link" type="button" data-action="move-down">下へ</button>
+            <button class="btn link" type="button" data-action="remove">削除</button>
+          </div>
+        `;
+        bindItemActions(item);
+        return item;
+      };
+
+      relatedVideoList.querySelectorAll(".related-item").forEach(bindItemActions);
+      renderOrder();
+      renderSelectOptions();
+
+      relatedVideoSearch.addEventListener("input", renderSelectOptions);
+      addRelatedVideo.addEventListener("click", () => {
+        const selectedId = relatedVideoSelect.value;
+        if (!selectedId) return;
+        const video = sourceVideos.find((item) => item.id === selectedId);
+        if (!video) return;
+        relatedVideoList.appendChild(createRelatedItem(video));
+        renderOrder();
+        renderSelectOptions();
+      });
+    })();
+  </script>
 </body>
 </html>
