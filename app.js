@@ -1747,9 +1747,8 @@ function initWatchPage() {
   const relatedVideos = getRelatedVideosByPriority(video, 6);
   gate.innerHTML = `
     <div class='video-player'>動画プレイヤー（ダミー）</div>
-    <h2 style='margin-top: 14px;'>${video.title}</h2>
-    <p class='lead' style='margin: 0;'>${video.description}</p>
-    <section class="recommendation-section">
+    <h2 class="watch-video-title">${video.title}</h2>
+    <section class="recommendation-section watch-next-section">
       <h2>次におすすめ</h2>
       <div class="recommendation-grid recommendation-grid-next">
         ${nextRecommendations.map((item) => buildJourneyVideoCard(item)).join("")}

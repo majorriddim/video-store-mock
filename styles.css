@@ -1301,6 +1301,16 @@ h2 {
   margin-top: 22px;
 }
 
+.watch-video-title {
+  margin: 14px 0 0;
+}
+
+.watch-next-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
 .recommendation-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
