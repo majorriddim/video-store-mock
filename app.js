@@ -928,6 +928,14 @@ function initProductDetailPage() {
   const isPurchased = isLoggedIn && state.purchases.includes(video.id);
   const favoriteSet = new Set(state.favorites || []);
   const related = getRelatedVideosByPriority(video, 4);
+  const relatedIdSet = new Set(related.map((item) => item.id));
+  const favoriteVideos = DEMO_VIDEOS
+    .filter((item) => favoriteSet.has(item.id) && item.id !== video.id && !relatedIdSet.has(item.id))
+    .slice(0, 4);
+  const fallbackFavorites = DEMO_VIDEOS
+    .filter((item) => item.id !== video.id && !relatedIdSet.has(item.id))
+    .slice(0, 4);
+  const favoriteSectionVideos = favoriteVideos.length > 0 ? favoriteVideos : fallbackFavorites;
 
   root.innerHTML = `
     <article class="card section">
@@ -942,7 +950,6 @@ function initProductDetailPage() {
             ${isSaleVideo(video) ? buildSaleLink() : ""}
             ${isPurchased ? `<span class="mini-badge mini-badge-owned">購入済み</span>` : ""}
           </div>
-          <h2 class="detail-summary-heading">動画情報</h2>
           <h1 class="detail-summary-title">${video.title}</h1>
           <div class="detail-inline-meta">
             <div class="detail-info-item"><span class="meta-key">再生時間</span><span>${video.duration}</span></div>
@@ -988,6 +995,12 @@ function initProductDetailPage() {
         <h2 style="margin-top: 0;">関連動画</h2>
         <div class="recommendation-grid">
           ${related.map((item) => buildJourneyVideoCard(item)).join("")}
+        </div>
+      </section>
+      <section class="recommendation-section">
+        <h2 style="margin-top: 0;">お気に入り</h2>
+        <div class="recommendation-grid">
+          ${favoriteSectionVideos.map((item) => buildJourneyVideoCard(item)).join("")}
         </div>
       </section>
     </article>

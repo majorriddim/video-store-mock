@@ -1124,11 +1124,6 @@ h2 {
   gap: 7px;
 }
 
-.detail-summary-heading {
-  margin: 2px 0 2px;
-  font-size: 1.02rem;
-}
-
 .detail-cta {
   margin-top: 10px;
   max-width: 100%;
