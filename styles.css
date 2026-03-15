@@ -786,6 +786,21 @@ h2 {
   gap: 8px 16px;
 }
 
+.purchase-intro {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+  margin: 12px 0;
+}
+
+.purchase-summary-box {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fbfdff;
+  padding: 14px 16px;
+}
+
 .meta-key {
   color: var(--muted);
   font-weight: 600;

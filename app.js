@@ -1019,22 +1019,20 @@ function initPurchaseConfirmPage() {
 
   root.innerHTML = `
     <article class="card section" style="max-width: 760px; margin-inline: auto;">
-      <span class="badge">購入確認</span>
       <h1 style="margin-top: 12px;">購入内容の確認</h1>
-      <p class="lead">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
-      <div class="meta-grid purchase-meta-grid">
+      <p class="lead purchase-intro">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
+      <div class="meta-grid purchase-meta-grid purchase-summary-box">
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
         <div class="meta-key">出演者</div><div>${video.cast}</div>
         <div class="meta-key">再生時間</div><div>${video.duration}</div>
         <div class="meta-key">お支払い総額</div><div>${getCurrentPriceText(video)}（税込）</div>
-        <div class="meta-key">支払方法</div><div>PayPal</div>
+        <div class="meta-key">支払方法</div><div>PayPal / 銀行振り込み</div>
         <div class="meta-key">販売形式</div><div>本サービス上での視聴権の購入（追加課金なし）</div>
       </div>
       <h2 style="margin-top: 18px;">返品・キャンセルについて</h2>
       <div class="notice notice-warning">
-        本商品は、動画データ自体の売買ではなく、本サービス上でのストリーミング視聴権の提供です。<br>
-        デジタルコンテンツの性質上、法令上必要な場合を除き、購入確定後の返品・キャンセル・返金はできません。<br><br>
+        デジタルコンテンツの性質上、法令上必要な場合を除き、購入確定後の返品・キャンセル・返金はできません。<br>
         不具合時は、再配信、代替提供その他当社所定の方法で対応する場合があります。
       </div>
       <label id="agreeTermsLabel" style="margin-top: 18px; display:block; border-radius:8px; padding:2px 0;">
@@ -1042,7 +1040,7 @@ function initPurchaseConfirmPage() {
         利用規約、特定商取引法に基づく表記、および本商品がストリーミング視聴権であることに同意の上、購入します
       </label>
       <p class="helper">
-        <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> をご確認ください。
+        <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> は必ずご確認ください。
       </p>
       <div class="cta-group" id="purchaseActionsGroup" aria-describedby="purchaseConsentActionHint">
         <button class="btn btn-primary" id="confirmPurchase" type="button" aria-disabled="true">PayPalで購入する</button>
