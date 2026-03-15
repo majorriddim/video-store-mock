@@ -30,6 +30,16 @@ const HUMAN_VERIFICATION_PROVIDERS = {
 const LONG_DETAIL_TEXT = "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。";
 const GENRES = ["ジャンル名A", "ジャンル名B", "ジャンル名C", "ジャンル名D", "ジャンル名E"];
 const CASTS = ["出演者A", "出演者B", "出演者C", "出演者D", "出演者E", "出演者F", "出演者G", "出演者H"];
+const CAST_PROFILES = {
+  "出演者A": "ナチュラルな雰囲気と表情の変化が魅力。初めての方にも人気の出演者です。",
+  "出演者B": "落ち着いた空気感と大人っぽい演出が特徴。しっとり系の作品で支持されています。",
+  "出演者C": "テンポの良い展開と明るいキャラクターで、リピート視聴の多い出演者です。",
+  "出演者D": "丁寧な演技と安定感が強み。ストーリー重視の作品を中心に出演しています。",
+  "出演者E": "クールな世界観にマッチする表現力が魅力。新作の注目度が高い出演者です。",
+  "出演者F": "やわらかな雰囲気と親しみやすさで、幅広いジャンルに対応しています。",
+  "出演者G": "ドラマ性の高い構成で存在感を発揮。長尺作品でも評価の高い出演者です。",
+  "出演者H": "自然体の魅力と安定したパフォーマンスで、初見ユーザーにもおすすめです。"
+};
 
 function formatYen(value) {
   return `¥${Number(value).toLocaleString("ja-JP")}`;
@@ -891,12 +901,35 @@ function initCastListPage() {
   const root = document.querySelector("#castList");
   if (!root) return;
   const casts = Array.from(new Set(DEMO_VIDEOS.map((v) => v.cast)));
+  const getCastHue = (name) => {
+    let hash = 0;
+    for (let i = 0; i < name.length; i += 1) {
+      hash = ((hash << 5) - hash) + name.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash) % 360;
+  };
   root.innerHTML = casts.map((cast) => {
-    const count = DEMO_VIDEOS.filter((v) => v.cast === cast).length;
+    const castVideos = DEMO_VIDEOS.filter((v) => v.cast === cast);
+    const count = castVideos.length;
+    const profile = CAST_PROFILES[cast] || "テキストテキスト";
+    const thumbnailUrl = castVideos.find((v) => v.thumbnailUrl)?.thumbnailUrl || "";
+    const thumbHtml = thumbnailUrl
+      ? `<img class="directory-thumb-image" src="${thumbnailUrl}" alt="${cast}">`
+      : `
+        <div class="directory-thumb-placeholder" style="--thumb-h:${getCastHue(cast)}">
+          <span class="directory-thumb-initial">${cast.slice(-1)}</span>
+        </div>
+      `;
     return `
       <a class="directory-item" href="videos.html?cast=${encodeURIComponent(cast)}">
-        <h3>${cast}</h3>
-        <p>${count}本の動画</p>
+        <div class="directory-thumb">
+          ${thumbHtml}
+        </div>
+        <div class="directory-meta">
+          <h3>${cast}<span class="directory-count-inline">${count}本</span></h3>
+          <p class="directory-description">${profile}</p>
+        </div>
       </a>
     `;
   }).join("");
@@ -1033,7 +1066,7 @@ function initPurchaseConfirmPage() {
 
   root.innerHTML = `
     <article class="card section" style="max-width: 760px; margin-inline: auto;">
-      <h1 style="margin-top: 12px;">購入内容の確認</h1>
+      <span class="badge">購入確認</span>
       <p class="lead purchase-intro">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
       <div class="meta-grid purchase-meta-grid purchase-summary-box">
         <div class="meta-key">商品名</div><div>${video.title}</div>

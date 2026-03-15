@@ -46,7 +46,10 @@
           <div class="card-head"><h2 class="card-title">編集項目</h2></div>
           <div class="card-body form-stack">
             <label class="field"><span>出演者名</span><input class="input" type="text" value="佐藤 梨花"></label>
-            <label class="field"><span>紹介文</span><textarea class="input textarea" rows="8">テキストテキスト。出演者紹介文。</textarea></label>
+            <label class="field">
+              <span class="field-label-with-hint"><span>紹介文</span><span class="field-hint">最大: 120文字</span></span>
+              <textarea class="input textarea" rows="8" maxlength="120">テキストテキスト。出演者紹介文。</textarea>
+            </label>
             <label class="field">
               <span class="field-label-with-hint"><span>出演者画像（WordPressメディア）</span><span class="field-hint">推奨: 800x800（1:1）</span></span>
               <div class="action-row">
