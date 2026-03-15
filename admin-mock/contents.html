@@ -10,7 +10,7 @@
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 管理画面
+        管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
@@ -102,12 +102,74 @@
               <li><a href="./human-verification-settings.html"><strong>認証設定を開く</strong><span>ON / OFF・キー設定・対象選択</span></a></li>
             </ul>
           </article>
+
+          <article class="card content-card content-card-wide">
+            <h3>トップページ「紹介セクション」編集</h3>
+            <p class="small-meta">トップページの紹介エリア（見出し・本文・スライダー画像）を更新します。</p>
+            <div class="form-stack" style="margin-top: 12px;">
+              <label class="field"><span>セクション見出し（表示タイトル）</span><input class="input" type="text" value="このサイトについて"></label>
+              <label class="field"><span>本文</span><textarea class="input textarea" rows="6">テキストテキストテキストテキストテキストテキストテキストテキスト。</textarea></label>
+              <fieldset class="field">
+                <span class="field-label-with-hint"><span>スライド画像1</span><span class="field-hint">推奨: 1280x720（16:9）</span></span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/about-slide-01.jpg">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+                <input class="input" type="text" value="スマホ中心でも見比べやすく、購入導線がわかりやすい" aria-label="スライド画像1キャプション">
+              </fieldset>
+              <fieldset class="field">
+                <span class="field-label-with-hint"><span>スライド画像2</span><span class="field-hint">推奨: 1280x720（16:9）</span></span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/about-slide-02.jpg">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+                <input class="input" type="text" value="出演者・ジャンル・検索から迷わず探せるUIに改善" aria-label="スライド画像2キャプション">
+              </fieldset>
+              <fieldset class="field">
+                <span class="field-label-with-hint"><span>スライド画像3</span><span class="field-hint">推奨: 1280x720（16:9）</span></span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/about-slide-03.jpg">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+                <input class="input" type="text" value="購入前の判断情報を整理し、CVに直結する導線へ" aria-label="スライド画像3キャプション">
+              </fieldset>
+              <div class="action-row">
+                <button class="btn primary" type="button">この内容を更新する</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card content-card content-card-wide">
+            <h3>サイト基本設定</h3>
+            <p class="small-meta">サイト名・ヘッダーアイコン・ファビコンを編集します。</p>
+            <div class="form-stack" style="margin-top: 12px;">
+              <label class="field"><span>サイト名</span><input class="input" type="text" value="Video-Store"></label>
+              <fieldset class="field">
+                <span class="field-label-with-hint"><span>ヘッダーアイコン</span><span class="field-hint">推奨: 64x64（1:1）</span></span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/site-logo-square.png">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+              </fieldset>
+              <fieldset class="field">
+                <span class="field-label-with-hint"><span>ファビコン</span><span class="field-hint">推奨: 512x512（1:1）</span></span>
+                <div class="action-row">
+                  <input class="input" type="text" value="/wp-content/uploads/2026/03/favicon.png">
+                  <button class="btn" type="button">メディアから選択</button>
+                </div>
+              </fieldset>
+              <div class="action-row">
+                <button class="btn primary" type="button">サイト設定を更新する</button>
+              </div>
+            </div>
+          </article>
         </section>
       </div>
     </main>
   </div>
 </body>
 </html>
+
 
 
 

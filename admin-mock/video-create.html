@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>動画編集 | Video Store Admin Mock</title>
+  <title>新規動画追加 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        管理画面
-        <span>WordPress + WooCommerce</span>
-      </div>
+        管理画面      </div>
       <ul class="menu">
         <li><a href="./dashboard.html">ダッシュボード</a></li>
         <li><a class="active" href="./videos.html">動画管理</a></li>
@@ -31,12 +29,12 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">動画編集</h1>
-          <p class="page-subtitle">商品ID: VID-1032 / WordPress商品編集想定</p>
+          <h1 class="page-title">新規動画追加</h1>
+          <p class="page-subtitle">WordPress商品の新規登録を想定した入力フォーム</p>
         </div>
         <div class="action-row">
-          <a class="btn" href="./video-detail.html">詳細へ戻る</a>
-          <button class="btn primary">更新する</button>
+          <a class="btn" href="./videos.html">一覧へ戻る</a>
+          <button class="btn primary">新規作成する</button>
         </div>
       </header>
 
@@ -45,21 +43,22 @@
           <article class="card">
             <div class="card-head"><h2 class="card-title">動画情報編集</h2></div>
             <div class="card-body form-stack">
-              <label class="field"><span>タイトル</span><input class="input" type="text" value="テキストテキスト"></label>
-              <label class="field"><span>説明</span><textarea class="input textarea" rows="7">テキストテキスト。作品紹介文が入ります。会員向け販売動画として公開中です。</textarea></label>
-              <label class="field"><span>通常価格</span><input class="input" type="text" value="6800"></label>
-              <label class="field"><span>セール価格</span><input class="input" type="text" value="5980"></label>
+              <label class="field"><span>タイトル</span><input class="input" type="text" value=""></label>
+              <label class="field"><span>説明</span><textarea class="input textarea" rows="7"></textarea></label>
+              <label class="field"><span>通常価格</span><input class="input" type="text" value=""></label>
+              <label class="field"><span>セール価格</span><input class="input" type="text" value=""></label>
               <label class="field">
                 <span class="field-label-with-hint"><span>動画URL（配信用リンク）</span><span class="field-hint">推奨: 16:9 / 1920x1080 以上</span></span>
-                <input class="input" type="url" value="https://cdn.example.com/videos/vid-1032/master.m3u8">
+                <input class="input" type="url" value="">
               </label>
               <label class="field">
                 <span class="field-label-with-hint"><span>サンプル動画URL（商品詳細のプレビュー用）</span><span class="field-hint">推奨: 16:9 / 1280x720 以上</span></span>
-                <input class="input" type="url" value="https://cdn.example.com/videos/vid-1032/preview.m3u8">
+                <input class="input" type="url" value="">
               </label>
               <label class="field"><span>公開状態</span>
                 <select class="select">
-                  <option selected>公開中</option>
+                  <option selected>公開準備中</option>
+                  <option>公開中</option>
                   <option>公開予約</option>
                   <option>非公開</option>
                 </select>
@@ -67,7 +66,7 @@
               <label class="field">
                 <span class="field-label-with-hint"><span>サムネイル（WordPressメディア）</span><span class="field-hint">推奨: 1280x768（5:3）</span></span>
                 <div class="action-row">
-                  <input class="input" type="text" value="/wp-content/uploads/2026/03/vid-1032-thumb.jpg">
+                  <input class="input" type="text" value="">
                   <button class="btn" type="button">メディアから選択</button>
                 </div>
               </label>
@@ -88,19 +87,21 @@
               <div class="card-body form-stack">
                 <label class="field"><span>出演者</span>
                   <select class="select">
-                    <option selected>佐藤 梨花</option>
+                    <option selected>選択してください</option>
+                    <option>佐藤 梨花</option>
                     <option>鈴木 由奈</option>
                     <option>高橋 美咲</option>
                   </select>
                 </label>
                 <label class="field"><span>ジャンル</span>
                   <select class="select">
-                    <option selected>テキスト</option>
+                    <option selected>選択してください</option>
+                    <option>テキスト</option>
                     <option>テキスト2</option>
                     <option>テキスト3</option>
                   </select>
                 </label>
-                <label class="field"><span>販売開始日時</span><input class="input" type="datetime-local" value="2026-02-20T10:00"></label>
+                <label class="field"><span>販売開始日時</span><input class="input" type="datetime-local" value=""></label>
                 <label class="field"><span>販売終了日時（任意）</span><input class="input" type="datetime-local" value=""></label>
               </div>
             </article>
@@ -110,10 +111,10 @@
               <div class="card-body form-stack">
                 <label class="field">
                   <span>管理メモ</span>
-                  <textarea class="input textarea" rows="6">3月末までセール。公開中バナー差し替え済み。</textarea>
+                  <textarea class="input textarea" rows="6"></textarea>
                 </label>
                 <div class="action-row">
-                  <button class="btn primary">更新する</button>
+                  <button class="btn primary">新規作成する</button>
                   <a class="btn" href="./videos.html">一覧へ戻る</a>
                 </div>
               </div>
@@ -125,5 +126,8 @@
   </div>
 </body>
 </html>
+
+
+
 
 

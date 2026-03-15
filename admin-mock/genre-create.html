@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ジャンル編集 | Video Store Admin Mock</title>
+  <title>新規ジャンル追加 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        管理画面
-        <span>WordPress + WooCommerce</span>
-      </div>
+        管理画面      </div>
       <ul class="menu">
         <li><a href="./dashboard.html">ダッシュボード</a></li>
         <li><a href="./videos.html">動画管理</a></li>
@@ -31,12 +29,12 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">ジャンル編集</h1>
-          <p class="page-subtitle">ジャンルID: GEN-0001</p>
+          <h1 class="page-title">新規ジャンル追加</h1>
+          <p class="page-subtitle">ジャンル情報の新規作成フォーム</p>
         </div>
         <div class="action-row">
-          <a class="btn" href="./genre-detail.html">詳細へ戻る</a>
-          <button class="btn primary">更新する</button>
+          <a class="btn" href="./genres.html">一覧へ戻る</a>
+          <button class="btn primary">新規作成する</button>
         </div>
       </header>
 
@@ -44,18 +42,18 @@
         <section class="card">
           <div class="card-head"><h2 class="card-title">編集項目</h2></div>
           <div class="card-body form-stack">
-            <label class="field"><span>ジャンル名</span><input class="input" type="text" value="テキスト"></label>
-            <label class="field"><span>説明</span><textarea class="input textarea" rows="8">テキストテキスト</textarea></label>
-            <label class="field"><span>並び順</span><input class="input" type="number" value="1"></label>
+            <label class="field"><span>ジャンル名</span><input class="input" type="text" value=""></label>
+            <label class="field"><span>説明</span><textarea class="input textarea" rows="8"></textarea></label>
+            <label class="field"><span>並び順</span><input class="input" type="number" value=""></label>
             <label class="field"><span>公開状態</span>
               <select class="select">
-                <option selected>公開</option>
-                <option>公開準備中</option>
+                <option selected>公開準備中</option>
+                <option>公開</option>
                 <option>非公開</option>
               </select>
             </label>
             <div class="action-row">
-              <button class="btn primary">更新する</button>
+              <button class="btn primary">新規作成する</button>
               <a class="btn" href="./genres.html">一覧へ戻る</a>
             </div>
           </div>
@@ -65,5 +63,7 @@
   </div>
 </body>
 </html>
+
+
 
 
