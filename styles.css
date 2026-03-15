@@ -457,6 +457,43 @@ h1 {
   padding: 24px;
 }
 
+.search-entry-section {
+  background: #eef5ff;
+}
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.news-item + .news-item {
+  border-top: 1px solid var(--border);
+}
+
+.news-link {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  text-decoration: none;
+  color: var(--text);
+  padding: 11px 0;
+}
+
+.news-date {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.news-title {
+  font-size: 0.95rem;
+}
+
 .flow-guide {
   margin: 8px 0 16px;
   padding: 11px 12px;
@@ -1611,6 +1648,11 @@ textarea {
 
   .meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .news-link {
+    grid-template-columns: 1fr;
+    gap: 3px;
   }
 
   .purchase-meta-grid {

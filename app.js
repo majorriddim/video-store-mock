@@ -38,6 +38,13 @@ const MANUAL_RELATED_VIDEO_MAP = {
 
 const RECOMMENDED_VIDEO_IDS = ["v4", "v8", "v11", "v15", "v20", "v26"];
 const RECOMMENDED_CASTS = ["出演者A", "出演者C"];
+const DEMO_NEWS = [
+  { id: "NEWS-0005", title: "新作動画を3本追加しました", publishedAt: "2026-03-15", status: "公開" },
+  { id: "NEWS-0004", title: "出演者ページを公開しました", publishedAt: "2026-03-10", status: "公開" },
+  { id: "NEWS-0003", title: "動画視聴ページに関連動画導線を追加しました", publishedAt: "2026-03-05", status: "公開" },
+  { id: "NEWS-0002", title: "メンテナンスのお知らせ", publishedAt: "2026-03-03", status: "下書き" },
+  { id: "NEWS-0001", title: "Video-Storeを公開しました", publishedAt: "2026-03-01", status: "公開" }
+];
 
 function parsePriceToNumber(priceText) {
   if (typeof priceText === "number") return priceText;
@@ -1055,6 +1062,25 @@ function initPurchaseConfirmPage() {
   updatePurchaseButtons();
 }
 
+function initHomeNewsSection() {
+  const newsList = document.querySelector("#homeNewsList");
+  if (!newsList) return;
+
+  const publishedNews = DEMO_NEWS
+    .filter((item) => item.status === "公開")
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, 5);
+
+  newsList.innerHTML = publishedNews.map((item) => `
+    <li class="news-item">
+      <div class="news-link">
+        <time class="news-date" datetime="${item.publishedAt}">${item.publishedAt.replace(/-/g, ".")}</time>
+        <span class="news-title">${item.title}</span>
+      </div>
+    </li>
+  `).join("");
+}
+
 function initPaymentFailedPage() {
   const root = document.querySelector("#paymentFailed");
   if (!root) return;
@@ -1475,6 +1501,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHeaderNav();
   initMobileMenu();
   setStatusText();
+  initHomeNewsSection();
   bindCommonActions();
   setActiveNav();
   initProductPage();

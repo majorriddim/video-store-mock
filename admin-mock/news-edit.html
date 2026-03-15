@@ -1,0 +1,153 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEWS編集 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a class="active" href="./news.html">NEWS管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title" id="newsEditTitle">NEWS編集</h1>
+          <p class="page-subtitle" id="newsEditSubtitle">NEWS ID: NEW</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./news.html">一覧へ戻る</a>
+          <button id="saveNewsTop" class="btn primary" type="button">更新する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">編集項目</h2></div>
+          <div class="card-body form-stack">
+            <label class="field">
+              <span>タイトル</span>
+              <input id="newsTitle" class="input" type="text" value="">
+            </label>
+            <label class="field">
+              <span>本文</span>
+              <textarea id="newsBody" class="input textarea" rows="12"></textarea>
+            </label>
+            <label class="field">
+              <span>公開日</span>
+              <input id="newsPublishedAt" class="input" type="date" value="">
+            </label>
+            <label class="field">
+              <span>ステータス</span>
+              <select id="newsStatus" class="select">
+                <option value="公開">公開</option>
+                <option value="下書き">下書き</option>
+              </select>
+            </label>
+            <div class="action-row">
+              <button id="saveNews" class="btn primary" type="button">更新する</button>
+              <button id="deleteNews" class="btn" type="button">削除</button>
+              <a class="btn" href="./news.html">一覧へ戻る</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const demo = [
+        {
+          id: "NEWS-0005",
+          title: "新作動画を3本追加しました",
+          body: "今週の新作動画を3本公開しました。トップページのおすすめ導線からご確認ください。",
+          publishedAt: "2026-03-15",
+          status: "公開"
+        },
+        {
+          id: "NEWS-0004",
+          title: "出演者ページを公開しました",
+          body: "出演者一覧ページを公開し、各出演者から動画一覧へ遷移できるようになりました。",
+          publishedAt: "2026-03-10",
+          status: "公開"
+        },
+        {
+          id: "NEWS-0002",
+          title: "メンテナンスのお知らせ",
+          body: "システムメンテナンスを予定しています。完了後に公開設定へ切り替えてください。",
+          publishedAt: "2026-03-20",
+          status: "下書き"
+        }
+      ];
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+      const found = demo.find((item) => item.id === id);
+      const isNew = !found;
+
+      const title = document.querySelector("#newsTitle");
+      const body = document.querySelector("#newsBody");
+      const publishedAt = document.querySelector("#newsPublishedAt");
+      const status = document.querySelector("#newsStatus");
+      const saveButtons = [document.querySelector("#saveNews"), document.querySelector("#saveNewsTop")].filter(Boolean);
+      const deleteButton = document.querySelector("#deleteNews");
+      const pageTitle = document.querySelector("#newsEditTitle");
+      const subtitle = document.querySelector("#newsEditSubtitle");
+
+      if (!title || !body || !publishedAt || !status || !deleteButton || !pageTitle || !subtitle) return;
+
+      if (isNew) {
+        pageTitle.textContent = "NEWS新規作成";
+        subtitle.textContent = "NEWS ID: NEW";
+        title.value = "";
+        body.value = "";
+        publishedAt.value = "2026-03-15";
+        status.value = "公開";
+        deleteButton.style.display = "none";
+      } else {
+        pageTitle.textContent = "NEWS編集";
+        subtitle.textContent = `NEWS ID: ${found.id}`;
+        title.value = found.title;
+        body.value = found.body;
+        publishedAt.value = found.publishedAt;
+        status.value = found.status;
+      }
+
+      saveButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          window.alert("保存しました（モック）。");
+          window.location.href = "./news.html";
+        });
+      });
+
+      deleteButton.addEventListener("click", () => {
+        if (isNew) return;
+        const ok = window.confirm(`${found.id} を削除しますか？`);
+        if (!ok) return;
+        window.alert("削除しました（モック）。");
+        window.location.href = "./news.html";
+      });
+    })();
+  </script>
+</body>
+</html>
+

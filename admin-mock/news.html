@@ -1,0 +1,144 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEWS管理 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a class="active" href="./news.html">NEWS管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">NEWS管理</h1>
+          <p class="page-subtitle">お知らせ一覧（公開中のNEWSはトップページに表示）</p>
+        </div>
+        <div>
+          <a class="btn primary" href="./news-edit.html">+ 新規NEWSを追加</a>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="toolbar">
+          <div class="filters">
+            <input id="newsKeyword" class="input" type="text" value="" placeholder="タイトル検索" aria-label="タイトル検索">
+            <select id="newsStatus" class="select" aria-label="ステータス">
+              <option value="all">すべてのステータス</option>
+              <option value="公開">公開</option>
+              <option value="下書き">下書き</option>
+            </select>
+            <button id="newsFilter" class="btn" type="button">絞り込み</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title" id="newsCount">NEWS一覧</h2>
+            <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
+          </div>
+          <div class="card-body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>タイトル</th>
+                  <th>公開日</th>
+                  <th>ステータス</th>
+                  <th class="text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody id="newsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const data = [
+        { id: "NEWS-0005", title: "新作動画を3本追加しました", publishedAt: "2026-03-15", status: "公開" },
+        { id: "NEWS-0004", title: "出演者ページを公開しました", publishedAt: "2026-03-10", status: "公開" },
+        { id: "NEWS-0003", title: "動画視聴ページに関連動画導線を追加しました", publishedAt: "2026-03-05", status: "公開" },
+        { id: "NEWS-0002", title: "メンテナンスのお知らせ", publishedAt: "2026-03-20", status: "下書き" },
+        { id: "NEWS-0001", title: "Video-Storeを公開しました", publishedAt: "2026-03-01", status: "公開" }
+      ];
+
+      const tbody = document.querySelector("#newsTableBody");
+      const count = document.querySelector("#newsCount");
+      const keyword = document.querySelector("#newsKeyword");
+      const status = document.querySelector("#newsStatus");
+      const filterBtn = document.querySelector("#newsFilter");
+      if (!tbody || !count || !keyword || !status || !filterBtn) return;
+
+      const pillClass = (value) => value === "公開" ? "success" : "warning";
+
+      function renderRows() {
+        const query = keyword.value.trim().toLowerCase();
+        const selectedStatus = status.value;
+        const filtered = data
+          .filter((item) => {
+            if (selectedStatus !== "all" && item.status !== selectedStatus) return false;
+            if (!query) return true;
+            return `${item.id} ${item.title}`.toLowerCase().includes(query);
+          })
+          .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+        count.textContent = `NEWS一覧（${filtered.length}件）`;
+        tbody.innerHTML = filtered.map((item) => `
+          <tr data-id="${item.id}">
+            <td>${item.id}</td>
+            <td>
+              <p class="video-title"><a href="./news-edit.html?id=${encodeURIComponent(item.id)}">${item.title}</a></p>
+            </td>
+            <td>${item.publishedAt.replace(/-/g, "/")}</td>
+            <td><span class="pill ${pillClass(item.status)}">${item.status}</span></td>
+            <td class="text-right">
+              <a class="btn link" href="./news-edit.html?id=${encodeURIComponent(item.id)}">編集</a>
+              <button class="btn link" type="button" data-action="delete" data-id="${item.id}">削除</button>
+            </td>
+          </tr>
+        `).join("");
+
+        tbody.querySelectorAll("[data-action='delete']").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            if (!id) return;
+            const index = data.findIndex((item) => item.id === id);
+            if (index < 0) return;
+            const ok = window.confirm(`${id} を削除しますか？`);
+            if (!ok) return;
+            data.splice(index, 1);
+            renderRows();
+          });
+        });
+      }
+
+      filterBtn.addEventListener("click", renderRows);
+      renderRows();
+    })();
+  </script>
+</body>
+</html>
+
