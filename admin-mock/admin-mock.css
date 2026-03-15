@@ -231,6 +231,29 @@ th {
   white-space: nowrap;
 }
 
+.table-sort-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.table-sort-indicator {
+  font-size: 0.72rem;
+  color: #93a1b3;
+}
+
+.table-sort-btn.is-active .table-sort-indicator {
+  color: #1d4f8f;
+}
+
 tr:last-child td {
   border-bottom: 0;
 }
@@ -275,6 +298,12 @@ tr:last-child td {
   background: #f7fbff;
   border-radius: 9px;
   padding: 12px 14px;
+}
+
+.badge-box .card-body {
+  display: grid;
+  gap: 14px;
+  padding-top: 14px;
 }
 
 .alert-item-link {

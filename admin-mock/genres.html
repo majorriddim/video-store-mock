@@ -46,14 +46,14 @@
             <a class="card-actions" href="./videos.html">動画管理へ</a>
           </div>
           <div class="card-body table-wrap">
-            <table>
+            <table id="genresTable">
               <thead>
                 <tr>
-                  <th>ジャンル名</th>
-                  <th>説明</th>
-                  <th>紐づく動画数</th>
-                  <th>公開状態</th>
-                  <th>並び順</th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="name">ジャンル名<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="description">説明<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="videoCount">紐づく動画数<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="status">公開状態<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="order">並び順<span class="table-sort-indicator">↕</span></button></th>
                   <th class="text-right">操作</th>
                 </tr>
               </thead>
@@ -97,6 +97,68 @@
       </div>
     </main>
   </div>
+  <script>
+    (function () {
+      const table = document.getElementById("genresTable");
+      if (!table) return;
+      const tbody = table.querySelector("tbody");
+      const sortButtons = Array.from(table.querySelectorAll("[data-sort-key]"));
+      if (!tbody || sortButtons.length === 0) return;
+
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      rows.forEach((row, idx) => {
+        row.dataset.sortIndex = String(idx);
+      });
+
+      const state = { key: "", direction: "asc" };
+
+      const getSortValue = (row, key) => {
+        const c = row.cells;
+        switch (key) {
+          case "name": return c[0].textContent.trim();
+          case "description": return c[1].textContent.trim();
+          case "videoCount": return Number(c[2].textContent.trim());
+          case "status": return c[3].textContent.trim();
+          case "order": return Number(c[4].textContent.trim());
+          default: return "";
+        }
+      };
+
+      const updateIndicators = () => {
+        sortButtons.forEach((button) => {
+          const key = button.getAttribute("data-sort-key");
+          const indicator = button.querySelector(".table-sort-indicator");
+          const active = key === state.key;
+          button.classList.toggle("is-active", active);
+          if (indicator) indicator.textContent = active ? (state.direction === "asc" ? "↑" : "↓") : "↕";
+        });
+      };
+
+      const sortRows = () => {
+        const sorted = rows.slice().sort((a, b) => {
+          const av = getSortValue(a, state.key);
+          const bv = getSortValue(b, state.key);
+          let r = 0;
+          if (typeof av === "number" && typeof bv === "number") r = av - bv;
+          else r = String(av).localeCompare(String(bv), "ja");
+          if (r === 0) r = Number(a.dataset.sortIndex) - Number(b.dataset.sortIndex);
+          return state.direction === "asc" ? r : -r;
+        });
+        sorted.forEach((row) => tbody.appendChild(row));
+      };
+
+      sortButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.getAttribute("data-sort-key");
+          if (!key) return;
+          if (state.key === key) state.direction = state.direction === "asc" ? "desc" : "asc";
+          else { state.key = key; state.direction = "asc"; }
+          sortRows();
+          updateIndicators();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
 

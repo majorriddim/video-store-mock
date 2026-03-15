@@ -65,19 +65,19 @@
             <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
           </div>
           <div class="card-body table-wrap">
-            <table>
+            <table id="videosTable">
               <thead>
                 <tr>
                   <th>サムネイル</th>
-                  <th>タイトル / ID</th>
-                  <th>出演者</th>
-                  <th>ジャンル</th>
-                  <th>価格</th>
-                  <th>セール価格</th>
-                  <th>公開ステータス</th>
-                  <th>お気に入り数</th>
-                  <th>購入数</th>
-                  <th>更新日</th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="title">タイトル / ID<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="cast">出演者<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="genre">ジャンル<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="price">価格<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="sale">セール価格<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="status">公開ステータス<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="favorite">お気に入り数<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="purchase">購入数<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="updated">更新日<span class="table-sort-indicator">↕</span></button></th>
                   <th class="text-right">操作</th>
                 </tr>
               </thead>
@@ -169,6 +169,121 @@
       </div>
     </main>
   </div>
+  <script>
+    (function () {
+      const table = document.getElementById("videosTable");
+      if (!table) return;
+      const tbody = table.querySelector("tbody");
+      const sortButtons = Array.from(table.querySelectorAll("[data-sort-key]"));
+      if (!tbody || sortButtons.length === 0) return;
+
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      rows.forEach((row, idx) => {
+        row.dataset.sortIndex = String(idx);
+      });
+
+      const state = {
+        key: "",
+        direction: "asc"
+      };
+
+      const parseNumber = (value) => {
+        if (!value || value.trim() === "-" || value.trim() === "") return null;
+        const num = Number(value.replace(/[^\d.-]/g, ""));
+        return Number.isNaN(num) ? null : num;
+      };
+
+      const parseDate = (value) => {
+        if (!value) return null;
+        const parts = value.trim().split("/");
+        if (parts.length !== 3) return null;
+        const dt = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        return Number.isNaN(dt.getTime()) ? null : dt.getTime();
+      };
+
+      const getSortValue = (row, key) => {
+        const cells = row.cells;
+        switch (key) {
+          case "title": {
+            const title = cells[1].querySelector(".video-title")?.textContent?.trim() || "";
+            const code = cells[1].querySelector(".video-code")?.textContent?.trim() || "";
+            return `${title} ${code}`.trim();
+          }
+          case "cast":
+            return cells[2].textContent.trim();
+          case "genre":
+            return cells[3].textContent.trim();
+          case "price":
+            return parseNumber(cells[4].textContent);
+          case "sale":
+            return parseNumber(cells[5].textContent);
+          case "status":
+            return cells[6].textContent.trim();
+          case "favorite":
+            return parseNumber(cells[7].textContent);
+          case "purchase":
+            return parseNumber(cells[8].textContent);
+          case "updated":
+            return parseDate(cells[9].textContent);
+          default:
+            return "";
+        }
+      };
+
+      const updateSortIndicators = () => {
+        sortButtons.forEach((button) => {
+          const key = button.getAttribute("data-sort-key");
+          const indicator = button.querySelector(".table-sort-indicator");
+          const isActive = key === state.key;
+          button.classList.toggle("is-active", isActive);
+          if (indicator) {
+            indicator.textContent = isActive ? (state.direction === "asc" ? "↑" : "↓") : "↕";
+          }
+        });
+      };
+
+      const sortRows = () => {
+        const sorted = rows.slice().sort((a, b) => {
+          const av = getSortValue(a, state.key);
+          const bv = getSortValue(b, state.key);
+
+          const aNull = av === null || av === "";
+          const bNull = bv === null || bv === "";
+          if (aNull && bNull) return Number(a.dataset.sortIndex) - Number(b.dataset.sortIndex);
+          if (aNull) return 1;
+          if (bNull) return -1;
+
+          let result = 0;
+          if (typeof av === "number" && typeof bv === "number") {
+            result = av - bv;
+          } else {
+            result = String(av).localeCompare(String(bv), "ja");
+          }
+          if (result === 0) {
+            result = Number(a.dataset.sortIndex) - Number(b.dataset.sortIndex);
+          }
+          return state.direction === "asc" ? result : -result;
+        });
+
+        sorted.forEach((row) => tbody.appendChild(row));
+      };
+
+      sortButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.getAttribute("data-sort-key");
+          if (!key) return;
+          if (state.key === key) {
+            state.direction = state.direction === "asc" ? "desc" : "asc";
+          } else {
+            state.key = key;
+            state.direction = "asc";
+          }
+          sortRows();
+          updateSortIndicators();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
 
