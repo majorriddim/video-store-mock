@@ -3,62 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>繧ｸ繝｣繝ｳ繝ｫ隧ｳ邏ｰ | Video Store Admin Mock</title>
+  <title>ジャンル詳細 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 邂｡逅・判髱｢
+        Video Store 管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
-        <li><a href="./dashboard.html">繝繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./videos.html">蜍慕判邂｡逅・/a></li>
-        <li><a href="./members.html">莨壼藤邂｡逅・/a></li>
-        <li><a href="./orders.html">豕ｨ譁・ｮ｡逅・/a></li>
-        <li><a href="./inquiries.html">縺雁撫縺・粋繧上○邂｡逅・/a></li>
-        <li><a href="./casts.html">蜃ｺ貍碑・ｮ｡逅・/a></li>
-        <li><a class="active" href="./genres.html">繧ｸ繝｣繝ｳ繝ｫ邂｡逅・/a></li>
-        <li><a href="./contents.html">繧ｳ繝ｳ繝・Φ繝・ｮ｡逅・/a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a class="active" href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">繧ｸ繝｣繝ｳ繝ｫ隧ｳ邏ｰ</h1>
-          <p class="page-subtitle">繧ｸ繝｣繝ｳ繝ｫID: GEN-0001</p>
+          <h1 class="page-title">ジャンル詳細</h1>
+          <p class="page-subtitle">ジャンルID: GEN-0001</p>
         </div>
         <div class="action-row">
-          <a class="btn" href="./genres.html">荳隕ｧ縺ｸ謌ｻ繧・/a>
-          <a class="btn primary" href="./genre-edit.html">邱ｨ髮・☆繧・/a>
+          <a class="btn" href="./genres.html">一覧へ戻る</a>
+          <a class="btn primary" href="./genre-edit.html">編集する</a>
         </div>
       </header>
 
       <div class="content">
         <section class="dashboard-grid">
           <article class="card">
-            <div class="card-head"><h2 class="card-title">繧ｸ繝｣繝ｳ繝ｫ諠・ｱ</h2></div>
+            <div class="card-head"><h2 class="card-title">ジャンル情報</h2></div>
             <div class="card-body">
               <dl class="detail-list">
-                <div class="detail-row"><dt>繧ｸ繝｣繝ｳ繝ｫ蜷・/dt><dd>繝・く繧ｹ繝・/dd></div>
-                <div class="detail-row"><dt>蜈ｬ髢狗憾諷・/dt><dd><span class="pill success">蜈ｬ髢・/span></dd></div>
-                <div class="detail-row"><dt>荳ｦ縺ｳ鬆・/dt><dd>1</dd></div>
-                <div class="detail-row detail-row-block"><dt>隱ｬ譏・/dt><dd>繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/dd></div>
+                <div class="detail-row"><dt>ジャンル名</dt><dd>テキスト</dd></div>
+                <div class="detail-row"><dt>公開状態</dt><dd><span class="pill success">公開</span></dd></div>
+                <div class="detail-row"><dt>並び順</dt><dd>1</dd></div>
+                <div class="detail-row detail-row-block"><dt>説明</dt><dd>テキストテキスト</dd></div>
               </dl>
             </div>
           </article>
           <article class="card">
-            <div class="card-head"><h2 class="card-title">邏舌▼縺丞虚逕ｻ</h2></div>
+            <div class="card-head"><h2 class="card-title">紐づく動画</h2></div>
             <div class="card-body table-wrap">
               <table>
-                <thead><tr><th>蜍慕判</th><th>蜃ｺ貍碑・/th><th>萓｡譬ｼ</th><th>蜈ｬ髢狗憾諷・/th></tr></thead>
+                <thead><tr><th>動画</th><th>出演者</th><th>価格</th><th>公開状態</th></tr></thead>
                 <tbody>
-                  <tr><td><a href="./video-detail.html">繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/a></td><td><a href="./cast-detail.html">菴占陸 譴ｨ闃ｱ</a></td><td>ﾂ･6,800</td><td><span class="pill success">蜈ｬ髢倶ｸｭ</span></td></tr>
-                  <tr><td><a href="./video-detail.html">繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/a></td><td><a href="./cast-detail.html">驤ｴ譛ｨ 逕ｱ螂・/a></td><td>ﾂ･4,200</td><td><span class="pill success">蜈ｬ髢倶ｸｭ</span></td></tr>
+                  <tr><td><a href="./video-detail.html">テキストテキスト</a></td><td><a href="./cast-detail.html">佐藤 梨花</a></td><td>¥6,800</td><td><span class="pill success">公開中</span></td></tr>
+                  <tr><td><a href="./video-detail.html">テキストテキスト</a></td><td><a href="./cast-detail.html">鈴木 由奈</a></td><td>¥4,200</td><td><span class="pill success">公開中</span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -69,7 +71,4 @@
   </div>
 </body>
 </html>
-
-
-
 

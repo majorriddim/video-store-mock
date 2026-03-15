@@ -1,5 +1,32 @@
 ﻿const STORAGE_KEY = "videoStoreMockState";
+const HUMAN_VERIFICATION_SETTINGS_KEY = "videoStoreHumanVerificationSettings";
+const HUMAN_VERIFICATION_RATE_KEY = "videoStoreHumanVerificationRateLog";
 
+const HUMAN_VERIFICATION_DEFAULTS = {
+  enabled: true,
+  provider: "turnstile",
+  siteKey: "1x00000000000000000000AA",
+  secretKey: "mock-secret",
+  targets: {
+    register: true,
+    contact: true
+  }
+};
+
+const HUMAN_VERIFICATION_LIMITS = {
+  register: { limit: 5, windowMs: 10 * 60 * 1000 },
+  contact: { limit: 10, windowMs: 10 * 60 * 1000 }
+};
+
+const HUMAN_VERIFICATION_PROVIDERS = {
+  turnstile: {
+    verifyToken({ token }) {
+      if (!token) return { ok: false, reason: "missing-token" };
+      if (!String(token).startsWith("mock-ts-")) return { ok: false, reason: "invalid-token" };
+      return { ok: true };
+    }
+  }
+};
 const LONG_DETAIL_TEXT = "テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキスト。テキストテキスト、テキストテキストテキストテキストテキストテキスト。テキストテキストテキストテキスト、テキストテキスト。テキストテキストテキストテキスト、テキストテキストテキストテキストテキストテキスト。";
 const GENRES = ["ジャンル名A", "ジャンル名B", "ジャンル名C", "ジャンル名D", "ジャンル名E"];
 const CASTS = ["出演者A", "出演者B", "出演者C", "出演者D", "出演者E", "出演者F", "出演者G", "出演者H"];
@@ -38,6 +65,7 @@ const MANUAL_RELATED_VIDEO_MAP = {
 
 const RECOMMENDED_VIDEO_IDS = ["v4", "v8", "v11", "v15", "v20", "v26"];
 const RECOMMENDED_CASTS = ["出演者A", "出演者C"];
+const RANKED_VIDEO_IDS = ["v4", "v1", "v8", "v12", "v6"];
 const DEMO_NEWS = [
   { id: "NEWS-0005", title: "新作動画を3本追加しました", publishedAt: "2026-03-15", status: "公開" },
   { id: "NEWS-0004", title: "出演者ページを公開しました", publishedAt: "2026-03-10", status: "公開" },
@@ -141,6 +169,7 @@ function buildVideoCard(video, state, options = {}) {
   const isPurchased = isLoggedIn && ownedSet.has(video.id);
   const showFavorite = options.showFavorite !== false;
   const showPrice = options.showPrice !== false;
+  const rankBadgeHtml = options.rankBadgeHtml || "";
 
   const primaryAction = options.primaryActionHtml || buildCardPrimaryAction(video.id, isLoggedIn, isPurchased);
   const detailLink = options.detailLinkHtml || `<a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細・サンプルを見る</a>`;
@@ -154,6 +183,7 @@ function buildVideoCard(video, state, options = {}) {
 
   return `
     <article class="video-item">
+      ${rankBadgeHtml}
       <div class="video-thumb-col">
         ${buildVideoThumb(video)}
       </div>
@@ -546,8 +576,19 @@ function initProductPage() {
   }
 
   if (homeList) {
-    const featured = newest.slice(0, 6);
-    homeList.innerHTML = renderCards(featured);
+    const rankingVideos = RANKED_VIDEO_IDS
+      .map((id) => DEMO_VIDEOS.find((video) => video.id === id))
+      .filter(Boolean)
+      .slice(0, 5);
+
+    homeList.innerHTML = rankingVideos.map((video, index) => {
+      const rank = index + 1;
+      const rankTone = rank === 1 ? "is-gold" : rank === 2 ? "is-silver" : rank === 3 ? "is-bronze" : "";
+      return buildVideoCard(video, state, {
+        showFavorite: false,
+        rankBadgeHtml: `<span class="rank-badge ${rankTone}">#${rank}</span>`
+      });
+    }).join("");
     bindBuyActions(homeList);
   }
 
@@ -684,6 +725,9 @@ function initVideosPage() {
   const catalog = document.querySelector("#productCatalog");
   if (!catalog) return;
   const state = getState();
+  const pageSize = 10;
+  let currentPage = 1;
+  let currentItems = [];
 
   const keywordInput = document.querySelector("#searchKeyword");
   const genreSelect = document.querySelector("#filterGenre");
@@ -694,6 +738,9 @@ function initVideosPage() {
   const applyFiltersBtn = document.querySelector("#applyFiltersBtn");
   const resetFiltersBtn = document.querySelector("#resetFiltersBtn");
   const resultCount = document.querySelector("#resultCount");
+  const prevPageBtn = document.querySelector("#videosPrevPage");
+  const nextPageBtn = document.querySelector("#videosNextPage");
+  const pageInfo = document.querySelector("#videosPageInfo");
 
   function bindBuyActions() {
     document.querySelectorAll("[data-action='buy-now']").forEach((btn) => {
@@ -704,16 +751,45 @@ function initVideosPage() {
     });
   }
 
-  function renderCatalog(items) {
+  function renderCatalog(items, page) {
     if (items.length === 0) {
       catalog.innerHTML = "<div class='notice notice-warning'>条件に一致する動画はありません。検索条件を変更してください。</div>";
       if (resultCount) resultCount.textContent = `0 / ${DEMO_VIDEOS.length} 件`;
+      if (pageInfo) pageInfo.textContent = "0 / 0";
+      if (prevPageBtn) {
+        prevPageBtn.disabled = true;
+        prevPageBtn.style.display = "none";
+      }
+      if (nextPageBtn) {
+        nextPageBtn.disabled = true;
+        nextPageBtn.style.display = "none";
+      }
       return;
     }
 
-    catalog.innerHTML = items.map((video) => buildVideoCard(video, state, { showFavorite: false })).join("");
+    const totalPages = Math.ceil(items.length / pageSize);
+    const safePage = Math.min(Math.max(page, 1), totalPages);
+    const start = (safePage - 1) * pageSize;
+    const end = Math.min(start + pageSize, items.length);
+    const pagedItems = items.slice(start, end);
+    const prevCount = start > 0 ? Math.min(pageSize, start) : 0;
+    const nextCount = end < items.length ? Math.min(pageSize, items.length - end) : 0;
+    const hidePagerButtons = items.length <= pageSize;
+
+    catalog.innerHTML = pagedItems.map((video) => buildVideoCard(video, state, { showFavorite: false })).join("");
 
     if (resultCount) resultCount.textContent = `${items.length} / ${DEMO_VIDEOS.length} 件`;
+    if (pageInfo) pageInfo.textContent = `${safePage} / ${totalPages}`;
+    if (prevPageBtn) {
+      prevPageBtn.style.display = hidePagerButtons ? "none" : "";
+      prevPageBtn.textContent = safePage === 1 ? "前へ" : `前の${prevCount}件`;
+      prevPageBtn.disabled = safePage <= 1;
+    }
+    if (nextPageBtn) {
+      nextPageBtn.style.display = hidePagerButtons ? "none" : "";
+      nextPageBtn.textContent = safePage === 1 ? "次へ" : `次の${nextCount}件`;
+      nextPageBtn.disabled = safePage >= totalPages;
+    }
     bindBuyActions();
   }
 
@@ -756,7 +832,9 @@ function initVideosPage() {
       return Number(b.id.replace("v", "")) - Number(a.id.replace("v", ""));
     });
 
-    renderCatalog(filtered);
+    currentItems = filtered;
+    currentPage = 1;
+    renderCatalog(currentItems, currentPage);
   }
 
   const uniqueGenres = Array.from(new Set(DEMO_VIDEOS.map((v) => v.genre)));
@@ -787,6 +865,21 @@ function initVideosPage() {
     if (e.key === "Enter") {
       e.preventDefault();
       applyFilters();
+    }
+  });
+
+  prevPageBtn?.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage -= 1;
+      renderCatalog(currentItems, currentPage);
+    }
+  });
+
+  nextPageBtn?.addEventListener("click", () => {
+    const totalPages = Math.ceil(currentItems.length / pageSize);
+    if (currentPage < totalPages) {
+      currentPage += 1;
+      renderCatalog(currentItems, currentPage);
     }
   });
 
@@ -1081,6 +1174,24 @@ function initHomeNewsSection() {
   `).join("");
 }
 
+function initNewsArchivePage() {
+  const newsList = document.querySelector("#newsArchiveList");
+  if (!newsList) return;
+
+  const publishedNews = DEMO_NEWS
+    .filter((item) => item.status === "公開")
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+  newsList.innerHTML = publishedNews.map((item) => `
+    <li class="news-item">
+      <div class="news-link">
+        <time class="news-date" datetime="${item.publishedAt}">${item.publishedAt.replace(/-/g, ".")}</time>
+        <span class="news-title">${item.title}</span>
+      </div>
+    </li>
+  `).join("");
+}
+
 function initPaymentFailedPage() {
   const root = document.querySelector("#paymentFailed");
   if (!root) return;
@@ -1128,11 +1239,149 @@ function initLoginPage() {
   });
 }
 
+function getHumanVerificationSettings() {
+  try {
+    const raw = localStorage.getItem(HUMAN_VERIFICATION_SETTINGS_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(HUMAN_VERIFICATION_DEFAULTS));
+    const parsed = JSON.parse(raw);
+    return {
+      enabled: parsed.enabled !== false,
+      provider: typeof parsed.provider === "string" ? parsed.provider : "turnstile",
+      siteKey: typeof parsed.siteKey === "string" ? parsed.siteKey : HUMAN_VERIFICATION_DEFAULTS.siteKey,
+      secretKey: typeof parsed.secretKey === "string" ? parsed.secretKey : HUMAN_VERIFICATION_DEFAULTS.secretKey,
+      targets: {
+        register: parsed?.targets?.register !== false,
+        contact: parsed?.targets?.contact !== false
+      }
+    };
+  } catch {
+    return JSON.parse(JSON.stringify(HUMAN_VERIFICATION_DEFAULTS));
+  }
+}
+
+function isHumanVerificationRequired(target) {
+  const settings = getHumanVerificationSettings();
+  return Boolean(settings.enabled && settings.targets?.[target]);
+}
+
+function checkAndTrackHumanRateLimit(target, ip = "mock-ip") {
+  const rule = HUMAN_VERIFICATION_LIMITS[target];
+  if (!rule) return { ok: true };
+
+  const now = Date.now();
+  const from = now - rule.windowMs;
+  let store = {};
+  try {
+    store = JSON.parse(localStorage.getItem(HUMAN_VERIFICATION_RATE_KEY) || "{}");
+  } catch {
+    store = {};
+  }
+
+  const key = `${target}:${ip}`;
+  const recent = Array.isArray(store[key]) ? store[key].filter((ts) => Number(ts) >= from) : [];
+  if (recent.length >= rule.limit) {
+    store[key] = recent;
+    localStorage.setItem(HUMAN_VERIFICATION_RATE_KEY, JSON.stringify(store));
+    return { ok: false, reason: "rate-limit" };
+  }
+
+  recent.push(now);
+  store[key] = recent;
+  localStorage.setItem(HUMAN_VERIFICATION_RATE_KEY, JSON.stringify(store));
+  return { ok: true };
+}
+
+function verifyHumanChallenge(target, token, ip = "mock-ip") {
+  const settings = getHumanVerificationSettings();
+  if (!settings.enabled || !settings.targets?.[target]) return { ok: true };
+  const adapter = HUMAN_VERIFICATION_PROVIDERS[settings.provider] || HUMAN_VERIFICATION_PROVIDERS.turnstile;
+  return adapter.verifyToken({ target, token, ip, settings });
+}
+
+function setupHumanVerificationForm({ form, target, submitButtonSelector, forceSkip = false }) {
+  const submitButton = form.querySelector(submitButtonSelector);
+  const tokenInput = form.querySelector("input[name='cf-turnstile-response']");
+  const honeypotInput = form.querySelector("input[name='website']");
+  const verifyButton = form.querySelector("[data-turnstile-complete]");
+  const statusEl = form.querySelector("[data-turnstile-status]");
+  const isCheckbox = verifyButton?.matches("input[type='checkbox']");
+  const required = !forceSkip && isHumanVerificationRequired(target);
+
+  if (!required) {
+    if (submitButton) submitButton.disabled = false;
+    return {
+      validate() {
+        return { ok: true };
+      },
+      resetToken() {}
+    };
+  }
+
+  if (submitButton) submitButton.disabled = true;
+  if (statusEl) {
+    statusEl.textContent = "未認証";
+    statusEl.classList.remove("is-ok");
+  }
+
+  if (verifyButton && tokenInput) {
+    if (isCheckbox) {
+      verifyButton.addEventListener("change", () => {
+        const checked = Boolean(verifyButton.checked);
+        tokenInput.value = checked ? `mock-ts-${target}-${Date.now()}` : "";
+        if (submitButton) submitButton.disabled = !checked;
+        if (statusEl) {
+          statusEl.textContent = checked ? "認証済み" : "未認証";
+          statusEl.classList.toggle("is-ok", checked);
+        }
+      });
+    } else {
+      verifyButton.addEventListener("click", () => {
+        tokenInput.value = `mock-ts-${target}-${Date.now()}`;
+        if (submitButton) submitButton.disabled = false;
+        if (statusEl) {
+          statusEl.textContent = "認証済み";
+          statusEl.classList.add("is-ok");
+        }
+      });
+    }
+  }
+
+  return {
+    validate() {
+      if ((honeypotInput?.value || "").trim() !== "") {
+        return { ok: false, reason: "invalid-token" };
+      }
+      const rateResult = checkAndTrackHumanRateLimit(target, "mock-ip");
+      if (!rateResult.ok) {
+        return { ok: false, reason: "rate-limit" };
+      }
+      const verifyResult = verifyHumanChallenge(target, tokenInput?.value || "", "mock-ip");
+      if (!verifyResult.ok) {
+        return { ok: false, reason: "invalid-token" };
+      }
+      return { ok: true };
+    },
+    resetToken() {
+      if (tokenInput) tokenInput.value = "";
+      if (isCheckbox) verifyButton.checked = false;
+      if (submitButton) submitButton.disabled = true;
+      if (statusEl) {
+        statusEl.textContent = "未認証";
+        statusEl.classList.remove("is-ok");
+      }
+    }
+  };
+}
 function initRegisterPage() {
   const form = document.querySelector("#registerForm");
   if (!form) return;
 
   const message = document.querySelector("#registerMessage");
+  const humanVerification = setupHumanVerificationForm({
+    form,
+    target: "register",
+    submitButtonSelector: "#registerSubmit"
+  });
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -1156,8 +1405,19 @@ function initRegisterPage() {
       return;
     }
 
+    const humanResult = humanVerification.validate();
+    if (!humanResult.ok) {
+      if (message) {
+        message.textContent = humanResult.reason === "rate-limit"
+          ? "送信が多いため、しばらくしてから再試行してください"
+          : "認証に失敗しました。再度お試しください";
+      }
+      return;
+    }
+
     const state = getState();
     setState({ ...state, loggedIn: true, email });
+    humanVerification.resetToken();
 
     const url = new URL(window.location.href);
     const redirect = url.searchParams.get("redirect") || "product.html";
@@ -1173,7 +1433,7 @@ function initForgotPasswordPage() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (message) {
-      message.textContent = "再設定用メールを送信しました（モック）。メールをご確認ください。";
+      message.textContent = "再設定用メールを送信しました。メールをご確認ください。";
       message.className = "notice notice-info";
     }
   });
@@ -1282,6 +1542,10 @@ function initMyPage() {
         <span class="account-email-label">登録メールアドレス（ダミー）</span>
         <span class="account-email-value">${state.email || "demo@example.com"}</span>
       </div>
+      <div class="account-actions">
+        <a class="btn btn-ghost" href="change-email.html">メールアドレスを変更</a>
+        <a class="btn btn-ghost" href="change-password.html">パスワードを変更</a>
+      </div>
     `;
   }
 
@@ -1315,6 +1579,121 @@ function initMyPage() {
   }
 
   renderSections();
+}
+
+function initChangeEmailPage() {
+  const form = document.querySelector("#changeEmailForm");
+  if (!form) return;
+
+  const state = getState();
+  if (!state.loggedIn) {
+    window.location.href = "login.html?redirect=change-email.html";
+    return;
+  }
+
+  const currentEmail = document.querySelector("#currentEmail");
+  if (currentEmail) {
+    currentEmail.value = state.email || "demo@example.com";
+  }
+
+  const message = document.querySelector("#changeEmailMessage");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const password = document.querySelector("#changeEmailPassword")?.value || "";
+    const newEmail = (document.querySelector("#newEmail")?.value || "").trim();
+    const nowEmail = state.email || "demo@example.com";
+
+    if (!password) {
+      if (message) {
+        message.textContent = "確認のため現在のパスワードを入力してください。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    if (!newEmail) {
+      if (message) {
+        message.textContent = "新しいメールアドレスを入力してください。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    if (newEmail === nowEmail) {
+      if (message) {
+        message.textContent = "現在のメールアドレスと同じです。別のメールアドレスを入力してください。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    setState({ ...state, email: newEmail });
+    if (currentEmail) {
+      currentEmail.value = newEmail;
+    }
+    form.reset();
+    const newEmailInput = document.querySelector("#newEmail");
+    if (newEmailInput) {
+      newEmailInput.value = "";
+    }
+    const passwordInput = document.querySelector("#changeEmailPassword");
+    if (passwordInput) {
+      passwordInput.value = "";
+    }
+    if (message) {
+      message.textContent = "メールアドレスを変更しました。";
+      message.className = "notice notice-info";
+    }
+  });
+}
+
+function initChangePasswordPage() {
+  const form = document.querySelector("#changePasswordForm");
+  if (!form) return;
+
+  const state = getState();
+  if (!state.loggedIn) {
+    window.location.href = "login.html?redirect=change-password.html";
+    return;
+  }
+
+  const message = document.querySelector("#changePasswordMessage");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const currentPassword = document.querySelector("#currentPassword")?.value || "";
+    const newPassword = document.querySelector("#newPassword")?.value || "";
+    const confirmPassword = document.querySelector("#confirmNewPassword")?.value || "";
+
+    if (!currentPassword) {
+      if (message) {
+        message.textContent = "現在のパスワードを入力してください。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      if (message) {
+        message.textContent = "新しいパスワードは8文字以上で入力してください。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      if (message) {
+        message.textContent = "新しいパスワードと確認用パスワードが一致しません。";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    form.reset();
+    if (message) {
+      message.textContent = "パスワードを変更しました。";
+      message.className = "notice notice-info";
+    }
+  });
 }
 
 function initWatchPage() {
@@ -1372,6 +1751,7 @@ function initContactPage() {
   const state = getState();
   const url = new URL(window.location.href);
   const mode = url.searchParams.get("mode");
+  const isBankTransferMode = mode === "bank-transfer";
   const videoId = url.searchParams.get("video");
   const video = DEMO_VIDEOS.find((v) => v.id === videoId);
   const productUrlParam = url.searchParams.get("productUrl");
@@ -1379,7 +1759,7 @@ function initContactPage() {
     ? new URL(productUrlParam, window.location.href).href
     : (video ? new URL(`product-detail.html?video=${encodeURIComponent(video.id)}`, window.location.href).href : "");
 
-  if (mode === "bank-transfer" && video) {
+  if (isBankTransferMode && video) {
     const contactType = form.querySelector("#contactType");
     const contactName = form.querySelector("#contactName");
     const contactEmail = form.querySelector("#contactEmail");
@@ -1453,9 +1833,31 @@ function initContactPage() {
     });
   }
 
+  const humanVerification = setupHumanVerificationForm({
+    form,
+    target: "contact",
+    submitButtonSelector: "#contactSubmit",
+    forceSkip: isBankTransferMode
+  });
+  const humanVerificationBlock = form.querySelector("[data-human-verification='contact']");
+  if (isBankTransferMode && humanVerificationBlock) {
+    humanVerificationBlock.style.display = "none";
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (mode === "bank-transfer" && video) {
+    const humanResult = humanVerification.validate();
+    if (!humanResult.ok) {
+      if (message) {
+        message.textContent = humanResult.reason === "rate-limit"
+          ? "送信が多いため、しばらくしてから再試行してください"
+          : "認証に失敗しました。再度お試しください";
+        message.className = "notice notice-warning";
+      }
+      return;
+    }
+
+    if (isBankTransferMode && video) {
       const contactEmail = form.querySelector("#contactEmail");
       const transferNameInput = form.querySelector("#bankTransferName");
       const transferDateInput = form.querySelector("#bankTransferDate");
@@ -1470,6 +1872,7 @@ function initContactPage() {
       message.className = "notice notice-info";
     }
     form.reset();
+    humanVerification.resetToken();
   });
 }
 
@@ -1490,6 +1893,9 @@ function setActiveNav() {
   if (page === "forgot-password.html") {
     page = "login.html";
   }
+  if (page === "change-email.html" || page === "change-password.html") {
+    page = "mypage.html";
+  }
   document.querySelectorAll(".nav-link[data-page]").forEach((el) => {
     if (el.getAttribute("data-page") === page) {
       el.classList.add("is-active");
@@ -1502,6 +1908,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
   setStatusText();
   initHomeNewsSection();
+  initNewsArchivePage();
   bindCommonActions();
   setActiveNav();
   initProductPage();
@@ -1514,9 +1921,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initLoginPage();
   initRegisterPage();
   initForgotPasswordPage();
+  initChangeEmailPage();
+  initChangePasswordPage();
   initThanksPage();
   initMyPage();
   initWatchPage();
   initContactPage();
   initPaymentFailedPage();
 });
+
+

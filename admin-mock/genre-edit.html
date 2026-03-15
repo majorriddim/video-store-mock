@@ -3,58 +3,60 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>繧ｸ繝｣繝ｳ繝ｫ邱ｨ髮・| Video Store Admin Mock</title>
+  <title>ジャンル編集 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 邂｡逅・判髱｢
+        Video Store 管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
-        <li><a href="./dashboard.html">繝繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./videos.html">蜍慕判邂｡逅・/a></li>
-        <li><a href="./members.html">莨壼藤邂｡逅・/a></li>
-        <li><a href="./orders.html">豕ｨ譁・ｮ｡逅・/a></li>
-        <li><a href="./inquiries.html">縺雁撫縺・粋繧上○邂｡逅・/a></li>
-        <li><a href="./casts.html">蜃ｺ貍碑・ｮ｡逅・/a></li>
-        <li><a class="active" href="./genres.html">繧ｸ繝｣繝ｳ繝ｫ邂｡逅・/a></li>
-        <li><a href="./contents.html">繧ｳ繝ｳ繝・Φ繝・ｮ｡逅・/a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a class="active" href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">繧ｸ繝｣繝ｳ繝ｫ邱ｨ髮・/h1>
-          <p class="page-subtitle">繧ｸ繝｣繝ｳ繝ｫID: GEN-0001</p>
+          <h1 class="page-title">ジャンル編集</h1>
+          <p class="page-subtitle">ジャンルID: GEN-0001</p>
         </div>
         <div class="action-row">
-          <a class="btn" href="./genre-detail.html">隧ｳ邏ｰ縺ｸ謌ｻ繧・/a>
-          <button class="btn primary">譖ｴ譁ｰ縺吶ｋ</button>
+          <a class="btn" href="./genre-detail.html">詳細へ戻る</a>
+          <button class="btn primary">更新する</button>
         </div>
       </header>
 
       <div class="content">
         <section class="card">
-          <div class="card-head"><h2 class="card-title">邱ｨ髮・・岼</h2></div>
+          <div class="card-head"><h2 class="card-title">編集項目</h2></div>
           <div class="card-body form-stack">
-            <label class="field"><span>繧ｸ繝｣繝ｳ繝ｫ蜷・/span><input class="input" type="text" value="繝・く繧ｹ繝・></label>
-            <label class="field"><span>隱ｬ譏・/span><textarea class="input textarea" rows="8">繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/textarea></label>
-            <label class="field"><span>荳ｦ縺ｳ鬆・/span><input class="input" type="number" value="1"></label>
-            <label class="field"><span>蜈ｬ髢狗憾諷・/span>
+            <label class="field"><span>ジャンル名</span><input class="input" type="text" value="テキスト"></label>
+            <label class="field"><span>説明</span><textarea class="input textarea" rows="8">テキストテキスト</textarea></label>
+            <label class="field"><span>並び順</span><input class="input" type="number" value="1"></label>
+            <label class="field"><span>公開状態</span>
               <select class="select">
-                <option selected>蜈ｬ髢・/option>
-                <option>蜈ｬ髢区ｺ門ｙ荳ｭ</option>
-                <option>髱槫・髢・/option>
+                <option selected>公開</option>
+                <option>公開準備中</option>
+                <option>非公開</option>
               </select>
             </label>
             <div class="action-row">
-              <button class="btn primary">譖ｴ譁ｰ縺吶ｋ</button>
-              <a class="btn" href="./genres.html">荳隕ｧ縺ｸ謌ｻ繧・/a>
+              <button class="btn primary">更新する</button>
+              <a class="btn" href="./genres.html">一覧へ戻る</a>
             </div>
           </div>
         </section>
@@ -63,7 +65,4 @@
   </div>
 </body>
 </html>
-
-
-
 

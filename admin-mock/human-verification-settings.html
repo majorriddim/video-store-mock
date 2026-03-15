@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人間認証設定 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a class="active" href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">人間認証設定</h1>
+          <p class="page-subtitle">Cloudflare Turnstile を register / contact に適用する最小設定</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./contents.html">コンテンツ管理へ戻る</a>
+          <button id="saveHumanVerificationSettings" class="btn primary" type="button">保存する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">認証設定</h2></div>
+            <div class="card-body form-stack">
+              <label class="field">
+                <span>機能ON/OFF</span>
+                <select id="hvEnabled" class="select">
+                  <option value="on" selected>ON</option>
+                  <option value="off">OFF</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Site Key</span>
+                <input id="hvSiteKey" class="input" type="text" value="1x00000000000000000000AA">
+              </label>
+              <label class="field">
+                <span>Secret Key</span>
+                <input id="hvSecretKey" class="input" type="text" value="mock-secret">
+              </label>
+              <div class="field">
+                <span>適用対象</span>
+                <div class="check-row">
+                  <label><input id="hvTargetRegister" type="checkbox" checked> register（会員登録）</label>
+                  <label><input id="hvTargetContact" type="checkbox" checked> contact（お問い合わせ）</label>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">実装メモ（モック）</h2></div>
+            <div class="card-body">
+              <ul class="link-list">
+                <li>
+                  <a href="#">
+                    <strong>provider: turnstile</strong>
+                    <span>将来 hCaptcha / reCAPTCHA へ差し替え可能な前提で保持</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <strong>レート制限</strong>
+                    <span>register: 5 req / 10分, contact: 10 req / 10分（IP単位）</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <strong>サーバー検証必須</strong>
+                    <span>token未送信 / 検証失敗時は保存しない想定</span>
+                  </a>
+                </li>
+              </ul>
+              <p id="hvSavedMessage" class="small-meta" style="margin-top:10px;"></p>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const SETTINGS_KEY = "videoStoreHumanVerificationSettings";
+      const defaults = {
+        enabled: true,
+        provider: "turnstile",
+        siteKey: "1x00000000000000000000AA",
+        secretKey: "mock-secret",
+        targets: { register: true, contact: true }
+      };
+
+      function loadSettings() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+          if (!parsed) return defaults;
+          return {
+            enabled: parsed.enabled !== false,
+            provider: "turnstile",
+            siteKey: parsed.siteKey || defaults.siteKey,
+            secretKey: parsed.secretKey || defaults.secretKey,
+            targets: {
+              register: parsed?.targets?.register !== false,
+              contact: parsed?.targets?.contact !== false
+            }
+          };
+        } catch {
+          return defaults;
+        }
+      }
+
+      function bind() {
+        const settings = loadSettings();
+        const enabledEl = document.querySelector("#hvEnabled");
+        const siteKeyEl = document.querySelector("#hvSiteKey");
+        const secretKeyEl = document.querySelector("#hvSecretKey");
+        const targetRegisterEl = document.querySelector("#hvTargetRegister");
+        const targetContactEl = document.querySelector("#hvTargetContact");
+        const saveBtn = document.querySelector("#saveHumanVerificationSettings");
+        const messageEl = document.querySelector("#hvSavedMessage");
+        if (!enabledEl || !siteKeyEl || !secretKeyEl || !targetRegisterEl || !targetContactEl || !saveBtn) return;
+
+        enabledEl.value = settings.enabled ? "on" : "off";
+        siteKeyEl.value = settings.siteKey;
+        secretKeyEl.value = settings.secretKey;
+        targetRegisterEl.checked = settings.targets.register;
+        targetContactEl.checked = settings.targets.contact;
+
+        saveBtn.addEventListener("click", function () {
+          const next = {
+            enabled: enabledEl.value === "on",
+            provider: "turnstile",
+            siteKey: siteKeyEl.value.trim() || defaults.siteKey,
+            secretKey: secretKeyEl.value.trim() || defaults.secretKey,
+            targets: {
+              register: targetRegisterEl.checked,
+              contact: targetContactEl.checked
+            }
+          };
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+          if (messageEl) {
+            messageEl.textContent = "設定を保存しました。";
+          }
+        });
+      }
+
+      bind();
+    })();
+  </script>
+</body>
+</html>

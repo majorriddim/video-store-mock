@@ -3,141 +3,142 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>縺雁撫縺・粋繧上○邂｡逅・| Video Store Admin Mock</title>
+  <title>お問い合わせ管理 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 邂｡逅・判髱｢
+        Video Store 管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
-        <li><a href="./dashboard.html">繝繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./videos.html">蜍慕判邂｡逅・/a></li>
-        <li><a href="./members.html">莨壼藤邂｡逅・/a></li>
-        <li><a href="./orders.html">豕ｨ譁・ｮ｡逅・/a></li>
-        <li><a class="active" href="./inquiries.html">縺雁撫縺・粋繧上○邂｡逅・/a></li>
-        <li><a href="./casts.html">蜃ｺ貍碑・ｮ｡逅・/a></li>
-        <li><a href="./genres.html">繧ｸ繝｣繝ｳ繝ｫ邂｡逅・/a></li>
-        <li><a href="./contents.html">繧ｳ繝ｳ繝・Φ繝・ｮ｡逅・/a></li>
-        <li><a href="./analytics-dashboard.html">繧｢繧ｯ繧ｻ繧ｹ隗｣譫・/a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a class="active" href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">縺雁撫縺・粋繧上○邂｡逅・/h1>
-          <p class="page-subtitle">騾壼ｸｸ蝠上＞蜷医ｏ縺帙→驫陦梧険霎ｼ逕ｳ霎ｼ繧剃ｸ蜈・ｮ｡逅・/p>
+          <h1 class="page-title">お問い合わせ管理</h1>
+          <p class="page-subtitle">通常問い合わせと銀行振込申込を一元管理</p>
         </div>
-        <div class="admin-user">譛ｪ蟇ｾ蠢・7莉ｶ / 蟇ｾ蠢應ｸｭ 3莉ｶ / 蜈･驥大ｾ・■ 4莉ｶ</div>
+        <div class="admin-user">未対応 7件 / 対応中 3件 / 入金待ち 4件</div>
       </header>
 
       <div class="content">
         <section class="toolbar">
           <div class="filters">
-            <select class="select" aria-label="遞ｮ蛻･">
-              <option selected>縺吶∋縺ｦ縺ｮ遞ｮ蛻･</option>
-              <option>騾壼ｸｸ蝠上＞蜷医ｏ縺・/option>
-              <option>驫陦梧険霎ｼ逕ｳ霎ｼ</option>
+            <select class="select" aria-label="種別">
+              <option selected>すべての種別</option>
+              <option>通常問い合わせ</option>
+              <option>銀行振込申込</option>
             </select>
-            <select class="select" aria-label="繧ｹ繝・・繧ｿ繧ｹ">
-              <option selected>縺吶∋縺ｦ縺ｮ繧ｹ繝・・繧ｿ繧ｹ</option>
-              <option>譛ｪ蟇ｾ蠢・/option>
-              <option>蟇ｾ蠢應ｸｭ</option>
-              <option>蜈･驥大ｾ・■</option>
-              <option>螳御ｺ・/option>
+            <select class="select" aria-label="ステータス">
+              <option selected>すべてのステータス</option>
+              <option>未対応</option>
+              <option>対応中</option>
+              <option>入金待ち</option>
+              <option>完了</option>
             </select>
-            <input class="input" type="text" value="螻ｱ逕ｰ" aria-label="蜷榊燕讀懃ｴ｢">
-            <input class="input" type="text" value="example.jp" aria-label="繝｡繝ｼ繝ｫ繝ｻ蝠・刀讀懃ｴ｢">
-            <button class="btn">邨槭ｊ霎ｼ縺ｿ</button>
+            <input class="input" type="text" value="山田" aria-label="名前検索">
+            <input class="input" type="text" value="example.jp" aria-label="メール・商品検索">
+            <button class="btn">絞り込み</button>
           </div>
         </section>
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">縺雁撫縺・粋繧上○荳隕ｧ・・48莉ｶ・・/h2>
-            <a class="card-actions" href="./dashboard.html">繝繝・す繝･繝懊・繝峨∈謌ｻ繧・/a>
+            <h2 class="card-title">お問い合わせ一覧（248件）</h2>
+            <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
           </div>
           <div class="card-body table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>蜿嶺ｻ俶律譎・/th>
-                  <th>遞ｮ蛻･</th>
-                  <th>繧ｹ繝・・繧ｿ繧ｹ</th>
-                  <th>縺雁錐蜑・/th>
-                  <th>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ</th>
-                  <th>蝠・刀蜷・/th>
-                  <th>萓｡譬ｼ</th>
-                  <th>謖ｯ霎ｼ莠亥ｮ壼錐鄒ｩ</th>
-                  <th>蝠上＞蜷医ｏ縺帶ｦりｦ・/th>
-                  <th class="text-right">隧ｳ邏ｰ</th>
+                  <th>受付日時</th>
+                  <th>種別</th>
+                  <th>ステータス</th>
+                  <th>お名前</th>
+                  <th>メールアドレス</th>
+                  <th>商品名</th>
+                  <th>価格</th>
+                  <th>振込予定名義</th>
+                  <th>問い合わせ概要</th>
+                  <th class="text-right">詳細</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>2026/03/14 09:42</td>
-                  <td>騾壼ｸｸ蝠上＞蜷医ｏ縺・/td>
-                  <td><span class="pill danger">譛ｪ蟇ｾ蠢・/span></td>
-                  <td>螻ｱ逕ｰ 鄒守ｴ</td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill danger">未対応</span></td>
+                  <td>山田 美紀</td>
                   <td>yamada.miki@example.jp</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
-                  <td>莨壼藤逋ｻ骭ｲ繝｡繝ｼ繝ｫ縺悟ｱ翫°縺ｪ縺・/td>
-                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">隧ｳ邏ｰ</a></td>
+                  <td>会員登録メールが届かない</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/14 08:31</td>
-                  <td>驫陦梧険霎ｼ逕ｳ霎ｼ</td>
-                  <td><span class="pill warning">蜈･驥大ｾ・■</span></td>
-                  <td>荳ｭ譚・鄙ｼ</td>
+                  <td>銀行振込申込</td>
+                  <td><span class="pill warning">入金待ち</span></td>
+                  <td>中村 翼</td>
                   <td>nakamura.tsubasa@example.jp</td>
-                  <td>繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/td>
-                  <td>ﾂ･9,800</td>
-                  <td>繝翫き繝繝ｩ 繝・ヰ繧ｵ</td>
-                  <td>驫陦梧険霎ｼ縺ｧ雉ｼ蜈･蟶梧悍</td>
-                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">隧ｳ邏ｰ</a></td>
+                  <td>テキストテキスト</td>
+                  <td>¥9,800</td>
+                  <td>ナカムラ ツバサ</td>
+                  <td>銀行振込で購入希望</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/13 17:45</td>
-                  <td>騾壼ｸｸ蝠上＞蜷医ｏ縺・/td>
-                  <td><span class="pill info">蟇ｾ蠢應ｸｭ</span></td>
-                  <td>莨願陸 逕ｱ菴ｳ</td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill info">対応中</span></td>
+                  <td>伊藤 由佳</td>
                   <td>ito.yuka@example.jp</td>
-                  <td>繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/td>
-                  <td>ﾂ･6,800</td>
+                  <td>テキストテキスト</td>
+                  <td>¥6,800</td>
                   <td class="muted">-</td>
-                  <td>隕冶・繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧・/td>
-                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">隧ｳ邏ｰ</a></td>
+                  <td>視聴エラーが発生する</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/13 10:02</td>
-                  <td>驫陦梧険霎ｼ逕ｳ霎ｼ</td>
-                  <td><span class="pill success">螳御ｺ・/span></td>
-                  <td>髦ｿ驛ｨ 逵溽ｾ・/td>
+                  <td>銀行振込申込</td>
+                  <td><span class="pill success">完了</span></td>
+                  <td>阿部 真美</td>
                   <td>abe.mami@example.jp</td>
-                  <td>繝・く繧ｹ繝医ユ繧ｭ繧ｹ繝・/td>
-                  <td>ﾂ･4,200</td>
-                  <td>繧｢繝・繝槭Α</td>
-                  <td>蜈･驥醍｢ｺ隱榊ｮ御ｺ・・騾｣邨｡蟶梧悍</td>
-                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">隧ｳ邏ｰ</a></td>
+                  <td>テキストテキスト</td>
+                  <td>¥4,200</td>
+                  <td>アベ マミ</td>
+                  <td>入金確認完了の連絡希望</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/12 21:18</td>
-                  <td>騾壼ｸｸ蝠上＞蜷医ｏ縺・/td>
-                  <td><span class="pill danger">譛ｪ蟇ｾ蠢・/span></td>
-                  <td>菴占陸 螳溷･・/td>
+                  <td>通常問い合わせ</td>
+                  <td><span class="pill danger">未対応</span></td>
+                  <td>佐藤 実奈</td>
                   <td>sato.mina@example.jp</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
-                  <td>騾莨壽婿豕輔ｒ遏･繧翫◆縺・/td>
-                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">隧ｳ邏ｰ</a></td>
+                  <td>退会方法を知りたい</td>
+                  <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
               </tbody>
             </table>
@@ -148,7 +149,4 @@
   </div>
 </body>
 </html>
-
-
-
 

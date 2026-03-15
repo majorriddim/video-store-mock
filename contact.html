@@ -29,9 +29,11 @@
       <h1>お問い合わせ</h1>
       <p class="lead">購入前のご質問、視聴に関する不具合、請求に関するご相談を受け付けています。</p>
       <form id="contactForm">
+        <input type="hidden" name="cf-turnstile-response" value="">
+        <input class="hp-field" type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="form-row">
-          <label for="contactName">お名前</label>
-          <input id="contactName" type="text" value="テキストテキスト" required>
+          <label for="contactName">お名前（任意）</label>
+          <input id="contactName" type="text" value="">
         </div>
         <div class="form-row">
           <label for="contactEmail">メールアドレス</label>
@@ -50,7 +52,20 @@
           <label for="contactBody">お問い合わせ内容</label>
           <textarea id="contactBody" rows="6" required>テキストテキスト</textarea>
         </div>
-        <button class="btn btn-primary" type="submit">送信する</button>
+        <div class="human-verification" data-human-verification="contact">
+          <p class="human-verification-label">認証</p>
+          <div class="turnstile-widget" data-turnstile-widget>
+            <label class="turnstile-check">
+              <input type="checkbox" data-turnstile-complete>
+              <span>認証チェック</span>
+            </label>
+            <div class="turnstile-brand">
+              <strong>Turnstile</strong>
+              <span>Privacy - Terms</span>
+            </div>
+          </div>
+        </div>
+        <button id="contactSubmit" class="btn btn-primary" type="submit">送信する</button>
       </form>
       <div id="contactMessage" style="margin-top: 12px;"></div>
     </section>
@@ -71,6 +86,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 

@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ランキング編集 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a class="active" href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">ランキング編集</h1>
+          <p class="page-subtitle" id="rankingEditId">対象動画: -</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./rankings.html">ランキング一覧へ戻る</a>
+          <button id="saveRankingEditTop" class="btn primary" type="button">保存する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">編集項目</h2></div>
+          <div class="card-body form-stack">
+            <label class="field">
+              <span>ランキング順位</span>
+              <input id="rankingPosition" class="input" type="number" min="1" max="10" value="1">
+            </label>
+            <label class="field">
+              <span>動画タイトル</span>
+              <input id="rankingVideoTitle" class="input" type="text" value="" readonly>
+            </label>
+            <label class="field">
+              <span>出演者</span>
+              <input id="rankingVideoCast" class="input" type="text" value="" readonly>
+            </label>
+            <label class="field">
+              <span>公開状態</span>
+              <input id="rankingVideoStatus" class="input" type="text" value="" readonly>
+            </label>
+            <div class="action-row">
+              <button id="saveRankingEdit" class="btn primary" type="button">保存する</button>
+              <a class="btn" href="./rankings.html">一覧へ戻る</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const rankingMap = {
+        "VID-1032": { position: 1, title: "テキストテキスト", cast: "佐藤 梨花", status: "公開中" },
+        "VID-1014": { position: 2, title: "テキストテキスト", cast: "鈴木 由奈", status: "公開中" },
+        "VID-1044": { position: 3, title: "テキストテキスト", cast: "高橋 美咲", status: "公開予約" },
+        "VID-0988": { position: 4, title: "テキストテキスト", cast: "高橋 美咲", status: "公開予約" },
+        "VID-1022": { position: 5, title: "テキストテキスト", cast: "中村 彩", status: "公開中" }
+      };
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id") || "VID-1032";
+      const item = rankingMap[id] || { position: 10, title: "未登録動画", cast: "-", status: "下書き" };
+
+      const idLabel = document.querySelector("#rankingEditId");
+      const position = document.querySelector("#rankingPosition");
+      const title = document.querySelector("#rankingVideoTitle");
+      const cast = document.querySelector("#rankingVideoCast");
+      const status = document.querySelector("#rankingVideoStatus");
+      const saveButtons = [document.querySelector("#saveRankingEditTop"), document.querySelector("#saveRankingEdit")].filter(Boolean);
+
+      if (!idLabel || !position || !title || !cast || !status) return;
+
+      idLabel.textContent = `対象動画: ${id}`;
+      position.value = String(item.position);
+      title.value = item.title;
+      cast.value = item.cast;
+      status.value = item.status;
+
+      saveButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          window.alert("ランキングを更新しました（モック）。");
+          window.location.href = "./rankings.html";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
+

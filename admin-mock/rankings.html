@@ -1,0 +1,239 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ランキング管理 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        Video Store 管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a class="active" href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">ランキング管理</h1>
+          <p class="page-subtitle">トップページ表示順を手動管理（最大10件）</p>
+        </div>
+        <div class="action-row">
+          <button id="saveRankingTop" class="btn primary" type="button">並び順を保存</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="card" style="margin-bottom:12px;">
+          <div class="card-head"><h2 class="card-title">ランキング登録</h2></div>
+          <div class="card-body form-stack">
+            <div class="action-row">
+              <input id="rankingVideoSearch" class="input" type="search" placeholder="動画タイトル / ID / 出演者で検索" aria-label="動画検索">
+              <select id="rankingVideoSelect" class="select" aria-label="動画選択">
+                <option value="">動画を選択してください</option>
+              </select>
+              <button id="addRankingVideo" class="btn primary" type="button">ランキングに追加</button>
+            </div>
+            <p class="small-meta" id="rankingCount">登録件数: 0 / 10</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">ランキング一覧</h2>
+            <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
+          </div>
+          <div class="card-body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>順位</th>
+                  <th>動画タイトル</th>
+                  <th>出演者</th>
+                  <th>公開状態</th>
+                  <th class="text-right">編集</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody"></tbody>
+            </table>
+            <div class="action-row" style="margin-top:12px;">
+              <button id="saveRankingBottom" class="btn primary" type="button">並び順を保存</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const MAX_RANKING_ITEMS = 10;
+      const videos = [
+        { id: "VID-1032", title: "テキストテキスト", cast: "佐藤 梨花", status: "公開中" },
+        { id: "VID-1014", title: "テキストテキスト", cast: "鈴木 由奈", status: "公開中" },
+        { id: "VID-1044", title: "テキストテキスト", cast: "高橋 美咲", status: "公開予約" },
+        { id: "VID-0988", title: "テキストテキスト", cast: "高橋 美咲", status: "公開予約" },
+        { id: "VID-0933", title: "テキストテキスト", cast: "中村 彩", status: "非公開" },
+        { id: "VID-1022", title: "テキストテキスト", cast: "中村 彩", status: "公開中" },
+        { id: "VID-1029", title: "テキストテキスト", cast: "菊池 真由", status: "公開中" },
+        { id: "VID-1061", title: "テキストテキスト", cast: "内田 玲奈", status: "下書き" }
+      ];
+
+      const ranking = ["VID-1032", "VID-1014", "VID-1044", "VID-0988", "VID-1022"];
+
+      const tableBody = document.querySelector("#rankingTableBody");
+      const searchInput = document.querySelector("#rankingVideoSearch");
+      const videoSelect = document.querySelector("#rankingVideoSelect");
+      const addButton = document.querySelector("#addRankingVideo");
+      const countText = document.querySelector("#rankingCount");
+      const saveButtons = [document.querySelector("#saveRankingTop"), document.querySelector("#saveRankingBottom")].filter(Boolean);
+      if (!tableBody || !searchInput || !videoSelect || !addButton || !countText) return;
+
+      const statusClass = (status) => {
+        if (status === "公開中") return "success";
+        if (status === "非公開" || status === "下書き") return "danger";
+        return "warning";
+      };
+
+      const getRankingItems = () => ranking.map((id) => videos.find((video) => video.id === id)).filter(Boolean);
+
+      const renderCount = () => {
+        countText.textContent = `登録件数: ${ranking.length} / ${MAX_RANKING_ITEMS}`;
+        addButton.disabled = ranking.length >= MAX_RANKING_ITEMS;
+      };
+
+      const renderSelectOptions = () => {
+        const keyword = searchInput.value.trim().toLowerCase();
+        const selectedSet = new Set(ranking);
+        const candidates = videos.filter((video) => {
+          if (selectedSet.has(video.id)) return false;
+          if (!keyword) return true;
+          return `${video.id} ${video.title} ${video.cast}`.toLowerCase().includes(keyword);
+        });
+
+        videoSelect.innerHTML = `<option value="">動画を選択してください</option>` +
+          candidates.map((video) => `<option value="${video.id}">${video.id} / ${video.title} / ${video.cast}</option>`).join("");
+      };
+
+      const moveItem = (fromIndex, toIndex) => {
+        if (toIndex < 0 || toIndex >= ranking.length) return;
+        const moved = ranking.splice(fromIndex, 1)[0];
+        ranking.splice(toIndex, 0, moved);
+        renderTable();
+      };
+
+      const updateRankAt = (fromIndex, nextRank) => {
+        if (!Number.isInteger(nextRank) || nextRank < 1 || nextRank > ranking.length) return;
+        const toIndex = nextRank - 1;
+        if (toIndex === fromIndex) return;
+        moveItem(fromIndex, toIndex);
+      };
+
+      const renderTable = () => {
+        const items = getRankingItems();
+        tableBody.innerHTML = items.map((item, index) => {
+          const rank = index + 1;
+          return `
+            <tr data-id="${item.id}">
+              <td>
+                <div class="action-row" style="align-items:center; gap:6px;">
+                  <input class="input" type="number" min="1" max="${items.length}" value="${rank}" data-action="set-rank" data-index="${index}" style="width:72px; min-width:72px;">
+                  <button class="btn link" type="button" data-action="up" data-index="${index}">↑</button>
+                  <button class="btn link" type="button" data-action="down" data-index="${index}">↓</button>
+                </div>
+              </td>
+              <td>
+                <p class="video-title">${item.title}</p>
+                <p class="video-code">${item.id}</p>
+              </td>
+              <td>${item.cast}</td>
+              <td><span class="pill ${statusClass(item.status)}">${item.status}</span></td>
+              <td class="text-right">
+                <a class="btn link" href="./ranking-edit.html?id=${encodeURIComponent(item.id)}">編集</a>
+                <button class="btn link" type="button" data-action="remove" data-id="${item.id}">削除</button>
+              </td>
+            </tr>
+          `;
+        }).join("");
+
+        tableBody.querySelectorAll("[data-action='up']").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const index = Number(btn.getAttribute("data-index"));
+            moveItem(index, index - 1);
+          });
+        });
+
+        tableBody.querySelectorAll("[data-action='down']").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const index = Number(btn.getAttribute("data-index"));
+            moveItem(index, index + 1);
+          });
+        });
+
+        tableBody.querySelectorAll("[data-action='set-rank']").forEach((input) => {
+          input.addEventListener("change", () => {
+            const fromIndex = Number(input.getAttribute("data-index"));
+            const nextRank = Number(input.value);
+            updateRankAt(fromIndex, nextRank);
+          });
+        });
+
+        tableBody.querySelectorAll("[data-action='remove']").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            if (!id) return;
+            const index = ranking.indexOf(id);
+            if (index < 0) return;
+            ranking.splice(index, 1);
+            renderTable();
+          });
+        });
+
+        renderCount();
+        renderSelectOptions();
+      };
+
+      addButton.addEventListener("click", () => {
+        if (ranking.length >= MAX_RANKING_ITEMS) {
+          window.alert("ランキングは最大10件までです。");
+          return;
+        }
+        const selectedId = videoSelect.value;
+        if (!selectedId) return;
+        if (ranking.includes(selectedId)) return;
+        ranking.push(selectedId);
+        renderTable();
+      });
+
+      searchInput.addEventListener("input", renderSelectOptions);
+      saveButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          window.alert("ランキング順を保存しました（モック）。");
+        });
+      });
+
+      renderTable();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+

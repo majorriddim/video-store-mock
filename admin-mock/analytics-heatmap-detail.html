@@ -3,66 +3,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>繝偵・繝医・繝・・隧ｳ邏ｰ | Video Store Admin Mock</title>
+  <title>ヒートマップ詳細 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 邂｡逅・判髱｢
+        Video Store 管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
-        <li><a href="./dashboard.html">繝繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./videos.html">蜍慕判邂｡逅・/a></li>
-        <li><a href="./members.html">莨壼藤邂｡逅・/a></li>
-        <li><a href="./orders.html">豕ｨ譁・ｮ｡逅・/a></li>
-        <li><a href="./inquiries.html">縺雁撫縺・粋繧上○邂｡逅・/a></li>
-        <li><a href="./casts.html">蜃ｺ貍碑・ｮ｡逅・/a></li>
-        <li><a href="./genres.html">繧ｸ繝｣繝ｳ繝ｫ邂｡逅・/a></li>
-        <li><a href="./contents.html">繧ｳ繝ｳ繝・Φ繝・ｮ｡逅・/a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a class="active" href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
-      <p class="analytics-menu-title">繧｢繧ｯ繧ｻ繧ｹ隗｣譫・/p>
+      <p class="analytics-menu-title">アクセス解析</p>
       <ul class="menu">
-        <li><a href="./analytics-dashboard.html">隗｣譫舌ム繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./analytics-pages.html">繝壹・繧ｸ蛻・梵</a></li>
-        <li><a href="./analytics-search.html">讀懃ｴ｢蛻・梵</a></li>
-        <li><a href="./analytics-sources.html">豬∝・蜈・・譫・/a></li>
-        <li><a href="./analytics-flow.html">驕ｷ遘ｻ蛻・梵</a></li>
-        <li><a href="./analytics-funnel.html">繝輔ぃ繝阪Ν蛻・梵</a></li>
-        <li><a href="./analytics-conversion-paths.html">繧ｳ繝ｳ繝舌・繧ｸ繝ｧ繝ｳ蟆守ｷ・/a></li>
-        <li><a class="active" href="./analytics-heatmaps.html">繝偵・繝医・繝・・</a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a class="active" href="./analytics-heatmaps.html">ヒートマップ</a></li>
       </ul>
     </aside>
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">繝偵・繝医・繝・・隧ｳ邏ｰ</h1>
-          <p class="page-subtitle">蟇ｾ雎｡繝壹・繧ｸ: 莨壼藤逋ｻ骭ｲ /register</p>
+          <h1 class="page-title">ヒートマップ詳細</h1>
+          <p class="page-subtitle">対象ページ: 会員登録 /register</p>
         </div>
         <div class="filters">
-          <select class="select"><option selected>PC</option><option>繧ｹ繝槭・</option></select>
-          <select class="select"><option selected>蜈ｨ菴・/option><option>CV縺励◆繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ縺ｿ</option><option>豬∝・蜈・ 蠎・相</option></select>
+          <select class="select"><option selected>PC</option><option>スマホ</option></select>
+          <select class="select"><option selected>全体</option><option>CVしたユーザーのみ</option><option>流入元: 広告</option></select>
           <input class="input" type="date" value="2026-03-08">
           <input class="input" type="date" value="2026-03-15">
-          <button class="btn">譖ｴ譁ｰ</button>
+          <button class="btn">更新</button>
         </div>
       </header>
       <div class="content">
         <section class="heatmap-layout">
           <article class="card">
             <div class="card-head">
-              <h2 class="card-title">繝壹・繧ｸ繝励Ξ繝薙Η繝ｼ・医け繝ｪ繝・け繧ｪ繝ｼ繝舌・繝ｬ繧､・・/h2>
-              <a class="card-actions" href="./analytics-heatmaps.html">荳隕ｧ縺ｸ謌ｻ繧・/a>
+              <h2 class="card-title">ページプレビュー（クリックオーバーレイ）</h2>
+              <a class="card-actions" href="./analytics-heatmaps.html">一覧へ戻る</a>
             </div>
             <div class="card-body">
               <div class="tabs">
-                <a class="tab-chip active" href="#">繧ｯ繝ｪ繝・け蛻・ｸ・/a>
-                <a class="tab-chip" href="#">繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ邇・/a>
-                <a class="tab-chip" href="#">CTA菴咲ｽｮ</a>
+                <a class="tab-chip active" href="#">クリック分布</a>
+                <a class="tab-chip" href="#">スクロール率</a>
+                <a class="tab-chip" href="#">CTA位置</a>
               </div>
               <div class="page-preview" style="margin-top:10px;">
                 <div class="preview-head">/register</div>
@@ -80,19 +81,20 @@
             </div>
           </article>
           <article class="card">
-            <div class="card-head"><h2 class="card-title">繧ｵ繝槭Μ繝ｼ</h2></div>
+            <div class="card-head"><h2 class="card-title">サマリー</h2></div>
             <div class="card-body">
               <dl class="detail-list">
                 <div class="detail-row"><dt>PV</dt><dd>12,112</dd></div>
-                <div class="detail-row"><dt>繧ｯ繝ｪ繝・け邱乗焚</dt><dd>5,004</dd></div>
-                <div class="detail-row"><dt>CTA繧ｯ繝ｪ繝・け邇・/dt><dd>1.2%</dd></div>
-                <div class="detail-row"><dt>繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ蛻ｰ驕皮紫</dt><dd>50%: 54% / 75%: 31% / 100%: 14%</dd></div>
-                <div class="detail-row"><dt>荳ｻ隕√け繝ｪ繝・け菴咲ｽｮ</dt><dd>逋ｻ骭ｲ繝懊ち繝ｳ荳企Κ縺ｮ陬懷勧繝ｪ繝ｳ繧ｯ</dd></div>
+                <div class="detail-row"><dt>クリック総数</dt><dd>5,004</dd></div>
+                <div class="detail-row"><dt>CTAクリック率</dt><dd>1.2%</dd></div>
+                <div class="detail-row"><dt>スクロール到達率</dt><dd>50%: 54% / 75%: 31% / 100%: 14%</dd></div>
+                <div class="detail-row"><dt>主要クリック位置</dt><dd>登録ボタン上部の補助リンク</dd></div>
               </dl>
               <div class="note-box" style="margin-top:10px;">
-                謾ｹ蝟・呵｣・
-                1. 逋ｻ骭ｲ繝懊ち繝ｳ縺ｮ隕冶ｪ肴ｧ蠑ｷ蛹・                2. 繝輔か繝ｼ繝荳ｭ谿ｵ縺ｫ陬懷勧CTA繧定ｿｽ蜉
-                3. 蜈･蜉幃・岼縺ｮ蛻・牡縺ｧ髮｢閼ｱ繧呈椛蛻ｶ
+                改善候補:
+                1. 登録ボタンの視認性強化
+                2. フォーム中段に補助CTAを追加
+                3. 入力項目の分割で離脱を抑制
               </div>
             </div>
           </article>
@@ -102,7 +104,4 @@
   </div>
 </body>
 </html>
-
-
-
 

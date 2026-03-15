@@ -494,6 +494,10 @@ h1 {
   font-size: 0.95rem;
 }
 
+.news-more-row {
+  margin-top: 12px;
+}
+
 .flow-guide {
   margin: 8px 0 16px;
   padding: 11px 12px;
@@ -590,6 +594,18 @@ h1 {
 
 .account-email-value {
   color: #365f9c;
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.account-actions .btn {
+  padding: 10px 14px;
+  font-size: 0.92rem;
 }
 
 .about-showcase {
@@ -757,6 +773,13 @@ h2 {
   font-size: 1.2rem;
 }
 
+.section-heading {
+  margin-top: 24px;
+  margin-bottom: 14px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .meta-grid {
   display: grid;
   grid-template-columns: 140px 1fr;
@@ -826,6 +849,45 @@ h2 {
   grid-template-columns: 264px minmax(0, 1fr) 270px;
   gap: 14px;
   align-items: stretch;
+  position: relative;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #c8d3e3;
+  background: #eef3fb;
+  color: #234a7f;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.rank-badge.is-gold {
+  background: #fdf2cf;
+  border-color: #e7c96f;
+  color: #7a5800;
+}
+
+.rank-badge.is-silver {
+  background: #eef1f5;
+  border-color: #c8d1dd;
+  color: #445367;
+}
+
+.rank-badge.is-bronze {
+  background: #f8e9de;
+  border-color: #ddb79d;
+  color: #7a4320;
 }
 
 .video-main {
@@ -1253,6 +1315,80 @@ h2 {
 
 .form-row {
   margin-bottom: 14px;
+}
+
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.human-verification {
+  margin: 8px 0 14px;
+}
+
+.human-verification-label {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.turnstile-widget {
+  border: 1px solid #d3dae5;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+}
+
+.human-verification-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.human-verification-status.is-ok {
+  color: #0d5d57;
+  font-weight: 700;
+}
+
+.turnstile-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 500;
+}
+
+.turnstile-check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #2563eb;
+}
+
+.turnstile-brand {
+  text-align: right;
+  line-height: 1.2;
+  color: #6b7280;
+}
+
+.turnstile-brand strong {
+  display: block;
+  font-size: 0.74rem;
+  color: #4b5563;
+  font-weight: 700;
+}
+
+.turnstile-brand span {
+  display: block;
+  font-size: 0.68rem;
 }
 
 label {

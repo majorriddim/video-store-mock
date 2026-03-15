@@ -3,65 +3,66 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>豬∝・蜈・・譫・| Video Store Admin Mock</title>
+  <title>流入元分析 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        Video Store 邂｡逅・判髱｢
+        Video Store 管理画面
         <span>WordPress + WooCommerce</span>
       </div>
       <ul class="menu">
-        <li><a href="./dashboard.html">繝繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./videos.html">蜍慕判邂｡逅・/a></li>
-        <li><a href="./members.html">莨壼藤邂｡逅・/a></li>
-        <li><a href="./orders.html">豕ｨ譁・ｮ｡逅・/a></li>
-        <li><a href="./inquiries.html">縺雁撫縺・粋繧上○邂｡逅・/a></li>
-        <li><a href="./casts.html">蜃ｺ貍碑・ｮ｡逅・/a></li>
-        <li><a href="./genres.html">繧ｸ繝｣繝ｳ繝ｫ邂｡逅・/a></li>
-        <li><a href="./contents.html">繧ｳ繝ｳ繝・Φ繝・ｮ｡逅・/a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a class="active" href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
-      <p class="analytics-menu-title">繧｢繧ｯ繧ｻ繧ｹ隗｣譫・/p>
+      <p class="analytics-menu-title">アクセス解析</p>
       <ul class="menu">
-        <li><a href="./analytics-dashboard.html">隗｣譫舌ム繝・す繝･繝懊・繝・/a></li>
-        <li><a href="./analytics-pages.html">繝壹・繧ｸ蛻・梵</a></li>
-        <li><a href="./analytics-search.html">讀懃ｴ｢蛻・梵</a></li>
-        <li><a class="active" href="./analytics-sources.html">豬∝・蜈・・譫・/a></li>
-        <li><a href="./analytics-flow.html">驕ｷ遘ｻ蛻・梵</a></li>
-        <li><a href="./analytics-funnel.html">繝輔ぃ繝阪Ν蛻・梵</a></li>
-        <li><a href="./analytics-conversion-paths.html">繧ｳ繝ｳ繝舌・繧ｸ繝ｧ繝ｳ蟆守ｷ・/a></li>
-        <li><a href="./analytics-heatmaps.html">繝偵・繝医・繝・・</a></li>
-              <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./analytics-dashboard.html">解析ダッシュボード</a></li>
+        <li><a href="./analytics-pages.html">ページ分析</a></li>
+        <li><a href="./analytics-search.html">検索分析</a></li>
+        <li><a class="active" href="./analytics-sources.html">流入元分析</a></li>
+        <li><a href="./analytics-flow.html">遷移分析</a></li>
+        <li><a href="./analytics-funnel.html">ファネル分析</a></li>
+        <li><a href="./analytics-conversion-paths.html">コンバージョン導線</a></li>
+        <li><a href="./analytics-heatmaps.html">ヒートマップ</a></li>
       </ul>
     </aside>
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">豬∝・蜈・・譫・/h1>
-          <p class="page-subtitle">referer / UTM縺ｮ荳｡霆ｸ縺ｧ謌先棡豬∝・繧呈滑謠｡</p>
+          <h1 class="page-title">流入元分析</h1>
+          <p class="page-subtitle">referer / UTMの両軸で成果流入を把握</p>
         </div>
       </header>
       <div class="content">
         <section class="toolbar">
           <div class="filters">
-            <select class="select"><option selected>繝√Ε繝阪Ν蛻･</option><option>繧ｭ繝｣繝ｳ繝壹・繝ｳ蛻･</option></select>
-            <select class="select"><option selected>CVR鬆・/option><option>繧ｻ繝・す繝ｧ繝ｳ鬆・/option></select>
-            <button class="btn">譖ｴ譁ｰ</button>
+            <select class="select"><option selected>チャネル別</option><option>キャンペーン別</option></select>
+            <select class="select"><option selected>CVR順</option><option>セッション順</option></select>
+            <button class="btn">更新</button>
           </div>
         </section>
         <section class="card">
-          <div class="card-head"><h2 class="card-title">豬∝・蜈・挨繝代ヵ繧ｩ繝ｼ繝槭Φ繧ｹ</h2></div>
+          <div class="card-head"><h2 class="card-title">流入元別パフォーマンス</h2></div>
           <div class="card-body table-wrap">
             <table>
-              <thead><tr><th>referer / source</th><th>medium</th><th>campaign</th><th>繧ｻ繝・す繝ｧ繝ｳ</th><th>CV謨ｰ</th><th>CVR</th><th>蟷ｳ蝮・夢隕ｧ繝壹・繧ｸ</th><th>荳ｻ隕∵ｵ∝・繝壹・繧ｸ</th><th>雉ｼ蜈･雋｢迪ｮ蟆守ｷ壻ｸ贋ｽ・/th></tr></thead>
+              <thead><tr><th>referer / source</th><th>medium</th><th>campaign</th><th>セッション</th><th>CV数</th><th>CVR</th><th>平均閲覧ページ</th><th>主要流入ページ</th><th>購入貢献導線上位</th></tr></thead>
               <tbody>
-                <tr><td>google</td><td>organic</td><td class="muted">-</td><td>12,441</td><td>683</td><td>5.49%</td><td>3.8</td><td>/videos</td><td>荳隕ｧ 竊・隧ｳ邏ｰ 竊・雉ｼ蜈･</td></tr>
-                <tr><td>instagram</td><td>social</td><td>spring_cast</td><td>8,202</td><td>472</td><td>5.75%</td><td>4.1</td><td>/casts</td><td>蜃ｺ貍碑・竊・隧ｳ邏ｰ 竊・莨壼藤逋ｻ骭ｲ</td></tr>
-                <tr><td>meta</td><td>cpc</td><td>newuser_campaign</td><td>5,880</td><td>401</td><td>6.82%</td><td>3.3</td><td>/・医ヨ繝・・繝壹・繧ｸ・・/td><td>豬∝・繝壹・繧ｸ 竊・逋ｻ骭ｲ 竊・雉ｼ蜈･</td></tr>
-                <tr><td>youtube.com</td><td>referral</td><td class="muted">-</td><td>2,144</td><td>66</td><td>3.08%</td><td>2.7</td><td>/product/vid-1032</td><td>隧ｳ邏ｰ 竊・雉ｼ蜈･</td></tr>
+                <tr><td>google</td><td>organic</td><td class="muted">-</td><td>12,441</td><td>683</td><td>5.49%</td><td>3.8</td><td>/videos</td><td>一覧 → 詳細 → 購入</td></tr>
+                <tr><td>instagram</td><td>social</td><td>spring_cast</td><td>8,202</td><td>472</td><td>5.75%</td><td>4.1</td><td>/casts</td><td>出演者 → 詳細 → 会員登録</td></tr>
+                <tr><td>meta</td><td>cpc</td><td>newuser_campaign</td><td>5,880</td><td>401</td><td>6.82%</td><td>3.3</td><td>/（トップページ）</td><td>流入ページ → 登録 → 購入</td></tr>
+                <tr><td>youtube.com</td><td>referral</td><td class="muted">-</td><td>2,144</td><td>66</td><td>3.08%</td><td>2.7</td><td>/product/vid-1032</td><td>詳細 → 購入</td></tr>
               </tbody>
             </table>
           </div>
@@ -71,7 +72,4 @@
   </div>
 </body>
 </html>
-
-
-
 
