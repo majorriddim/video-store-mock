@@ -345,6 +345,29 @@ h1 {
   flex-wrap: wrap;
 }
 
+.purchase-cta-group {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.purchase-cta-group .btn {
+  width: 100%;
+  min-width: 0;
+}
+
+.payment-failed-cta-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.payment-failed-cta-group .btn {
+  width: 100%;
+  min-width: 0;
+}
+
 #heroPrimaryAction {
   display: inline-flex;
   align-items: center;
@@ -2063,6 +2086,14 @@ textarea {
   .purchase-meta-grid > div:nth-child(2n) {
     min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  .purchase-cta-group {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-failed-cta-group {
+    grid-template-columns: 1fr;
   }
 
   .filter-grid {

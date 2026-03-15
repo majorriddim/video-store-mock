@@ -1089,19 +1089,26 @@ function initPurchaseConfirmPage() {
       <p class="helper">
         <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> は必ずご確認ください。
       </p>
-      <div class="cta-group" id="purchaseActionsGroup" aria-describedby="purchaseConsentActionHint">
+      <div class="cta-group purchase-cta-group" id="purchaseActionsGroup" aria-describedby="purchaseConsentActionHint">
         <button class="btn btn-primary" id="confirmPurchase" type="button" aria-disabled="true">PayPalで購入する</button>
         <a class="btn btn-secondary" id="bankTransferPurchase" href="contact.html?mode=bank-transfer&video=${encodeURIComponent(video.id)}&productUrl=${encodeURIComponent(`product-detail.html?video=${video.id}`)}" aria-disabled="true">銀行振込で購入する</a>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
       </div>
       <p id="purchaseConsentActionHint" class="notice notice-warning" style="margin-top:8px; padding:8px 10px;" hidden>購入には利用規約等への同意が必要です</p>
     </article>
+    <div style="max-width: 760px; margin: 10px auto 0; padding: 0 8px;">
+      <label class="checkbox-row" for="simulatePaymentFailure">
+        <input id="simulatePaymentFailure" type="checkbox">
+        決済失敗をシミュレーションする（モック）
+      </label>
+    </div>
   `;
 
   const agreeTerms = root.querySelector("#agreeTerms");
   const agreeTermsLabel = root.querySelector("#agreeTermsLabel");
   const confirmButton = root.querySelector("#confirmPurchase");
   const bankTransferLink = root.querySelector("#bankTransferPurchase");
+  const simulatePaymentFailure = root.querySelector("#simulatePaymentFailure");
   const actionsGroup = root.querySelector("#purchaseActionsGroup");
   const consentActionHint = root.querySelector("#purchaseConsentActionHint");
   const consentMessage = "購入には利用規約等への同意が必要です";
@@ -1202,6 +1209,10 @@ function initPurchaseConfirmPage() {
     if (handleBlockedPurchaseAction(e, true)) return;
     const ok = window.confirm("この内容で購入手続きに進みます。よろしいですか？");
     if (!ok) return;
+    if (simulatePaymentFailure?.checked) {
+      window.location.href = `payment-failed.html?video=${encodeURIComponent(video.id)}`;
+      return;
+    }
     window.location.href = `thankyou.html?video=${encodeURIComponent(video.id)}`;
   });
 
@@ -1257,20 +1268,19 @@ function initPaymentFailedPage() {
     <article class="card section" style="max-width: 760px; margin-inline: auto;">
       <span class="badge">決済エラー</span>
       <h1 style="margin-top: 12px;">決済が完了しませんでした</h1>
-      <p class="lead">通信状況やカード認証の都合で、購入処理が完了しなかった可能性があります。</p>
+      <p class="lead">通信状況やカード認証の都合で、購入処理が完了しませんでした。</p>
       <div class="notice notice-warning">
         対象商品: ${video.title}<br>
         価格: ${getCurrentPriceText(video)}（税込）
       </div>
-      <h2 style="margin-top: 16px;">再購入・お支払い方法について</h2>
+      <h2 style="margin-top: 16px;">PayPal再決済・お支払い方法について</h2>
       <ul class="list">
-        <li>再度クレジットカード決済をお試しいただけます。</li>
-        <li>銀行振込でのお支払いをご希望の場合は、お問い合わせよりご連絡ください。</li>
+        <li>再度PayPal決済をお試しいただけます。</li>
+        <li>銀行振込をご希望の場合は、下記ボタンからお申し込みください。</li>
       </ul>
-      <div class="cta-group">
+      <div class="cta-group payment-failed-cta-group">
         <a class="btn btn-primary" href="purchase-confirm.html?video=${encodeURIComponent(video.id)}">再度購入する</a>
-        <a class="btn btn-secondary" href="contact.html">お問い合わせする</a>
-        <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
+        <a class="btn btn-secondary" href="contact.html?mode=bank-transfer&video=${encodeURIComponent(video.id)}&productUrl=${encodeURIComponent(`product-detail.html?video=${video.id}`)}">銀行振込で購入する</a>
       </div>
     </article>
   `;
@@ -1934,9 +1944,6 @@ function setActiveNav() {
     page = "product.html";
   }
   if (page === "product-detail.html") {
-    page = "product.html";
-  }
-  if (page === "purchase-confirm.html") {
     page = "product.html";
   }
   if (page === "thankyou.html") {
