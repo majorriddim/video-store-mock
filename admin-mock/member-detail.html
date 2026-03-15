@@ -22,6 +22,7 @@
         <li><a href="./casts.html">出演者管理</a></li>
         <li><a href="./genres.html">ジャンル管理</a></li>
         <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
         <li><a href="./rankings.html">ランキング管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
@@ -55,6 +56,32 @@
 
           <div class="stack">
             <article class="card">
+              <div class="card-head"><h2 class="card-title">会員状態の管理（休眠 / 停止）</h2></div>
+              <div class="card-body form-stack">
+                <section class="policy-note">
+                  <p><strong>この操作で会員情報は削除されません。</strong>購入履歴・視聴権限履歴・問い合わせ履歴は保持されます。</p>
+                  <p class="muted">停止はログイン不可、休眠は運用上の非アクティブ管理として扱う想定です。</p>
+                </section>
+                <label class="field">
+                  <span>会員ステータス</span>
+                  <select class="select">
+                    <option selected>有効</option>
+                    <option>休眠</option>
+                    <option>停止</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>変更理由（管理メモ）</span>
+                  <textarea class="input textarea" rows="3" placeholder="例: 長期未ログインのため休眠へ変更"></textarea>
+                </label>
+                <div class="action-row">
+                  <button class="btn primary" type="button">状態を更新する</button>
+                  <button class="btn" type="button">有効に戻す</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
               <div class="card-head"><h2 class="card-title">購入履歴</h2></div>
               <div class="card-body table-wrap">
                 <table>
@@ -84,5 +111,7 @@
   </div>
 </body>
 </html>
+
+
 
 

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>通知テンプレート管理 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a class="active" href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./change-history.html">変更履歴</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">通知テンプレート管理</h1>
+          <p class="page-subtitle">送信元メール設定と通知テンプレート本文の管理</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./contents.html">コンテンツ管理へ戻る</a>
+          <button class="btn primary" type="button">設定を保存する</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">送信元メール設定</h2></div>
+            <div class="card-body form-stack">
+              <label class="field"><span>送信元名（From Name）</span><input class="input" type="text" value="Video-Storeサポート"></label>
+              <label class="field"><span>送信元メールアドレス（From）</span><input class="input" type="email" value="support@example.jp"></label>
+              <label class="field"><span>返信先メールアドレス（Reply-To）</span><input class="input" type="email" value="helpdesk@example.jp"></label>
+              <label class="field"><span>エラー通知先メールアドレス</span><input class="input" type="email" value="ops@example.jp"></label>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">通知テンプレート一覧</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>キー</th>
+                    <th>用途</th>
+                    <th>件名</th>
+                    <th>状態</th>
+                    <th class="text-right">編集</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>contact_general</td>
+                    <td>お問い合わせ時（通常）</td>
+                    <td>【Video-Store】お問い合わせを受け付けました</td>
+                    <td><span class="pill success">ON</span></td>
+                    <td class="text-right"><a class="btn link" href="#">編集</a></td>
+                  </tr>
+                  <tr>
+                    <td>purchase_bank_transfer</td>
+                    <td>購入時（銀行振込）</td>
+                    <td>【Video-Store】銀行振込のご案内</td>
+                    <td><span class="pill success">ON</span></td>
+                    <td class="text-right"><a class="btn link" href="#">編集</a></td>
+                  </tr>
+                  <tr>
+                    <td>purchase_paypal</td>
+                    <td>購入時（PayPal）</td>
+                    <td>【Video-Store】ご購入ありがとうございます</td>
+                    <td><span class="pill success">ON</span></td>
+                    <td class="text-right"><a class="btn link" href="#">編集</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="card" style="margin-top:12px;">
+          <div class="card-head"><h2 class="card-title">テンプレート編集（contact_general）</h2></div>
+          <div class="card-body form-stack">
+            <label class="field"><span>件名</span><input class="input" type="text" value="【Video-Store】お問い合わせを受け付けました"></label>
+            <label class="field"><span>本文（テキスト）</span>
+              <textarea class="input textarea" rows="10">## {{customer_name}} 様
+お問い合わせありがとうございます。
+以下の内容で受け付けました。
+
+お問い合わせ種別: {{contact_type}}
+お問い合わせ内容: {{contact_body}}
+
+担当者より順次ご連絡いたします。</textarea>
+            </label>
+            <div class="action-row">
+              <button class="btn">プレビュー</button>
+              <button class="btn primary">このテンプレートを保存</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

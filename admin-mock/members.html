@@ -22,6 +22,7 @@
         <li><a href="./casts.html">出演者管理</a></li>
         <li><a href="./genres.html">ジャンル管理</a></li>
         <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
         <li><a href="./rankings.html">ランキング管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
@@ -38,6 +39,11 @@
       </header>
 
       <div class="content">
+        <section class="policy-note" style="margin-bottom: 10px;">
+          <p><strong>会員データは削除されません。</strong>「休眠」「停止」は論理ステータス変更として扱い、購入履歴・問い合わせ履歴・監査情報は保持されます。</p>
+          <p class="muted">復帰時はステータスを「有効」に戻すだけで再利用できます。</p>
+        </section>
+
         <section class="toolbar">
           <div class="filters">
             <input class="input" type="text" value="tanaka@" aria-label="会員検索">
@@ -68,6 +74,7 @@
                   <th>直近購入日</th>
                   <th>視聴可能本数</th>
                   <th>最終ログイン</th>
+                  <th>状態変更</th>
                   <th class="text-right">操作</th>
                 </tr>
               </thead>
@@ -83,6 +90,16 @@
                   <td>2026/03/12</td>
                   <td>6</td>
                   <td>2026/03/14 08:52</td>
+                  <td>
+                    <div class="status-actions">
+                      <select class="select" aria-label="会員状態変更">
+                        <option selected>有効</option>
+                        <option>休眠</option>
+                        <option>停止</option>
+                      </select>
+                      <button class="btn" type="button">更新</button>
+                    </div>
+                  </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
                 <tr>
@@ -96,6 +113,16 @@
                   <td>2026/02/21</td>
                   <td>2</td>
                   <td>2026/03/13 23:11</td>
+                  <td>
+                    <div class="status-actions">
+                      <select class="select" aria-label="会員状態変更">
+                        <option selected>有効</option>
+                        <option>休眠</option>
+                        <option>停止</option>
+                      </select>
+                      <button class="btn" type="button">更新</button>
+                    </div>
+                  </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
                 <tr>
@@ -109,6 +136,16 @@
                   <td class="muted">-</td>
                   <td>0</td>
                   <td>2026/03/13 19:18</td>
+                  <td>
+                    <div class="status-actions">
+                      <select class="select" aria-label="会員状態変更">
+                        <option>有効</option>
+                        <option selected>休眠</option>
+                        <option>停止</option>
+                      </select>
+                      <button class="btn" type="button">更新</button>
+                    </div>
+                  </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
                 <tr>
@@ -122,6 +159,16 @@
                   <td>2025/12/10</td>
                   <td>0</td>
                   <td>2026/01/04 10:02</td>
+                  <td>
+                    <div class="status-actions">
+                      <select class="select" aria-label="会員状態変更">
+                        <option>有効</option>
+                        <option>休眠</option>
+                        <option selected>停止</option>
+                      </select>
+                      <button class="btn" type="button">更新</button>
+                    </div>
+                  </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
                 <tr>
@@ -135,6 +182,16 @@
                   <td>2026/03/14</td>
                   <td>1</td>
                   <td>2026/03/14 08:39</td>
+                  <td>
+                    <div class="status-actions">
+                      <select class="select" aria-label="会員状態変更">
+                        <option selected>有効</option>
+                        <option>休眠</option>
+                        <option>停止</option>
+                      </select>
+                      <button class="btn" type="button">更新</button>
+                    </div>
+                  </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
               </tbody>
@@ -146,6 +203,8 @@
   </div>
 </body>
 </html>
+
+
 
 
 

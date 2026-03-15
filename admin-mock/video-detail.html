@@ -36,6 +36,7 @@
         </div>
         <div class="action-row">
           <a class="btn" href="./videos.html">一覧へ戻る</a>
+          <a class="btn" href="./change-history.html?entity=video&id=VID-1032">変更履歴</a>
           <a class="btn primary" href="./video-edit.html">編集する</a>
         </div>
       </header>
@@ -65,6 +66,23 @@
             <article class="card">
               <div class="card-head">
                 <h2 class="card-title">販売状況</h2>
+                <div class="action-row sales-period-controls">
+                  <label class="field-inline" for="salesPeriod">期間</label>
+                  <select class="select" id="salesPeriod" style="min-width: 150px;">
+                    <option value="today">本日</option>
+                    <option value="7d" selected>直近7日</option>
+                    <option value="30d">直近30日</option>
+                    <option value="month">今月</option>
+                    <option value="all">累計</option>
+                    <option value="custom">任意期間</option>
+                  </select>
+                  <div class="kpi-custom-range" id="salesCustomRange" hidden>
+                    <input class="input input-date" id="salesStartDate" type="date" value="2026-03-01" aria-label="開始日">
+                    <span class="muted">〜</span>
+                    <input class="input input-date" id="salesEndDate" type="date" value="2026-03-14" aria-label="終了日">
+                    <button class="btn" id="salesCustomApply" type="button">適用</button>
+                  </div>
+                </div>
               </div>
               <div class="card-body table-wrap">
                 <table>
@@ -77,9 +95,8 @@
                       <th>返金件数</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="videoSalesBody">
                     <tr><td>直近7日</td><td>48</td><td>¥287,040</td><td>73</td><td>0</td></tr>
-                    <tr><td>直近30日</td><td>291</td><td>¥1,740,180</td><td>482</td><td>2</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -106,7 +123,73 @@
       </div>
     </main>
   </div>
+  <script>
+    (() => {
+      const select = document.querySelector("#salesPeriod");
+      const body = document.querySelector("#videoSalesBody");
+      const customRange = document.querySelector("#salesCustomRange");
+      const startDateInput = document.querySelector("#salesStartDate");
+      const endDateInput = document.querySelector("#salesEndDate");
+      const applyCustomButton = document.querySelector("#salesCustomApply");
+      if (!select || !body) return;
+
+      const rows = {
+        today: { label: "本日", purchases: "12", sales: "¥71,760", favorites: "9", refunds: "0" },
+        "7d": { label: "直近7日", purchases: "48", sales: "¥287,040", favorites: "73", refunds: "0" },
+        "30d": { label: "直近30日", purchases: "291", sales: "¥1,740,180", favorites: "482", refunds: "2" },
+        month: { label: "今月", purchases: "132", sales: "¥789,360", favorites: "224", refunds: "1" },
+        all: { label: "累計", purchases: "1,842", sales: "¥10,989,160", favorites: "3,204", refunds: "9" }
+      };
+
+      const render = () => {
+        if (select.value === "custom") {
+          renderCustom();
+          return;
+        }
+        const selected = rows[select.value] || rows["7d"];
+        body.innerHTML = `<tr><td>${selected.label}</td><td>${selected.purchases}</td><td>${selected.sales}</td><td>${selected.favorites}</td><td>${selected.refunds}</td></tr>`;
+      };
+
+      const calcDays = (start, end) => {
+        const s = new Date(start);
+        const e = new Date(end);
+        if (Number.isNaN(s.getTime()) || Number.isNaN(e.getTime()) || s > e) return 1;
+        const oneDay = 24 * 60 * 60 * 1000;
+        return Math.max(1, Math.floor((e - s) / oneDay) + 1);
+      };
+
+      const renderCustom = () => {
+        const start = startDateInput && startDateInput.value;
+        const end = endDateInput && endDateInput.value;
+        const days = calcDays(start, end);
+        const purchases = Math.round(days * 6.9);
+        const sales = `¥${(purchases * 5980).toLocaleString("ja-JP")}`;
+        const favorites = Math.round(days * 10.4);
+        const refunds = Math.round(days * 0.04);
+        const label = `${start || "-"} 〜 ${end || "-"}`;
+        body.innerHTML = `<tr><td>${label}</td><td>${purchases}</td><td>${sales}</td><td>${favorites}</td><td>${refunds}</td></tr>`;
+      };
+
+      const toggleCustom = () => {
+        const isCustom = select.value === "custom";
+        if (customRange) customRange.hidden = !isCustom;
+      };
+
+      select.addEventListener("change", () => {
+        toggleCustom();
+        render();
+      });
+      if (applyCustomButton) {
+        applyCustomButton.addEventListener("click", renderCustom);
+      }
+
+      toggleCustom();
+      render();
+    })();
+  </script>
 </body>
 </html>
+
+
 
 

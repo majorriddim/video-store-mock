@@ -22,6 +22,7 @@
         <li><a href="./casts.html">出演者管理</a></li>
         <li><a href="./genres.html">ジャンル管理</a></li>
         <li><a class="active" href="./contents.html">コンテンツ管理</a></li>
+        <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
         <li><a href="./rankings.html">ランキング管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
@@ -32,7 +33,7 @@
       <header class="topbar">
         <div>
           <h1 class="page-title">人間認証設定</h1>
-          <p class="page-subtitle">Cloudflare Turnstile を register / contact に適用する最小設定</p>
+          <p class="page-subtitle">Cloudflare Turnstile と register / contact の適用設定</p>
         </div>
         <div class="action-row">
           <a class="btn" href="./contents.html">コンテンツ管理へ戻る</a>
@@ -46,7 +47,7 @@
             <div class="card-head"><h2 class="card-title">認証設定</h2></div>
             <div class="card-body form-stack">
               <label class="field">
-                <span>機能ON/OFF</span>
+                <span>機能ON / OFF</span>
                 <select id="hvEnabled" class="select">
                   <option value="on" selected>ON</option>
                   <option value="off">OFF</option>
@@ -77,7 +78,7 @@
                 <li>
                   <a href="#">
                     <strong>provider: turnstile</strong>
-                    <span>将来 hCaptcha / reCAPTCHA へ差し替え可能な前提で保持</span>
+                    <span>将来 hCaptcha / reCAPTCHA に差し替え可能な構成</span>
                   </a>
                 </li>
                 <li>
@@ -88,8 +89,8 @@
                 </li>
                 <li>
                   <a href="#">
-                    <strong>サーバー検証必須</strong>
-                    <span>token未送信 / 検証失敗時は保存しない想定</span>
+                    <strong>サーバー側検証</strong>
+                    <span>token 未送信 / 検証失敗時は保存しない前提</span>
                   </a>
                 </li>
               </ul>
@@ -140,7 +141,10 @@
         const targetContactEl = document.querySelector("#hvTargetContact");
         const saveBtn = document.querySelector("#saveHumanVerificationSettings");
         const messageEl = document.querySelector("#hvSavedMessage");
-        if (!enabledEl || !siteKeyEl || !secretKeyEl || !targetRegisterEl || !targetContactEl || !saveBtn) return;
+
+        if (!enabledEl || !siteKeyEl || !secretKeyEl || !targetRegisterEl || !targetContactEl || !saveBtn || !messageEl) {
+          return;
+        }
 
         enabledEl.value = settings.enabled ? "on" : "off";
         siteKeyEl.value = settings.siteKey;
@@ -149,20 +153,18 @@
         targetContactEl.checked = settings.targets.contact;
 
         saveBtn.addEventListener("click", function () {
-          const next = {
+          const payload = {
             enabled: enabledEl.value === "on",
             provider: "turnstile",
-            siteKey: siteKeyEl.value.trim() || defaults.siteKey,
-            secretKey: secretKeyEl.value.trim() || defaults.secretKey,
+            siteKey: siteKeyEl.value.trim(),
+            secretKey: secretKeyEl.value.trim(),
             targets: {
               register: targetRegisterEl.checked,
               contact: targetContactEl.checked
             }
           };
-          localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
-          if (messageEl) {
-            messageEl.textContent = "設定を保存しました。";
-          }
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(payload));
+          messageEl.textContent = "設定を保存しました（モック）。";
         });
       }
 

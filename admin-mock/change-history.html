@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>変更履歴 | Video Store Admin Mock</title>
+  <link rel="stylesheet" href="./admin-mock.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        管理画面
+        <span>WordPress + WooCommerce</span>
+      </div>
+      <ul class="menu">
+        <li><a href="./dashboard.html">ダッシュボード</a></li>
+        <li><a href="./videos.html">動画管理</a></li>
+        <li><a href="./members.html">会員管理</a></li>
+        <li><a href="./orders.html">注文管理</a></li>
+        <li><a href="./inquiries.html">お問い合わせ管理</a></li>
+        <li><a href="./casts.html">出演者管理</a></li>
+        <li><a href="./genres.html">ジャンル管理</a></li>
+        <li><a href="./contents.html">コンテンツ管理</a></li>
+        <li><a class="active" href="./change-history.html">変更履歴</a></li>
+        <li><a href="./news.html">NEWS管理</a></li>
+        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">変更履歴</h1>
+          <p class="page-subtitle">更新履歴の検索と変更差分の確認</p>
+        </div>
+        <div class="action-row">
+          <a class="btn" href="./contents.html">コンテンツ管理へ戻る</a>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="toolbar">
+          <div class="filters">
+            <select class="select">
+              <option selected>すべての対象</option>
+              <option>動画</option>
+              <option>NEWS</option>
+              <option>出演者</option>
+              <option>ジャンル</option>
+            </select>
+            <select class="select">
+              <option selected>すべての操作</option>
+              <option>作成</option>
+              <option>更新</option>
+              <option>公開切替</option>
+              <option>削除</option>
+            </select>
+            <input class="input" type="date" value="2026-03-01">
+            <input class="input" type="date" value="2026-03-16">
+            <button class="btn">絞り込み</button>
+          </div>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">履歴一覧</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>日時</th>
+                    <th>対象</th>
+                    <th>操作</th>
+                    <th>担当者</th>
+                    <th class="text-right">詳細</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>2026/03/16 10:22</td><td>動画 VID-1032</td><td>更新</td><td>山田 花子</td><td class="text-right"><a class="btn link" href="#">表示</a></td></tr>
+                  <tr><td>2026/03/16 09:48</td><td>NEWS-0005</td><td>公開</td><td>山田 花子</td><td class="text-right"><a class="btn link" href="#">表示</a></td></tr>
+                  <tr><td>2026/03/15 18:02</td><td>ジャンル GEN-0001</td><td>更新</td><td>高橋 美咲</td><td class="text-right"><a class="btn link" href="#">表示</a></td></tr>
+                  <tr><td>2026/03/15 13:31</td><td>出演者 CAST-0012</td><td>公開予約</td><td>高橋 美咲</td><td class="text-right"><a class="btn link" href="#">表示</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">変更詳細（モック）</h2></div>
+            <div class="card-body form-stack">
+              <div class="chart-box">
+                <p class="small-meta" style="margin:0 0 8px;">対象: 動画 VID-1032 / 更新</p>
+                <p class="small-meta" style="margin:0;">担当者: 山田 花子 / 2026/03/16 10:22</p>
+              </div>
+              <div class="chart-box">
+                <p class="small-meta" style="margin:0 0 8px;">差分（before -> after）</p>
+                <ul class="list">
+                  <li>セール価格: <code>6,200</code> -> <code>5,980</code></li>
+                  <li>サンプル動画URL: <code>preview_v1.m3u8</code> -> <code>preview_v2.m3u8</code></li>
+                  <li>タグ: <code>新着</code> に <code>おすすめ</code> を追加</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
