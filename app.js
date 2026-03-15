@@ -220,7 +220,7 @@ function buildPurchasedCard(video) {
       </div>
       <div class="video-main">
         <h3><a class="video-title-link" href="product-detail.html?video=${encodeURIComponent(video.id)}">${video.title}</a></h3>
-        <p class="helper purchased-meta">出演者: ${buildCastLink(video.cast)}</p>
+        <p class="helper purchased-meta">${buildCastLink(video.cast)}</p>
         <p class="helper">再生時間: ${video.duration}</p>
       </div>
       <div class="video-actions">
@@ -319,6 +319,7 @@ function getNextRecommendedVideos(video, count = 3) {
 function buildJourneyVideoCard(video) {
   const hasNewTag = Array.isArray(video.tags) && video.tags.includes("新着");
   const badges = [
+    `<a class="mini-badge" href="videos.html?genre=${encodeURIComponent(video.genre)}">${video.genre}</a>`,
     isSaleVideo(video) ? buildSaleLink() : "",
     hasNewTag ? `<span class="mini-badge">新着</span>` : ""
   ].join("");
@@ -330,7 +331,7 @@ function buildJourneyVideoCard(video) {
       <div class="recommendation-card-body">
         <h3 class="recommendation-title">${video.title}</h3>
         ${badgeRow}
-        <p class="recommendation-cast">出演者: ${buildCastLink(video.cast)}</p>
+        <p class="recommendation-cast">${buildCastLink(video.cast)}</p>
         <p class="recommendation-price">${getCurrentPriceText(video)}（税込）</p>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">詳細を見る</a>
       </div>

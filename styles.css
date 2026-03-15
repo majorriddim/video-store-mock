@@ -271,6 +271,11 @@ main {
   color: #0f5a52;
   background: #e9f8f4;
   border: 1px solid #bee9df;
+  text-decoration: none;
+}
+
+.mini-badge:hover {
+  text-decoration: none;
 }
 
 .mini-badge-owned {
