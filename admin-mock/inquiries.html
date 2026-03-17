@@ -45,9 +45,12 @@
         <section class="toolbar">
           <div class="filters">
             <select class="select" aria-label="種別">
-              <option selected>すべての種別</option>
-              <option>通常問い合わせ</option>
-              <option>銀行振込申込</option>
+              <option selected>すべてのお問い合わせ種別</option>
+              <option>購入前の質問</option>
+              <option>視聴不具合</option>
+              <option>請求・決済</option>
+              <option>ご希望の動画に関するリクエスト</option>
+              <option>その他</option>
             </select>
             <select class="select" aria-label="ステータス">
               <option selected>すべてのステータス</option>
@@ -56,7 +59,6 @@
               <option>入金待ち</option>
               <option>完了</option>
             </select>
-            <input class="input" type="text" value="山田" aria-label="名前検索">
             <input class="input" type="text" value="example.jp" aria-label="メール・商品検索">
             <button class="btn">絞り込み</button>
           </div>
@@ -74,12 +76,11 @@
                   <th><button class="table-sort-btn" type="button" data-sort-key="receivedAt">受付日時<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="type">種別<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="status">ステータス<span class="table-sort-indicator">↕</span></button></th>
-                  <th><button class="table-sort-btn" type="button" data-sort-key="name">お名前<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="email">メールアドレス<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="product">商品名<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="price">価格<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="payer">振込予定名義<span class="table-sort-indicator">↕</span></button></th>
-                  <th><button class="table-sort-btn" type="button" data-sort-key="summary">問い合わせ概要<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="inquiryType">お問い合わせ種別<span class="table-sort-indicator">↕</span></button></th>
                   <th class="text-right">詳細</th>
                 </tr>
               </thead>
@@ -88,60 +89,55 @@
                   <td>2026/03/14 09:42</td>
                   <td>通常問い合わせ</td>
                   <td><span class="pill danger">未対応</span></td>
-                  <td>山田 美紀</td>
                   <td>yamada.miki@example.jp</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
-                  <td>会員登録メールが届かない</td>
+                  <td>その他</td>
                   <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/14 08:31</td>
                   <td>銀行振込申込</td>
                   <td><span class="pill warning">入金待ち</span></td>
-                  <td>中村 翼</td>
                   <td>nakamura.tsubasa@example.jp</td>
                   <td>テキストテキスト</td>
                   <td>¥9,800</td>
                   <td>ナカムラ ツバサ</td>
-                  <td>銀行振込で購入希望</td>
+                  <td>請求・決済</td>
                   <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/13 17:45</td>
                   <td>通常問い合わせ</td>
                   <td><span class="pill info">対応中</span></td>
-                  <td>伊藤 由佳</td>
                   <td>ito.yuka@example.jp</td>
                   <td>テキストテキスト</td>
                   <td>¥6,800</td>
                   <td class="muted">-</td>
-                  <td>視聴エラーが発生する</td>
+                  <td>視聴不具合</td>
                   <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/13 10:02</td>
                   <td>銀行振込申込</td>
                   <td><span class="pill success">完了</span></td>
-                  <td>阿部 真美</td>
                   <td>abe.mami@example.jp</td>
                   <td>テキストテキスト</td>
                   <td>¥4,200</td>
                   <td>アベ マミ</td>
-                  <td>入金確認完了の連絡希望</td>
+                  <td>請求・決済</td>
                   <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
                 <tr>
                   <td>2026/03/12 21:18</td>
                   <td>通常問い合わせ</td>
                   <td><span class="pill danger">未対応</span></td>
-                  <td>佐藤 実奈</td>
                   <td>sato.mina@example.jp</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
                   <td class="muted">-</td>
-                  <td>退会方法を知りたい</td>
+                  <td>ご希望の動画に関するリクエスト</td>
                   <td class="text-right"><a class="btn link" href="./inquiry-detail.html">詳細</a></td>
                 </tr>
               </tbody>
@@ -186,12 +182,11 @@
           case "receivedAt": return parseDateTime(c[0].textContent);
           case "type": return c[1].textContent.trim();
           case "status": return c[2].textContent.trim();
-          case "name": return c[3].textContent.trim();
-          case "email": return c[4].textContent.trim();
-          case "product": return c[5].textContent.trim();
-          case "price": return parseNumber(c[6].textContent);
-          case "payer": return c[7].textContent.trim();
-          case "summary": return c[8].textContent.trim();
+          case "email": return c[3].textContent.trim();
+          case "product": return c[4].textContent.trim();
+          case "price": return parseNumber(c[5].textContent);
+          case "payer": return c[6].textContent.trim();
+          case "inquiryType": return c[7].textContent.trim();
           default: return "";
         }
       };
