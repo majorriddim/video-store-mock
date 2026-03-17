@@ -161,6 +161,10 @@ function buildSaleLink() {
   return `<a class="mini-badge mini-badge-sale" href="videos.html?sale=1">🔥期間限定価格</a>`;
 }
 
+function buildSampleBadge() {
+  return `<span class="mini-badge">サンプルあり</span>`;
+}
+
 function buildVideoThumb(video) {
   const detailUrl = `product-detail.html?video=${encodeURIComponent(video.id)}`;
   if (video.thumbnailUrl) {
@@ -226,6 +230,7 @@ function buildVideoCard(video, state, options = {}) {
         <p class="helper">再生時間: ${video.duration}</p>
         <div class="badge-row">
           ${buildGenreLink(video.genre)}
+          ${buildSampleBadge()}
           ${(video.tags || []).map((tag) => buildTagBadgeLink(tag)).join("")}
           ${extraBadges.join("")}
         </div>
@@ -1177,7 +1182,7 @@ function initPurchaseConfirmPage() {
   root.innerHTML = `
     <article class="card section" style="max-width: 760px; margin-inline: auto;">
       <span class="badge">購入確認</span>
-      <p class="lead purchase-intro">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。</p>
+      <p class="lead purchase-intro">この画面は確認画面です。下記の内容を確認のうえ、購入を確定してください。PayPal決済の場合は、決済後すぐに視聴することができます。</p>
       <div class="meta-grid purchase-meta-grid purchase-summary-box">
         <div class="meta-key">商品名</div><div>${video.title}</div>
         <div class="meta-key">ジャンル</div><div>${video.genre}</div>
@@ -1186,6 +1191,7 @@ function initPurchaseConfirmPage() {
         <div class="meta-key">お支払い総額</div><div>${getCurrentPriceText(video)}（税込）</div>
         <div class="meta-key">支払方法</div><div>PayPal / 銀行振り込み</div>
         <div class="meta-key">販売形式</div><div>本サービス上での視聴権の購入（追加課金なし）</div>
+        <div class="meta-key">視聴期限</div><div>なし</div>
       </div>
       <h2 style="margin-top: 18px;">返品・キャンセルについて</h2>
       <div class="notice notice-warning">
@@ -1200,7 +1206,7 @@ function initPurchaseConfirmPage() {
         <a href="terms.html">利用規約</a> と <a href="tokusho.html">特定商取引法に基づく表記</a> は必ずご確認ください。
       </p>
       <div class="cta-group purchase-cta-group" id="purchaseActionsGroup" aria-describedby="purchaseConsentActionHint">
-        <button class="btn btn-primary" id="confirmPurchase" type="button" aria-disabled="true">PayPalで購入する</button>
+        <button class="btn btn-primary" id="confirmPurchase" type="button" aria-disabled="true">PayPalで安心決済</button>
         <a class="btn btn-secondary" id="bankTransferPurchase" href="contact.html?mode=bank-transfer&video=${encodeURIComponent(video.id)}&productUrl=${encodeURIComponent(`product-detail.html?video=${video.id}`)}" aria-disabled="true">銀行振込で購入する</a>
         <a class="btn btn-ghost" href="product-detail.html?video=${encodeURIComponent(video.id)}">商品詳細へ戻る</a>
       </div>
@@ -1323,7 +1329,7 @@ function initPurchaseConfirmPage() {
       window.location.href = `payment-failed.html?video=${encodeURIComponent(video.id)}`;
       return;
     }
-    window.location.href = `thankyou.html?video=${encodeURIComponent(video.id)}`;
+    window.location.href = `thankyou.html?video=${encodeURIComponent(video.id)}&purchase=1`;
   });
 
   updatePurchaseButtons();
@@ -1621,7 +1627,8 @@ function initThanksPage() {
   const source = url.searchParams.get("source") || "purchase";
   const videoId = url.searchParams.get("video") || "v1";
   const video = DEMO_VIDEOS.find((v) => v.id === videoId) || DEMO_VIDEOS[0];
-  if (source !== "bank-transfer") {
+  const isCompletedPurchase = url.searchParams.get("purchase") === "1";
+  if (source !== "bank-transfer" && isCompletedPurchase) {
     const nextPurchases = Array.from(new Set([...state.purchases, videoId]));
     if (nextPurchases.length !== state.purchases.length) {
       setState({ ...state, purchases: nextPurchases });
