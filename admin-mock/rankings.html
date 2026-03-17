@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>運営者セレクト管理 | Video Store Admin Mock</title>
+  <title>運営セレクト管理 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a class="active" href="./rankings.html">運営者セレクト管理</a></li>
+        <li><a class="active" href="./rankings.html">運営セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -32,7 +32,7 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">運営者セレクト管理</h1>
+          <h1 class="page-title">運営セレクト管理</h1>
           <p class="page-subtitle">トップページ表示順を手動管理（最大10件）</p>
         </div>
         <div class="action-row">
@@ -42,7 +42,7 @@
 
       <div class="content">
         <section class="card" style="margin-bottom:12px;">
-          <div class="card-head"><h2 class="card-title">運営者セレクト登録</h2></div>
+          <div class="card-head"><h2 class="card-title">運営セレクト登録</h2></div>
           <div class="card-body form-stack">
             <div class="action-row">
               <input id="rankingVideoSearch" class="input" type="search" placeholder="動画タイトル / ID / 出演者で検索" aria-label="動画検索">
@@ -58,7 +58,7 @@
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">運営者セレクト一覧</h2>
+            <h2 class="card-title">運営セレクト一覧</h2>
             <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
           </div>
           <div class="card-body table-wrap">
@@ -216,7 +216,7 @@
 
       addButton.addEventListener("click", () => {
         if (ranking.length >= MAX_RANKING_ITEMS) {
-          window.alert("運営者セレクトは最大10件までです。");
+          window.alert("運営セレクトは最大10件までです。");
           return;
         }
         const selectedId = videoSelect.value;
@@ -229,7 +229,7 @@
       searchInput.addEventListener("input", renderSelectOptions);
       saveButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          window.alert("運営者セレクト順を保存しました（モック）。");
+          window.alert("運営セレクト順を保存しました（モック）。");
         });
       });
 
@@ -238,6 +238,7 @@
   </script>
 </body>
 </html>
+
 
 
 
