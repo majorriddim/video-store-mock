@@ -305,6 +305,16 @@ tr:last-child td {
   background: #eaf4fc;
 }
 
+.pill.region-domestic {
+  color: #155b8a;
+  background: #e9f4ff;
+}
+
+.pill.region-overseas {
+  color: #7a3f9c;
+  background: #f4ebff;
+}
+
 .badge-box {
   display: grid;
   gap: 12px;

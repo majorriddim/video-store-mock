@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ランキング管理 | Video Store Admin Mock</title>
+  <title>運営者セレクト管理 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a class="active" href="./rankings.html">ランキング管理</a></li>
+        <li><a class="active" href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -32,7 +32,7 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">ランキング管理</h1>
+          <h1 class="page-title">運営者セレクト管理</h1>
           <p class="page-subtitle">トップページ表示順を手動管理（最大10件）</p>
         </div>
         <div class="action-row">
@@ -42,22 +42,23 @@
 
       <div class="content">
         <section class="card" style="margin-bottom:12px;">
-          <div class="card-head"><h2 class="card-title">ランキング登録</h2></div>
+          <div class="card-head"><h2 class="card-title">運営者セレクト登録</h2></div>
           <div class="card-body form-stack">
             <div class="action-row">
               <input id="rankingVideoSearch" class="input" type="search" placeholder="動画タイトル / ID / 出演者で検索" aria-label="動画検索">
               <select id="rankingVideoSelect" class="select" aria-label="動画選択">
                 <option value="">動画を選択してください</option>
               </select>
-              <button id="addRankingVideo" class="btn primary" type="button">ランキングに追加</button>
+              <button id="addRankingVideo" class="btn primary" type="button">セレクトに追加</button>
             </div>
+            <p class="small-meta">選択可能: 公開中の動画のみ</p>
             <p class="small-meta" id="rankingCount">登録件数: 0 / 10</p>
           </div>
         </section>
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">ランキング一覧</h2>
+            <h2 class="card-title">運営者セレクト一覧</h2>
             <a class="card-actions" href="./dashboard.html">ダッシュボードへ戻る</a>
           </div>
           <div class="card-body table-wrap">
@@ -96,7 +97,7 @@
         { id: "VID-1061", title: "テキストテキスト", cast: "内田 玲奈", status: "下書き" }
       ];
 
-      const ranking = ["VID-1032", "VID-1014", "VID-1044", "VID-0988", "VID-1022"];
+      const ranking = ["VID-1032", "VID-1014", "VID-1022", "VID-1029"];
 
       const tableBody = document.querySelector("#rankingTableBody");
       const searchInput = document.querySelector("#rankingVideoSearch");
@@ -112,7 +113,9 @@
         return "warning";
       };
 
-      const getRankingItems = () => ranking.map((id) => videos.find((video) => video.id === id)).filter(Boolean);
+      const getRankingItems = () => ranking
+        .map((id) => videos.find((video) => video.id === id))
+        .filter((video) => video && video.status === "公開中");
 
       const renderCount = () => {
         countText.textContent = `登録件数: ${ranking.length} / ${MAX_RANKING_ITEMS}`;
@@ -123,6 +126,7 @@
         const keyword = searchInput.value.trim().toLowerCase();
         const selectedSet = new Set(ranking);
         const candidates = videos.filter((video) => {
+          if (video.status !== "公開中") return false;
           if (selectedSet.has(video.id)) return false;
           if (!keyword) return true;
           return `${video.id} ${video.title} ${video.cast}`.toLowerCase().includes(keyword);
@@ -212,7 +216,7 @@
 
       addButton.addEventListener("click", () => {
         if (ranking.length >= MAX_RANKING_ITEMS) {
-          window.alert("ランキングは最大10件までです。");
+          window.alert("運営者セレクトは最大10件までです。");
           return;
         }
         const selectedId = videoSelect.value;
@@ -225,7 +229,7 @@
       searchInput.addEventListener("input", renderSelectOptions);
       saveButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          window.alert("ランキング順を保存しました（モック）。");
+          window.alert("運営者セレクト順を保存しました（モック）。");
         });
       });
 
@@ -234,6 +238,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -48,6 +48,7 @@
                 <div class="detail-row"><dt>表示名（任意）</dt><dd class="muted">未設定</dd></div>
                 <div class="detail-row"><dt>メールアドレス</dt><dd>tanaka.rina@example.jp</dd></div>
                 <div class="detail-row"><dt>会員ステータス</dt><dd><span class="pill success">有効</span></dd></div>
+                <div class="detail-row"><dt>区分</dt><dd><span class="pill region-domestic">国内</span></dd></div>
                 <div class="detail-row"><dt>登録日</dt><dd>2025/12/08</dd></div>
                 <div class="detail-row"><dt>最終ログイン</dt><dd>2026/03/14 08:52</dd></div>
               </dl>
@@ -68,6 +69,13 @@
                     <option selected>有効</option>
                     <option>休眠</option>
                     <option>停止</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>区分</span>
+                  <select class="select" id="memberRegion" name="memberRegion" data-key="memberRegion">
+                    <option value="domestic" selected>国内</option>
+                    <option value="overseas">海外</option>
                   </select>
                 </label>
                 <label class="field">
@@ -111,6 +119,7 @@
   </div>
 </body>
 </html>
+
 
 
 

@@ -23,7 +23,7 @@
         <li><a href="./genres.html">ジャンル管理</a></li>
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -78,7 +78,7 @@
                 <span>表示タグ</span>
                 <div class="check-row">
                   <label><input type="checkbox" checked> 新着</label>
-                  <label><input type="checkbox" checked> 注目動画</label>
+                  <label><input type="checkbox" checked> 運営者セレクト候補</label>
                   <label><input type="checkbox"> おすすめ</label>
                 </div>
               </fieldset>
@@ -109,6 +109,50 @@
             </article>
 
             <article class="card">
+              <div class="card-head"><h2 class="card-title">関連動画設定</h2></div>
+              <div class="card-body form-stack">
+                <div class="action-row">
+                  <input class="input" type="search" placeholder="動画タイトル / IDで検索" aria-label="関連動画検索">
+                  <select class="select" aria-label="関連動画選択">
+                    <option value="">関連動画を選択（公開中のみ）</option>
+                    <option value="VID-1032">VID-1032 / テキストテキスト / 佐藤 梨花（公開中）</option>
+                    <option value="VID-1014">VID-1014 / テキストテキスト / 鈴木 由奈（公開中）</option>
+                    <option value="VID-1022">VID-1022 / テキストテキスト / 中村 彩（公開中）</option>
+                    <option value="VID-1029">VID-1029 / テキストテキスト / 菊池 真由（公開中）</option>
+                  </select>
+                  <button class="btn" type="button">追加</button>
+                </div>
+                <p class="small-meta">選択可能: 公開中の動画のみ</p>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>表示順</th>
+                        <th>動画タイトル</th>
+                        <th>公開状態</th>
+                        <th class="text-right">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>VID-1014 / テキストテキスト</td>
+                        <td><span class="pill success">公開中</span></td>
+                        <td class="text-right"><button class="btn link" type="button">削除</button></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>VID-1022 / テキストテキスト</td>
+                        <td><span class="pill success">公開中</span></td>
+                        <td class="text-right"><button class="btn link" type="button">削除</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
               <div class="card-head"><h2 class="card-title">運用メモ</h2></div>
               <div class="card-body form-stack">
                 <label class="field">
@@ -129,6 +173,8 @@
   <script src="./admin-mock.js"></script>
 </body>
 </html>
+
+
 
 
 

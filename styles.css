@@ -282,6 +282,16 @@ main {
   text-decoration: none;
 }
 
+.mini-badge-link {
+  cursor: pointer;
+  transition: filter 120ms ease, transform 120ms ease;
+}
+
+.mini-badge-link:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
 .mini-badge-owned {
   color: #0d5d57;
   background: #e5faf7;
@@ -297,6 +307,10 @@ main {
 .badge-link:hover,
 .meta-link:hover {
   text-decoration: underline;
+}
+
+.meta-text {
+  color: var(--muted);
 }
 
 .mini-badge-sale {
@@ -491,6 +505,24 @@ h1 {
 
 .search-entry-section {
   background: #eef5ff;
+}
+
+.request-entry-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #f7fbff;
+  border-style: dashed;
+}
+
+.request-entry-copy .lead {
+  margin: 0;
+}
+
+.request-entry-btn {
+  flex: 0 0 auto;
+  min-width: 188px;
 }
 
 .news-list {
@@ -1007,7 +1039,18 @@ h2 {
 }
 
 .video-cast-name:hover {
+  text-decoration: none;
+}
+
+.news-inline-link {
+  color: var(--brand-strong);
   text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 700;
+}
+
+.news-inline-link:hover {
+  color: var(--brand);
 }
 
 .video-description {
@@ -1313,6 +1356,76 @@ h2 {
   border-radius: 10px;
   background: #fbfdff;
   height: 100%;
+}
+
+.sample-player-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+.sample-player {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.sample-player.is-locked {
+  cursor: pointer;
+}
+
+.sample-player.is-ready {
+  cursor: pointer;
+}
+
+.sample-player.is-playing {
+  background:
+    radial-gradient(circle at 25% 24%, #3f7cb5 0%, #2f5e8f 38%, #1b3550 100%);
+}
+
+.sample-player-label {
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.sample-player-state {
+  font-size: 0.88rem;
+  opacity: 0.94;
+}
+
+.sample-login-note {
+  margin: -2px 0 0;
+}
+
+.sample-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 21, 41, 0.56);
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.sample-login-overlay[hidden] {
+  display: none;
+}
+
+.sample-login-modal {
+  width: min(520px, 100%);
+  padding: 20px;
+}
+
+.sample-login-modal h3 {
+  margin: 0 0 8px;
+  font-size: 1.14rem;
+}
+
+.sample-login-modal-free {
+  margin: 0;
+  color: var(--brand-strong);
+  font-weight: 700;
 }
 
 .detail-bottom-cta {
@@ -1710,6 +1823,37 @@ textarea {
   padding: 9px 12px;
 }
 
+.request-inline-cta {
+  margin-top: 10px;
+  padding: 14px 16px;
+  border: 1px dashed #cdd8ea;
+  border-radius: 12px;
+  background: #fbfdff;
+  display: grid;
+  gap: 6px;
+}
+
+.request-inline-cta h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.request-inline-cta p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.request-inline-cta-btn {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.request-inline-cta.is-empty {
+  border-color: #bcd2f5;
+  background: #f4f8ff;
+}
+
 .directory-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1802,6 +1946,37 @@ textarea {
   margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.directory-item-simple {
+  grid-template-columns: 1fr;
+  min-height: 132px;
+  align-items: start;
+}
+
+.directory-item-simple .directory-meta {
+  width: 100%;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.search-entry-section .directory-item-simple .directory-meta {
+  padding-top: 6px;
+}
+
+.directory-item-simple h3 {
+  display: block;
+  margin: 0;
+  line-height: 1.35;
+  min-height: 1.35em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.directory-item-simple p {
+  margin: 0;
 }
 
 .pager {
@@ -2117,6 +2292,16 @@ textarea {
     min-width: 0;
   }
 
+  .request-entry-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .request-entry-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
   .directory-grid {
     grid-template-columns: 1fr;
   }
@@ -2125,6 +2310,11 @@ textarea {
     grid-template-columns: 74px minmax(0, 1fr);
     gap: 10px;
     padding: 12px;
+  }
+
+  .directory-item h3,
+  .directory-item-simple h3 {
+    white-space: normal;
   }
 
   .directory-thumb {

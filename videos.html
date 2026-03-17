@@ -27,11 +27,11 @@
       <div class="filter-panel">
         <div class="filter-grid">
           <div>
-            <label for="searchKeyword">キーワード検索（タイトル）</label>
+            <label for="searchKeyword">キーワード</label>
             <input id="searchKeyword" type="text" placeholder="例: テキストテキスト 01">
           </div>
           <div>
-            <label for="filterPrice">価格帯で絞り込み</label>
+            <label for="filterPrice">価格帯</label>
             <select id="filterPrice">
               <option value="">すべての価格帯</option>
               <option value="0-999">999円以下</option>
@@ -39,20 +39,25 @@
               <option value="1500-99999">1,500円以上</option>
             </select>
           </div>
-          <div></div>
           <div>
-            <label for="filterCast">出演者で絞り込み</label>
-            <select id="filterCast"></select>
-          </div>
-          <div>
-            <label for="filterGenre">ジャンルで絞り込み</label>
+            <label for="filterGenre">ジャンル</label>
             <select id="filterGenre"></select>
           </div>
           <div style="display:flex; align-items:flex-end;">
-            <label class="checkbox-row" for="filterSaleOnly">
-              <input id="filterSaleOnly" type="checkbox">
-              期間限定価格のみ
-            </label>
+            <div>
+              <label class="checkbox-row" for="filterSaleOnly">
+                <input id="filterSaleOnly" type="checkbox">
+                期間限定価格
+              </label>
+              <label class="checkbox-row" for="filterNewOnly" style="margin-top:6px;">
+                <input id="filterNewOnly" type="checkbox">
+                新着
+              </label>
+              <label class="checkbox-row" for="filterRecommendOnly" style="margin-top:6px;">
+                <input id="filterRecommendOnly" type="checkbox">
+                おすすめ
+              </label>
+            </div>
           </div>
         </div>
         <div class="filter-actions">
@@ -80,6 +85,13 @@
         <button class="btn btn-ghost" id="videosPrevPage" type="button">前へ</button>
         <span class="pager-info" id="videosPageInfo">1 / 1</span>
         <button class="btn btn-ghost" id="videosNextPage" type="button">次へ</button>
+      </div>
+      <div id="requestCtaAnchor">
+        <section class="request-inline-cta" id="videosRequestCta">
+          <h3>探している作品が見つからないですか？</h3>
+          <p>見たい動画や出演者、企画のご要望をお送りください。</p>
+          <a class="btn btn-ghost request-inline-cta-btn" href="contact.html?type=request">要望を送る</a>
+        </section>
       </div>
     </section>
   </main>

@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -33,12 +33,35 @@
       <header class="topbar">
         <div>
           <h1 class="page-title">注文管理</h1>
-          <p class="page-subtitle">決済と視聴権限の状態を一画面で確認</p>
+          <p class="page-subtitle">決済と視聴権限の状態を一画面で確認（売上管理モック）</p>
         </div>
         <div class="admin-user">本日注文 64件 / 入金確認待ち 5件</div>
       </header>
 
       <div class="content">
+        <section class="stats-grid">
+          <article class="card stat-card">
+            <p class="stat-label">国内売上</p>
+            <p class="stat-value">¥2,184,000</p>
+            <p class="stat-note">ダミー集計</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">海外売上</p>
+            <p class="stat-value">¥968,000</p>
+            <p class="stat-note">ダミー集計</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">国内件数</p>
+            <p class="stat-value">412件</p>
+            <p class="stat-note">ダミー集計</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-label">海外件数</p>
+            <p class="stat-value">127件</p>
+            <p class="stat-note">ダミー集計</p>
+          </article>
+        </section>
+
         <section class="toolbar">
           <div class="filters">
             <input class="input" type="text" value="#2026-0314" aria-label="注文検索">
@@ -49,6 +72,11 @@
               <option selected>すべての決済方法</option>
               <option>カード</option>
               <option>銀行振込</option>
+            </select>
+            <select id="orderRegionFilter" class="select" aria-label="区分" data-filter-key="region">
+              <option value="all" selected>すべて</option>
+              <option value="domestic">国内</option>
+              <option value="overseas">海外</option>
             </select>
             <select class="select" aria-label="支払ステータス">
               <option selected>すべての支払ステータス</option>
@@ -62,7 +90,7 @@
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">注文一覧（1,932件）</h2>
+            <h2 class="card-title">売上管理一覧（1,932件）</h2>
             <a class="card-actions" href="#">CSV出力</a>
           </div>
           <div class="card-body table-wrap">
@@ -70,8 +98,8 @@
               <thead>
                 <tr>
                   <th><button class="table-sort-btn" type="button" data-sort-key="orderNo">注文番号<span class="table-sort-indicator">↕</span></button></th>
-                  <th><button class="table-sort-btn" type="button" data-sort-key="member">会員ID<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="email">メールアドレス<span class="table-sort-indicator">↕</span></button></th>
+                  <th><button class="table-sort-btn" type="button" data-sort-key="region">区分<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="product">商品名<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="amount">金額<span class="table-sort-indicator">↕</span></button></th>
                   <th><button class="table-sort-btn" type="button" data-sort-key="paymentMethod">決済方法<span class="table-sort-indicator">↕</span></button></th>
@@ -82,10 +110,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0314-0891</a></td>
-                  <td>U-004982</td>
                   <td>tsubasa.t@example.jp</td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>テキストテキスト</td>
                   <td>¥6,800</td>
                   <td>カード</td>
@@ -94,10 +122,10 @@
                   <td><span class="pill info">付与済み</span></td>
                   <td class="text-right"><a class="btn link" href="./order-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-region="overseas">
                   <td><a href="./order-detail.html">#2026-0314-0874</a></td>
-                  <td>U-003741</td>
                   <td>yamada.kenta@example.jp</td>
+                  <td><span class="pill region-overseas">海外</span></td>
                   <td>テキストテキスト</td>
                   <td>¥9,800</td>
                   <td>銀行振込</td>
@@ -106,10 +134,10 @@
                   <td><span class="pill warning">手動付与待ち</span></td>
                   <td class="text-right"><a class="btn link" href="./order-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0314-0869</a></td>
-                  <td>U-005008</td>
                   <td>morita.yu@example.jp</td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>テキストテキスト</td>
                   <td>¥4,200</td>
                   <td>銀行振込</td>
@@ -118,10 +146,10 @@
                   <td><span class="pill warning">手動付与待ち</span></td>
                   <td class="text-right"><a class="btn link" href="./order-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-region="overseas">
                   <td><a href="./order-detail.html">#2026-0314-0862</a></td>
-                  <td>U-005231</td>
                   <td>nakamura.aya@example.jp</td>
+                  <td><span class="pill region-overseas">海外</span></td>
                   <td>テキストテキスト</td>
                   <td>¥5,500</td>
                   <td>カード</td>
@@ -130,10 +158,10 @@
                   <td><span class="pill danger">未付与</span></td>
                   <td class="text-right"><a class="btn link" href="./order-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0313-0829</a></td>
-                  <td>U-005101</td>
                   <td>abe.mika@example.jp</td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>テキストテキスト</td>
                   <td>¥7,200</td>
                   <td>銀行振込</td>
@@ -153,6 +181,7 @@
     (function () {
       const table = document.getElementById("ordersTable");
       if (!table) return;
+      const regionFilter = document.getElementById("orderRegionFilter");
       const tbody = table.querySelector("tbody");
       const sortButtons = Array.from(table.querySelectorAll("[data-sort-key]"));
       if (!tbody || sortButtons.length === 0) return;
@@ -180,8 +209,8 @@
         const c = row.cells;
         switch (key) {
           case "orderNo": return c[0].textContent.trim();
-          case "member": return c[1].textContent.trim();
-          case "email": return c[2].textContent.trim();
+          case "email": return c[1].textContent.trim();
+          case "region": return c[2].textContent.trim();
           case "product": return c[3].textContent.trim();
           case "amount": return parseNumber(c[4].textContent);
           case "paymentMethod": return c[5].textContent.trim();
@@ -225,10 +254,20 @@
           updateIndicators();
         });
       });
+
+      if (regionFilter) {
+        regionFilter.addEventListener("change", () => {
+          const selected = regionFilter.value;
+          rows.forEach((row) => {
+            row.hidden = !(selected === "all" || row.dataset.region === selected);
+          });
+        });
+      }
     })();
   </script>
 </body>
 </html>
+
 
 
 

@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a href="./rankings.html">ランキング管理</a></li>
+        <li><a href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -46,14 +46,19 @@
 
         <section class="toolbar">
           <div class="filters">
-            <input class="input" type="text" value="tanaka@" aria-label="会員検索">
-            <select class="select" aria-label="会員ステータス">
-              <option selected>すべての会員ステータス</option>
-              <option>有効</option>
-              <option>休眠</option>
-              <option>停止</option>
+            <input id="memberKeyword" class="input" type="text" value="tanaka@" aria-label="会員検索">
+            <select id="memberStatusFilter" class="select" aria-label="会員ステータス">
+              <option value="all" selected>すべての会員ステータス</option>
+              <option value="有効">有効</option>
+              <option value="休眠">休眠</option>
+              <option value="停止">停止</option>
             </select>
-            <button class="btn">絞り込み</button>
+            <select id="memberRegionFilter" class="select" aria-label="会員区分" data-filter-key="memberRegion">
+              <option value="all" selected>すべて</option>
+              <option value="domestic">国内</option>
+              <option value="overseas">海外</option>
+            </select>
+            <button class="btn" type="button" data-action="apply-member-filters">絞り込み</button>
           </div>
         </section>
 
@@ -69,6 +74,7 @@
                   <th>会員ID</th>
                   <th>メールアドレス</th>
                   <th>会員ステータス</th>
+                  <th>区分</th>
                   <th>購入商品数</th>
                   <th>お気に入り数</th>
                   <th>直近購入日</th>
@@ -79,12 +85,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr data-member-status="有効" data-member-region="domestic">
                   <td>
                     <p class="member-id">U-004982</p>
                   </td>
                   <td>tanaka.rina@example.jp</td>
                   <td><span class="pill success">有効</span></td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>6</td>
                   <td>14</td>
                   <td>2026/03/12</td>
@@ -102,12 +109,13 @@
                   </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-member-status="有効" data-member-region="overseas">
                   <td>
                     <p class="member-id">U-003741</p>
                   </td>
                   <td>suzuki.t@example.jp</td>
                   <td><span class="pill success">有効</span></td>
+                  <td><span class="pill region-overseas">海外</span></td>
                   <td>2</td>
                   <td>8</td>
                   <td>2026/02/21</td>
@@ -125,12 +133,13 @@
                   </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-member-status="休眠" data-member-region="domestic">
                   <td>
                     <p class="member-id">U-005101</p>
                   </td>
                   <td>abe.mika@example.jp</td>
                   <td><span class="pill warning">休眠</span></td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>0</td>
                   <td>3</td>
                   <td class="muted">-</td>
@@ -148,12 +157,13 @@
                   </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-member-status="停止" data-member-region="overseas">
                   <td>
                     <p class="member-id">U-002319</p>
                   </td>
                   <td>nakamura.takumi@example.jp</td>
                   <td><span class="pill danger">停止</span></td>
+                  <td><span class="pill region-overseas">海外</span></td>
                   <td>4</td>
                   <td>1</td>
                   <td>2025/12/10</td>
@@ -171,12 +181,13 @@
                   </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
-                <tr>
+                <tr data-member-status="有効" data-member-region="domestic">
                   <td>
                     <p class="member-id">U-005122</p>
                   </td>
                   <td>ito.yuka@example.jp</td>
                   <td><span class="pill success">有効</span></td>
+                  <td><span class="pill region-domestic">国内</span></td>
                   <td>1</td>
                   <td>5</td>
                   <td>2026/03/14</td>
@@ -201,8 +212,38 @@
       </div>
     </main>
   </div>
+  <script>
+    (function () {
+      const keywordInput = document.getElementById("memberKeyword");
+      const statusFilter = document.getElementById("memberStatusFilter");
+      const regionFilter = document.getElementById("memberRegionFilter");
+      const applyBtn = document.querySelector("[data-action='apply-member-filters']");
+      const rows = Array.from(document.querySelectorAll("tbody tr[data-member-region]"));
+
+      if (!keywordInput || !statusFilter || !regionFilter || !applyBtn || rows.length === 0) return;
+
+      function applyFilters() {
+        const keyword = (keywordInput.value || "").trim().toLowerCase();
+        const status = statusFilter.value;
+        const region = regionFilter.value;
+
+        rows.forEach((row) => {
+          const rowText = row.textContent.toLowerCase();
+          const matchKeyword = !keyword || rowText.includes(keyword);
+          const matchStatus = status === "all" || row.dataset.memberStatus === status;
+          const matchRegion = region === "all" || row.dataset.memberRegion === region;
+          row.hidden = !(matchKeyword && matchStatus && matchRegion);
+        });
+      }
+
+      applyBtn.addEventListener("click", applyFilters);
+      regionFilter.addEventListener("change", applyFilters);
+      statusFilter.addEventListener("change", applyFilters);
+    })();
+  </script>
 </body>
 </html>
+
 
 
 

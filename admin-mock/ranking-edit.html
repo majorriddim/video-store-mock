@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ランキング編集 | Video Store Admin Mock</title>
+  <title>運営者セレクト編集 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
         <li><a href="./contents.html">コンテンツ管理</a></li>
         <li><a href="./change-history.html">変更履歴</a></li>
         <li><a href="./news.html">NEWS管理</a></li>
-        <li><a class="active" href="./rankings.html">ランキング管理</a></li>
+        <li><a class="active" href="./rankings.html">運営者セレクト管理</a></li>
         <li><a href="./analytics-dashboard.html">アクセス解析</a></li>
       </ul>
     </aside>
@@ -32,11 +32,11 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">ランキング編集</h1>
+          <h1 class="page-title">運営者セレクト編集</h1>
           <p class="page-subtitle" id="rankingEditId">対象動画: -</p>
         </div>
         <div class="action-row">
-          <a class="btn" href="./rankings.html">ランキング一覧へ戻る</a>
+          <a class="btn" href="./rankings.html">運営者セレクト一覧へ戻る</a>
           <button id="saveRankingEditTop" class="btn primary" type="button">保存する</button>
         </div>
       </header>
@@ -46,7 +46,7 @@
           <div class="card-head"><h2 class="card-title">編集項目</h2></div>
           <div class="card-body form-stack">
             <label class="field">
-              <span>ランキング順位</span>
+              <span>表示順位</span>
               <input id="rankingPosition" class="input" type="number" min="1" max="10" value="1">
             </label>
             <label class="field">
@@ -102,7 +102,7 @@
 
       saveButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
-          window.alert("ランキングを更新しました（モック）。");
+          window.alert("運営者セレクトを更新しました（モック）。");
           window.location.href = "./rankings.html";
         });
       });
@@ -110,6 +110,7 @@
   </script>
 </body>
 </html>
+
 
 
 
