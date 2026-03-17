@@ -1868,6 +1868,10 @@ textarea {
   background: #f4f8ff;
 }
 
+#genresRequestCta {
+  margin-top: 30px;
+}
+
 .directory-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
