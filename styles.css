@@ -1627,6 +1627,20 @@ h2 {
   margin-top: 12px;
 }
 
+#contactPageBadge {
+  margin-bottom: 6px;
+}
+
+#contactPageLead {
+  margin-top: 12px;
+  margin-bottom: 30px;
+  line-height: 1.75;
+}
+
+#contactForm .form-row:first-of-type {
+  margin-top: 6px;
+}
+
 .form-row {
   margin-bottom: 14px;
 }

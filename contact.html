@@ -25,9 +25,8 @@
 
   <main class="container">
     <section class="card login-box">
-      <span class="badge">サポート</span>
-      <h1>お問い合わせ</h1>
-      <p class="lead">購入前のご質問、視聴に関する不具合、請求に関するご相談に加えて、見たい動画のリクエストも受け付けています。</p>
+      <span class="badge" id="contactPageBadge">お問い合わせ</span>
+      <p class="lead" id="contactPageLead">購入前のご質問、視聴に関する不具合、請求に関するご相談に加えて、見たい動画のリクエストも受け付けています。</p>
       <form id="contactForm">
         <input type="hidden" name="cf-turnstile-response" value="">
         <input class="hp-field" type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -42,7 +41,7 @@
         <div class="form-row">
           <label for="contactType">お問い合わせ種別</label>
           <select id="contactType" required>
-            <option value="request">見たい動画のリクエスト</option>
+            <option value="request">ご希望の動画に関するリクエスト</option>
             <option value="purchase">購入前の質問</option>
             <option value="playback">視聴不具合</option>
             <option value="billing">請求・決済</option>

@@ -1941,6 +1941,9 @@ function initContactPage() {
   const mode = url.searchParams.get("mode");
   const requestedType = url.searchParams.get("type");
   const isBankTransferMode = mode === "bank-transfer";
+  const pageBadge = document.querySelector("#contactPageBadge");
+  const pageTitle = document.querySelector("#contactPageTitle");
+  const pageLead = document.querySelector("#contactPageLead");
   const videoId = url.searchParams.get("video");
   const video = DEMO_VIDEOS.find((v) => v.id === videoId);
   const productUrlParam = url.searchParams.get("productUrl");
@@ -2052,6 +2055,9 @@ function initContactPage() {
   if (!isBankTransferMode && contactType) {
     if (requestedType === "request") {
       contactType.value = "request";
+      if (pageBadge) pageBadge.textContent = "動画リクエスト";
+      if (pageTitle) pageTitle.hidden = true;
+      if (pageLead) pageLead.textContent = "ご希望の動画に関するリクエストを受け付けています。";
     }
     updateContactTypeView();
     contactType.addEventListener("change", updateContactTypeView);
@@ -2127,6 +2133,19 @@ function setActiveNav() {
   });
 }
 
+function initFooterRequestLink() {
+  const footerLinks = document.querySelector(".footer-links");
+  if (!footerLinks) return;
+  const alreadyExists = Array.from(footerLinks.querySelectorAll("a"))
+    .some((anchor) => anchor.getAttribute("href") === "contact.html?type=request");
+  if (alreadyExists) return;
+
+  const requestLink = document.createElement("a");
+  requestLink.href = "contact.html?type=request";
+  requestLink.textContent = "動画リクエスト";
+  footerLinks.appendChild(requestLink);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeaderNav();
   initMobileMenu();
@@ -2135,6 +2154,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNewsArchivePage();
   bindCommonActions();
   setActiveNav();
+  initFooterRequestLink();
   initProductPage();
   initAboutSlider();
   initVideosPage();
