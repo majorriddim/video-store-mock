@@ -45,7 +45,7 @@
             <div class="card-body form-stack">
               <dl class="detail-list">
                 <div class="detail-row"><dt>会員ID</dt><dd>U-004982</dd></div>
-                <div class="detail-row"><dt>会員ステータス</dt><dd><span class="pill success">有効</span></dd></div>
+                <div class="detail-row"><dt>会員ステータス</dt><dd><span class="pill success" id="memberStatusBadge">有効</span></dd></div>
                 <div class="detail-row"><dt>登録日</dt><dd>2025/12/08</dd></div>
                 <div class="detail-row"><dt>最終ログイン</dt><dd>2026/03/14 08:52</dd></div>
               </dl>
@@ -71,6 +71,38 @@
                 <span>住所</span>
                 <textarea class="input textarea" rows="2">東京都渋谷区神南1-2-3 サンプルマンション 502</textarea>
               </label>
+            </div>
+          </article>
+
+          <article class="card collapsible-card is-collapsed" data-collapsible-card>
+            <div class="card-head">
+              <h2 class="card-title">会員ステータス管理</h2>
+              <button class="card-actions as-button" type="button" data-toggle-card data-collapsed-label="編集する" aria-expanded="false">編集する</button>
+            </div>
+            <div class="card-body form-stack">
+              <div class="detail-list">
+                <div class="detail-row"><dt>最終更新日</dt><dd id="memberStatusLastUpdated">2026/03/14 09:05（管理者: admin01）</dd></div>
+              </div>
+              <label class="field">
+                <span>会員ステータス</span>
+                <select class="select" id="memberStatusSelect">
+                  <option value="有効" selected>有効</option>
+                  <option value="休眠">休眠</option>
+                  <option value="停止">停止</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>変更理由（管理メモ）</span>
+                <textarea class="input textarea" id="memberStatusMemo" rows="2" placeholder="例: 長期未ログインのため休眠に変更"></textarea>
+              </label>
+              <section class="policy-note">
+                <p><strong>会員ステータスの変更はこの詳細ページでのみ行う運用です。</strong></p>
+                <p class="muted">会員一覧では確認のみとし、変更操作はここに集約します。</p>
+              </section>
+              <div class="action-row">
+                <button class="btn primary" id="updateMemberStatusBtn" type="button">ステータスを更新</button>
+                <button class="btn" id="openMemberStatusHistoryBtn" type="button">変更履歴を見る</button>
+              </div>
             </div>
           </article>
 
@@ -186,6 +218,30 @@
       </div>
     </div>
   </div>
+  <div class="modal-backdrop" id="memberStatusHistoryModal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="memberStatusHistoryTitle">
+      <div class="modal-head">
+        <h2 class="modal-title" id="memberStatusHistoryTitle">会員ステータスの変更履歴</h2>
+        <button class="btn" type="button" id="closeMemberStatusHistoryTop">閉じる</button>
+      </div>
+      <div class="modal-body table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>更新日時</th>
+              <th>ステータス</th>
+              <th>更新者</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody id="memberStatusHistoryBody"></tbody>
+        </table>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" id="closeMemberStatusHistoryBottom">閉じる</button>
+      </div>
+    </div>
+  </div>
   <script>
     (function () {
       const cards = Array.from(document.querySelectorAll("[data-collapsible-card]"));
@@ -223,8 +279,18 @@
       const paypalCountry = document.getElementById("paypalCountry");
       const paypalAddress = document.getElementById("paypalAddress");
       const paypalFetchedAt = document.getElementById("paypalFetchedAt");
+      const memberStatusBadge = document.getElementById("memberStatusBadge");
+      const memberStatusSelect = document.getElementById("memberStatusSelect");
+      const memberStatusMemo = document.getElementById("memberStatusMemo");
+      const memberStatusLastUpdated = document.getElementById("memberStatusLastUpdated");
+      const updateMemberStatusBtn = document.getElementById("updateMemberStatusBtn");
+      const openMemberStatusHistoryBtn = document.getElementById("openMemberStatusHistoryBtn");
+      const memberStatusHistoryModal = document.getElementById("memberStatusHistoryModal");
+      const memberStatusHistoryBody = document.getElementById("memberStatusHistoryBody");
+      const closeMemberStatusHistoryTop = document.getElementById("closeMemberStatusHistoryTop");
+      const closeMemberStatusHistoryBottom = document.getElementById("closeMemberStatusHistoryBottom");
 
-      if (!judgementResult || !judgementReason || !judgementMemo || !judgementLastUpdated || !updateJudgementBtn || !openJudgementHistoryBtn || !judgementHistoryModal || !judgementHistoryBody || !closeJudgementHistoryTop || !closeJudgementHistoryBottom || !paypalRefetchBtn || !paypalRefetchScenario || !paypalRefetchStatus || !paypalName || !paypalEmail || !paypalCountry || !paypalAddress || !paypalFetchedAt) return;
+      if (!judgementResult || !judgementReason || !judgementMemo || !judgementLastUpdated || !updateJudgementBtn || !openJudgementHistoryBtn || !judgementHistoryModal || !judgementHistoryBody || !closeJudgementHistoryTop || !closeJudgementHistoryBottom || !paypalRefetchBtn || !paypalRefetchScenario || !paypalRefetchStatus || !paypalName || !paypalEmail || !paypalCountry || !paypalAddress || !paypalFetchedAt || !memberStatusBadge || !memberStatusSelect || !memberStatusMemo || !memberStatusLastUpdated || !updateMemberStatusBtn || !openMemberStatusHistoryBtn || !memberStatusHistoryModal || !memberStatusHistoryBody || !closeMemberStatusHistoryTop || !closeMemberStatusHistoryBottom) return;
 
       const resultLabelMap = { domestic: "国内", overseas: "国外", review: "要確認" };
       const judgementHistory = [
@@ -267,6 +333,53 @@
         judgementHistoryModal.setAttribute("aria-hidden", "true");
       };
 
+      const memberStatusClassMap = { "有効": "success", "休眠": "warning", "停止": "danger" };
+      const memberStatusHistory = [
+        {
+          updatedAt: "2026/03/14 09:05",
+          status: "有効",
+          updatedBy: "admin01",
+          memo: "初期設定"
+        }
+      ];
+
+      const renderMemberStatusHistory = () => {
+        memberStatusHistoryBody.innerHTML = "";
+        memberStatusHistory.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td>" + item.updatedAt + "</td><td>" + item.status + "</td><td>" + item.updatedBy + "</td><td>" + item.memo + "</td>";
+          memberStatusHistoryBody.appendChild(tr);
+        });
+      };
+
+      const openMemberStatusHistoryModal = () => {
+        renderMemberStatusHistory();
+        memberStatusHistoryModal.classList.add("is-open");
+        memberStatusHistoryModal.setAttribute("aria-hidden", "false");
+      };
+
+      const closeMemberStatusHistoryModal = () => {
+        memberStatusHistoryModal.classList.remove("is-open");
+        memberStatusHistoryModal.setAttribute("aria-hidden", "true");
+      };
+
+      updateMemberStatusBtn.addEventListener("click", () => {
+        const status = memberStatusSelect.value;
+        const updatedAt = formatNow();
+        const memo = (memberStatusMemo.value || "").trim() || "メモなし";
+        memberStatusBadge.textContent = status;
+        memberStatusBadge.classList.remove("success", "warning", "danger");
+        memberStatusBadge.classList.add(memberStatusClassMap[status] || "info");
+        memberStatusLastUpdated.textContent = updatedAt + "（管理者: admin01）";
+        memberStatusHistory.unshift({
+          updatedAt: updatedAt,
+          status: status,
+          updatedBy: "admin01",
+          memo: memo
+        });
+        memberStatusMemo.value = "";
+      });
+
       updateJudgementBtn.addEventListener("click", () => {
         const updatedAt = formatNow();
         const result = resultLabelMap[judgementResult.value] || judgementResult.value;
@@ -288,6 +401,13 @@
       closeJudgementHistoryBottom.addEventListener("click", closeHistoryModal);
       judgementHistoryModal.addEventListener("click", (event) => {
         if (event.target === judgementHistoryModal) closeHistoryModal();
+      });
+
+      openMemberStatusHistoryBtn.addEventListener("click", openMemberStatusHistoryModal);
+      closeMemberStatusHistoryTop.addEventListener("click", closeMemberStatusHistoryModal);
+      closeMemberStatusHistoryBottom.addEventListener("click", closeMemberStatusHistoryModal);
+      memberStatusHistoryModal.addEventListener("click", (event) => {
+        if (event.target === memberStatusHistoryModal) closeMemberStatusHistoryModal();
       });
 
       paypalRefetchBtn.addEventListener("click", () => {
