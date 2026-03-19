@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>会員詳細 | Video Store Admin Mock</title>
+  <title>アカウント詳細 | Video Store Admin Mock</title>
   <link rel="stylesheet" href="./admin-mock.css">
 </head>
 <body>
@@ -32,91 +32,283 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 class="page-title">会員詳細</h1>
-          <p class="page-subtitle">会員ID: U-004982 / 購入・視聴・問い合わせの統合ビュー</p>
+          <h1 class="page-title">アカウント詳細</h1>
+          <p class="page-subtitle">会員ID: U-004982 / 国内外判定の管理と参照情報</p>
         </div>
         <a class="btn" href="./members.html">一覧へ戻る</a>
       </header>
 
       <div class="content">
-        <section class="dashboard-grid">
+        <div class="stack">
           <article class="card">
-            <div class="card-head"><h2 class="card-title">会員情報</h2></div>
-            <div class="card-body">
+            <div class="card-head"><h2 class="card-title">基本情報（国内外判定の管理元）</h2></div>
+            <div class="card-body form-stack">
               <dl class="detail-list">
                 <div class="detail-row"><dt>会員ID</dt><dd>U-004982</dd></div>
-                <div class="detail-row"><dt>表示名（任意）</dt><dd class="muted">未設定</dd></div>
-                <div class="detail-row"><dt>メールアドレス</dt><dd>tanaka.rina@example.jp</dd></div>
                 <div class="detail-row"><dt>会員ステータス</dt><dd><span class="pill success">有効</span></dd></div>
-                <div class="detail-row"><dt>区分</dt><dd><span class="pill region-domestic">国内</span></dd></div>
                 <div class="detail-row"><dt>登録日</dt><dd>2025/12/08</dd></div>
                 <div class="detail-row"><dt>最終ログイン</dt><dd>2026/03/14 08:52</dd></div>
+              </dl>
+              <div class="section-divider" aria-hidden="true"></div>
+              <label class="field">
+                <span>氏名</span>
+                <input class="input" type="text" value="田中 里奈">
+              </label>
+              <label class="field">
+                <span>メールアドレス</span>
+                <input class="input" type="email" value="tanaka.rina@example.jp">
+              </label>
+              <label class="field">
+                <span>国 / 地域</span>
+                <select class="select">
+                  <option selected>日本 (JP)</option>
+                  <option>アメリカ合衆国 (US)</option>
+                  <option>台湾 (TW)</option>
+                  <option>未設定</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>住所</span>
+                <textarea class="input textarea" rows="2">東京都渋谷区神南1-2-3 サンプルマンション 502</textarea>
+              </label>
+            </div>
+          </article>
+
+          <article class="card collapsible-card is-collapsed" data-collapsible-card>
+            <div class="card-head">
+              <h2 class="card-title">国内外判定</h2>
+              <button class="card-actions as-button" type="button" data-toggle-card data-collapsed-label="編集する" aria-expanded="false">編集する</button>
+            </div>
+            <div class="card-body form-stack">
+              <label class="field">
+                <span>判定結果</span>
+                <select class="select" id="judgementResult">
+                  <option value="domestic" selected>国内</option>
+                  <option value="overseas">国外</option>
+                  <option value="review">要確認</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>判定根拠</span>
+                <select class="select" id="judgementReason">
+                  <option value="住所情報ベース" selected>住所情報ベース</option>
+                  <option value="PayPal取得情報ベース">PayPal取得情報ベース</option>
+                  <option value="手動設定">手動設定</option>
+                  <option value="情報不一致のため要確認">情報不一致のため要確認</option>
+                </select>
+              </label>
+              <div class="detail-list">
+                <div class="detail-row"><dt>最終更新日</dt><dd id="judgementLastUpdated">2026/03/14 09:20（管理者: admin01）</dd></div>
+              </div>
+              <label class="field">
+                <span>更新メモ</span>
+                <textarea class="input textarea" id="judgementMemo" rows="3" placeholder="例: PayPal住所との差分を確認し、国内に変更"></textarea>
+              </label>
+              <section class="policy-note">
+                <p><strong>この判定結果は、会員一覧と注文一覧の国内外表示に反映される想定です。</strong></p>
+                <p class="muted">注文単位で直接入力するのではなく、アカウント詳細で管理した判定を参照する運用を想定しています。</p>
+              </section>
+              <div class="action-row">
+                <button class="btn primary" id="updateJudgementBtn" type="button">判定を手動更新</button>
+                <button class="btn" id="openJudgementHistoryBtn" type="button">判定履歴を見る</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card collapsible-card is-collapsed" data-collapsible-card>
+            <div class="card-head">
+              <h2 class="card-title">PayPal取得情報（参考）</h2>
+              <button class="card-actions as-button" type="button" data-toggle-card data-collapsed-label="参照する" aria-expanded="false">参照する</button>
+            </div>
+            <div class="card-body form-stack">
+              <div class="action-row">
+                <button class="btn primary" type="button" id="paypalRefetchBtn">PayPal情報を再取得</button>
+                <select class="select" id="paypalRefetchScenario" aria-label="再取得モック結果">
+                  <option value="success" selected>成功パターン</option>
+                  <option value="failure">失敗パターン</option>
+                </select>
+              </div>
+              <div class="status-banner success" id="paypalRefetchStatus">
+                最終取得は成功しています（2026/03/14 09:12）。必要に応じて再取得できます。
+              </div>
+              <section class="policy-note">
+                <p><strong>PayPal決済時に取得できた顧客情報がある場合、氏名・住所・国情報をここに表示します。</strong></p>
+                <p class="muted">取得内容は取引内容やPayPalの返却情報により異なる場合があります。国内外判定の参考情報として扱います。</p>
+              </section>
+              <dl class="detail-list">
+                <div class="detail-row"><dt>PayPal取得氏名</dt><dd id="paypalName">Rina Tanaka</dd></div>
+                <div class="detail-row"><dt>PayPal取得メールアドレス</dt><dd id="paypalEmail">tanaka.rina@example.jp</dd></div>
+                <div class="detail-row"><dt>PayPal取得国コード</dt><dd id="paypalCountry">JP</dd></div>
+                <div class="detail-row"><dt>PayPal取得住所</dt><dd id="paypalAddress">1-2-3 Jinnan, Shibuya-ku, Tokyo, 150-0041, Japan</dd></div>
+                <div class="detail-row"><dt>情報取得日時</dt><dd id="paypalFetchedAt">2026/03/14 09:12</dd></div>
               </dl>
             </div>
           </article>
 
-          <div class="stack">
-            <article class="card">
-              <div class="card-head"><h2 class="card-title">会員状態の管理（休眠 / 停止）</h2></div>
-              <div class="card-body form-stack">
-                <section class="policy-note">
-                  <p><strong>この操作で会員情報は削除されません。</strong>購入履歴・視聴権限履歴・問い合わせ履歴は保持されます。</p>
-                  <p class="muted">停止はログイン不可、休眠は運用上の非アクティブ管理として扱う想定です。</p>
-                </section>
-                <label class="field">
-                  <span>会員ステータス</span>
-                  <select class="select">
-                    <option selected>有効</option>
-                    <option>休眠</option>
-                    <option>停止</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>区分</span>
-                  <select class="select" id="memberRegion" name="memberRegion" data-key="memberRegion">
-                    <option value="domestic" selected>国内</option>
-                    <option value="overseas">海外</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>変更理由（管理メモ）</span>
-                  <textarea class="input textarea" rows="3" placeholder="例: 長期未ログインのため休眠へ変更"></textarea>
-                </label>
-                <div class="action-row">
-                  <button class="btn primary" type="button">状態を更新する</button>
-                  <button class="btn" type="button">有効に戻す</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="card">
-              <div class="card-head"><h2 class="card-title">購入履歴</h2></div>
-              <div class="card-body table-wrap">
-                <table>
-                  <thead><tr><th>注文番号</th><th>商品</th><th>金額</th><th>支払</th><th>日時</th></tr></thead>
-                  <tbody>
-                    <tr><td><a href="./order-detail.html">#2026-0314-0891</a></td><td><a href="./video-detail.html">テキストテキスト</a></td><td>¥6,800</td><td><span class="pill success">完了</span></td><td>2026/03/14 09:12</td></tr>
-                    <tr><td><a href="./order-detail.html">#2026-0228-0671</a></td><td>テキストテキスト</td><td>¥4,200</td><td><span class="pill success">完了</span></td><td>2026/02/28 20:18</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card">
-              <div class="card-head"><h2 class="card-title">視聴権限・問い合わせ</h2></div>
-              <div class="card-body">
-                <dl class="detail-list">
-                  <div class="detail-row"><dt>視聴可能本数</dt><dd>6本（失効なし）</dd></div>
-                  <div class="detail-row"><dt>手動付与案件</dt><dd>0件</dd></div>
-                  <div class="detail-row"><dt>関連問い合わせ</dt><dd><a href="./inquiry-detail.html">1件（視聴エラー）</a></dd></div>
-                </dl>
-              </div>
-            </article>
-          </div>
-        </section>
+          <article class="card">
+            <div class="card-head"><h2 class="card-title">購入履歴</h2></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>注文番号</th><th>商品</th><th>金額</th><th>支払</th><th>日時</th></tr></thead>
+                <tbody>
+                  <tr><td><a href="./order-detail.html">#2026-0314-0891</a></td><td><a href="./video-detail.html">テキストテキスト</a></td><td>¥6,800</td><td><span class="pill success">完了</span></td><td>2026/03/14 09:12</td></tr>
+                  <tr><td><a href="./order-detail.html">#2026-0228-0671</a></td><td>テキストテキスト</td><td>¥4,200</td><td><span class="pill success">完了</span></td><td>2026/02/28 20:18</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
       </div>
     </main>
   </div>
+  <div class="modal-backdrop" id="judgementHistoryModal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="judgementHistoryTitle">
+      <div class="modal-head">
+        <h2 class="modal-title" id="judgementHistoryTitle">国内外判定の履歴</h2>
+        <button class="btn" type="button" id="closeJudgementHistoryTop">閉じる</button>
+      </div>
+      <div class="modal-body table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>更新日時</th>
+              <th>判定結果</th>
+              <th>判定根拠</th>
+              <th>更新者</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody id="judgementHistoryBody"></tbody>
+        </table>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" id="closeJudgementHistoryBottom">閉じる</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const cards = Array.from(document.querySelectorAll("[data-collapsible-card]"));
+      cards.forEach((card) => {
+        const toggle = card.querySelector("[data-toggle-card]");
+        if (!toggle) return;
+        const collapsedLabel = toggle.getAttribute("data-collapsed-label") || "開く";
+        toggle.addEventListener("click", () => {
+          const isCollapsed = card.classList.contains("is-collapsed");
+          card.classList.toggle("is-collapsed", !isCollapsed);
+          toggle.setAttribute("aria-expanded", String(isCollapsed));
+          if (isCollapsed) {
+            toggle.textContent = "閉じる";
+          } else {
+            toggle.textContent = collapsedLabel;
+          }
+        });
+      });
+
+      const judgementResult = document.getElementById("judgementResult");
+      const judgementReason = document.getElementById("judgementReason");
+      const judgementMemo = document.getElementById("judgementMemo");
+      const judgementLastUpdated = document.getElementById("judgementLastUpdated");
+      const updateJudgementBtn = document.getElementById("updateJudgementBtn");
+      const openJudgementHistoryBtn = document.getElementById("openJudgementHistoryBtn");
+      const judgementHistoryModal = document.getElementById("judgementHistoryModal");
+      const judgementHistoryBody = document.getElementById("judgementHistoryBody");
+      const closeJudgementHistoryTop = document.getElementById("closeJudgementHistoryTop");
+      const closeJudgementHistoryBottom = document.getElementById("closeJudgementHistoryBottom");
+      const paypalRefetchBtn = document.getElementById("paypalRefetchBtn");
+      const paypalRefetchScenario = document.getElementById("paypalRefetchScenario");
+      const paypalRefetchStatus = document.getElementById("paypalRefetchStatus");
+      const paypalName = document.getElementById("paypalName");
+      const paypalEmail = document.getElementById("paypalEmail");
+      const paypalCountry = document.getElementById("paypalCountry");
+      const paypalAddress = document.getElementById("paypalAddress");
+      const paypalFetchedAt = document.getElementById("paypalFetchedAt");
+
+      if (!judgementResult || !judgementReason || !judgementMemo || !judgementLastUpdated || !updateJudgementBtn || !openJudgementHistoryBtn || !judgementHistoryModal || !judgementHistoryBody || !closeJudgementHistoryTop || !closeJudgementHistoryBottom || !paypalRefetchBtn || !paypalRefetchScenario || !paypalRefetchStatus || !paypalName || !paypalEmail || !paypalCountry || !paypalAddress || !paypalFetchedAt) return;
+
+      const resultLabelMap = { domestic: "国内", overseas: "国外", review: "要確認" };
+      const judgementHistory = [
+        {
+          updatedAt: "2026/03/14 09:20",
+          result: "国内",
+          reason: "住所情報ベース",
+          updatedBy: "admin01",
+          memo: "初期判定"
+        }
+      ];
+
+      const formatNow = () => {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const d = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        return y + "/" + m + "/" + d + " " + hh + ":" + mm;
+      };
+
+      const renderHistory = () => {
+        judgementHistoryBody.innerHTML = "";
+        judgementHistory.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td>" + item.updatedAt + "</td><td>" + item.result + "</td><td>" + item.reason + "</td><td>" + item.updatedBy + "</td><td>" + item.memo + "</td>";
+          judgementHistoryBody.appendChild(tr);
+        });
+      };
+
+      const openHistoryModal = () => {
+        renderHistory();
+        judgementHistoryModal.classList.add("is-open");
+        judgementHistoryModal.setAttribute("aria-hidden", "false");
+      };
+
+      const closeHistoryModal = () => {
+        judgementHistoryModal.classList.remove("is-open");
+        judgementHistoryModal.setAttribute("aria-hidden", "true");
+      };
+
+      updateJudgementBtn.addEventListener("click", () => {
+        const updatedAt = formatNow();
+        const result = resultLabelMap[judgementResult.value] || judgementResult.value;
+        const reason = judgementReason.value;
+        const memo = (judgementMemo.value || "").trim() || "メモなし";
+        judgementLastUpdated.textContent = updatedAt + "（管理者: admin01）";
+        judgementHistory.unshift({
+          updatedAt: updatedAt,
+          result: result,
+          reason: reason,
+          updatedBy: "admin01",
+          memo: memo
+        });
+        judgementMemo.value = "";
+      });
+
+      openJudgementHistoryBtn.addEventListener("click", openHistoryModal);
+      closeJudgementHistoryTop.addEventListener("click", closeHistoryModal);
+      closeJudgementHistoryBottom.addEventListener("click", closeHistoryModal);
+      judgementHistoryModal.addEventListener("click", (event) => {
+        if (event.target === judgementHistoryModal) closeHistoryModal();
+      });
+
+      paypalRefetchBtn.addEventListener("click", () => {
+        const now = formatNow();
+        if (paypalRefetchScenario.value === "success") {
+          paypalName.textContent = "Rina T. Tanaka";
+          paypalEmail.textContent = "rina.tanaka@example.jp";
+          paypalCountry.textContent = "JP";
+          paypalAddress.textContent = "2-5-8 Jingumae, Shibuya-ku, Tokyo, 150-0001, Japan";
+          paypalFetchedAt.textContent = now;
+          paypalRefetchStatus.classList.remove("error");
+          paypalRefetchStatus.classList.add("success");
+          paypalRefetchStatus.textContent = "再取得に成功しました。最新のPayPal返却情報を表示しています（" + now + "）。";
+        } else {
+          paypalRefetchStatus.classList.remove("success");
+          paypalRefetchStatus.classList.add("error");
+          paypalRefetchStatus.textContent = "再取得に失敗しました（タイムアウト）。前回取得済みの情報を表示したままです。";
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
 

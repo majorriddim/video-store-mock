@@ -33,9 +33,9 @@
       <header class="topbar">
         <div>
           <h1 class="page-title">会員管理</h1>
-          <p class="page-subtitle">購入済み動画・お気に入り状況・視聴可能本数を含む会員一覧</p>
+          <p class="page-subtitle">アカウント詳細で管理した国内外判定を参照する会員一覧</p>
         </div>
-        <div class="admin-user">有効会員 1,248人 / 要確認 32人</div>
+        <div class="admin-user">有効会員 1,248人 / 判定要確認 32人</div>
       </header>
 
       <div class="content">
@@ -54,9 +54,10 @@
               <option value="停止">停止</option>
             </select>
             <select id="memberRegionFilter" class="select" aria-label="会員区分" data-filter-key="memberRegion">
-              <option value="all" selected>すべて</option>
+              <option value="all" selected>すべての国内外判定</option>
               <option value="domestic">国内</option>
-              <option value="overseas">海外</option>
+              <option value="overseas">国外</option>
+              <option value="review">要確認</option>
             </select>
             <button class="btn" type="button" data-action="apply-member-filters">絞り込み</button>
           </div>
@@ -72,13 +73,11 @@
               <thead>
                 <tr>
                   <th>会員ID</th>
+                  <th>氏名</th>
                   <th>メールアドレス</th>
                   <th>会員ステータス</th>
-                  <th>区分</th>
-                  <th>購入商品数</th>
-                  <th>お気に入り数</th>
-                  <th>直近購入日</th>
-                  <th>視聴可能本数</th>
+                  <th>国内外判定</th>
+                  <th>判定更新日</th>
                   <th>最終ログイン</th>
                   <th>状態変更</th>
                   <th class="text-right">操作</th>
@@ -89,13 +88,13 @@
                   <td>
                     <p class="member-id">U-004982</p>
                   </td>
+                  <td>
+                    <p class="member-name"><a href="./member-detail.html">田中 里奈</a></p>
+                  </td>
                   <td>tanaka.rina@example.jp</td>
                   <td><span class="pill success">有効</span></td>
                   <td><span class="pill region-domestic">国内</span></td>
-                  <td>6</td>
-                  <td>14</td>
-                  <td>2026/03/12</td>
-                  <td>6</td>
+                  <td>2026/03/14 09:20</td>
                   <td>2026/03/14 08:52</td>
                   <td>
                     <div class="status-actions">
@@ -113,13 +112,13 @@
                   <td>
                     <p class="member-id">U-003741</p>
                   </td>
+                  <td>
+                    <p class="member-name"><a href="./member-detail.html">鈴木 拓也</a></p>
+                  </td>
                   <td>suzuki.t@example.jp</td>
                   <td><span class="pill success">有効</span></td>
-                  <td><span class="pill region-overseas">海外</span></td>
-                  <td>2</td>
-                  <td>8</td>
-                  <td>2026/02/21</td>
-                  <td>2</td>
+                  <td><span class="pill region-overseas">国外</span></td>
+                  <td>2026/03/12 11:03</td>
                   <td>2026/03/13 23:11</td>
                   <td>
                     <div class="status-actions">
@@ -137,13 +136,13 @@
                   <td>
                     <p class="member-id">U-005101</p>
                   </td>
+                  <td>
+                    <p class="member-name"><a href="./member-detail.html">阿部 美香</a></p>
+                  </td>
                   <td>abe.mika@example.jp</td>
                   <td><span class="pill warning">休眠</span></td>
                   <td><span class="pill region-domestic">国内</span></td>
-                  <td>0</td>
-                  <td>3</td>
-                  <td class="muted">-</td>
-                  <td>0</td>
+                  <td>2026/03/11 17:42</td>
                   <td>2026/03/13 19:18</td>
                   <td>
                     <div class="status-actions">
@@ -161,13 +160,13 @@
                   <td>
                     <p class="member-id">U-002319</p>
                   </td>
+                  <td>
+                    <p class="member-name"><a href="./member-detail.html">中村 匠</a></p>
+                  </td>
                   <td>nakamura.takumi@example.jp</td>
                   <td><span class="pill danger">停止</span></td>
-                  <td><span class="pill region-overseas">海外</span></td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>2025/12/10</td>
-                  <td>0</td>
+                  <td><span class="pill region-overseas">国外</span></td>
+                  <td>2026/01/04 10:10</td>
                   <td>2026/01/04 10:02</td>
                   <td>
                     <div class="status-actions">
@@ -181,17 +180,17 @@
                   </td>
                   <td class="text-right"><a class="btn link" href="./member-detail.html">詳細</a></td>
                 </tr>
-                <tr data-member-status="有効" data-member-region="domestic">
+                <tr data-member-status="有効" data-member-region="review">
                   <td>
                     <p class="member-id">U-005122</p>
                   </td>
+                  <td>
+                    <p class="member-name"><a href="./member-detail.html">伊藤 由香</a></p>
+                  </td>
                   <td>ito.yuka@example.jp</td>
                   <td><span class="pill success">有効</span></td>
-                  <td><span class="pill region-domestic">国内</span></td>
-                  <td>1</td>
-                  <td>5</td>
-                  <td>2026/03/14</td>
-                  <td>1</td>
+                  <td><span class="pill region-review">要確認</span></td>
+                  <td>2026/03/14 08:45</td>
                   <td>2026/03/14 08:39</td>
                   <td>
                     <div class="status-actions">

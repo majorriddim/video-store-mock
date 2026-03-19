@@ -223,6 +223,14 @@ body {
   text-decoration: none;
 }
 
+.card-actions.as-button {
+  border: 1px solid #b8c2cf;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
 .card-body {
   padding: 8px 14px 14px;
 }
@@ -313,6 +321,11 @@ tr:last-child td {
 .pill.region-overseas {
   color: #7a3f9c;
   background: #f4ebff;
+}
+
+.pill.region-review {
+  color: #8a4b00;
+  background: #fff1dd;
 }
 
 .badge-box {
@@ -474,6 +487,10 @@ tr:last-child td {
   margin: 3px 0 0;
   color: var(--muted);
   font-size: 0.75rem;
+}
+
+.small-meta.inline-note {
+  margin: 4px 0 0;
 }
 
 .section-grid {
@@ -792,11 +809,90 @@ tr:last-child td {
   margin-top: 4px;
 }
 
+.section-divider {
+  height: 1px;
+  background: #e8edf3;
+  margin: 4px 0;
+}
+
 .status-actions {
   display: flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+.collapsible-card.is-collapsed .card-body {
+  display: none;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: none;
+  z-index: 1200;
+  padding: 24px;
+}
+
+.modal-backdrop.is-open {
+  display: grid;
+  place-items: center;
+}
+
+.modal-panel {
+  width: min(860px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 0.93rem;
+}
+
+.modal-body {
+  padding: 10px 14px 14px;
+}
+
+.modal-foot {
+  border-top: 1px solid var(--line);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.status-banner {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 9px 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.status-banner.success {
+  border-color: #b7dec7;
+  background: #eef9f2;
+  color: #185f3f;
+}
+
+.status-banner.error {
+  border-color: #efc1bb;
+  background: #fff1ef;
+  color: #9f2b22;
 }
 
 .status-actions .select {

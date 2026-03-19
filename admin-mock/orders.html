@@ -33,7 +33,7 @@
       <header class="topbar">
         <div>
           <h1 class="page-title">注文管理</h1>
-          <p class="page-subtitle">決済と視聴権限の状態を一画面で確認（売上管理モック）</p>
+          <p class="page-subtitle">決済・視聴権限と、アカウント詳細の国内外判定反映を確認する一覧</p>
         </div>
         <div class="admin-user">本日注文 64件 / 入金確認待ち 5件</div>
       </header>
@@ -46,7 +46,7 @@
             <p class="stat-note">ダミー集計</p>
           </article>
           <article class="card stat-card">
-            <p class="stat-label">海外売上</p>
+            <p class="stat-label">国外売上</p>
             <p class="stat-value">¥968,000</p>
             <p class="stat-note">ダミー集計</p>
           </article>
@@ -56,7 +56,7 @@
             <p class="stat-note">ダミー集計</p>
           </article>
           <article class="card stat-card">
-            <p class="stat-label">海外件数</p>
+            <p class="stat-label">国外件数</p>
             <p class="stat-value">127件</p>
             <p class="stat-note">ダミー集計</p>
           </article>
@@ -74,9 +74,10 @@
               <option>銀行振込</option>
             </select>
             <select id="orderRegionFilter" class="select" aria-label="区分" data-filter-key="region">
-              <option value="all" selected>すべて</option>
+              <option value="all" selected>すべての国内外判定</option>
               <option value="domestic">国内</option>
-              <option value="overseas">海外</option>
+              <option value="overseas">国外</option>
+              <option value="review">要確認</option>
             </select>
             <select class="select" aria-label="支払ステータス">
               <option selected>すべての支払ステータス</option>
@@ -113,7 +114,7 @@
                 <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0314-0891</a></td>
                   <td>tsubasa.t@example.jp</td>
-                  <td><span class="pill region-domestic">国内</span></td>
+                  <td><span class="pill region-domestic">国内</span><p class="small-meta inline-note">アカウント判定反映</p></td>
                   <td>テキストテキスト</td>
                   <td>¥6,800</td>
                   <td>カード</td>
@@ -125,7 +126,7 @@
                 <tr data-region="overseas">
                   <td><a href="./order-detail.html">#2026-0314-0874</a></td>
                   <td>yamada.kenta@example.jp</td>
-                  <td><span class="pill region-overseas">海外</span></td>
+                  <td><span class="pill region-overseas">国外</span><p class="small-meta inline-note">会員情報ベース</p></td>
                   <td>テキストテキスト</td>
                   <td>¥9,800</td>
                   <td>銀行振込</td>
@@ -137,7 +138,7 @@
                 <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0314-0869</a></td>
                   <td>morita.yu@example.jp</td>
-                  <td><span class="pill region-domestic">国内</span></td>
+                  <td><span class="pill region-domestic">国内</span><p class="small-meta inline-note">アカウント判定反映</p></td>
                   <td>テキストテキスト</td>
                   <td>¥4,200</td>
                   <td>銀行振込</td>
@@ -146,10 +147,10 @@
                   <td><span class="pill warning">手動付与待ち</span></td>
                   <td class="text-right"><a class="btn link" href="./order-detail.html">詳細</a></td>
                 </tr>
-                <tr data-region="overseas">
+                <tr data-region="review">
                   <td><a href="./order-detail.html">#2026-0314-0862</a></td>
                   <td>nakamura.aya@example.jp</td>
-                  <td><span class="pill region-overseas">海外</span></td>
+                  <td><span class="pill region-review">要確認</span><p class="small-meta inline-note">情報不一致</p></td>
                   <td>テキストテキスト</td>
                   <td>¥5,500</td>
                   <td>カード</td>
@@ -161,7 +162,7 @@
                 <tr data-region="domestic">
                   <td><a href="./order-detail.html">#2026-0313-0829</a></td>
                   <td>abe.mika@example.jp</td>
-                  <td><span class="pill region-domestic">国内</span></td>
+                  <td><span class="pill region-domestic">国内</span><p class="small-meta inline-note">会員情報ベース</p></td>
                   <td>テキストテキスト</td>
                   <td>¥7,200</td>
                   <td>銀行振込</td>
