@@ -41,7 +41,7 @@
       <div class="content">
         <div class="stack">
           <article class="card">
-            <div class="card-head"><h2 class="card-title">基本情報（国内外判定の管理元）</h2></div>
+            <div class="card-head"><h2 class="card-title">基本情報</h2></div>
             <div class="card-body form-stack">
               <dl class="detail-list">
                 <div class="detail-row"><dt>会員ID</dt><dd>U-004982</dd></div>
@@ -52,25 +52,21 @@
               <div class="section-divider" aria-hidden="true"></div>
               <label class="field">
                 <span>氏名</span>
-                <input class="input" type="text" value="田中 里奈">
+                <input class="input" id="basicNameInput" type="text" value="田中 里奈">
               </label>
               <label class="field">
                 <span>メールアドレス</span>
-                <input class="input" type="email" value="tanaka.rina@example.jp">
-              </label>
-              <label class="field">
-                <span>国 / 地域</span>
-                <select class="select">
-                  <option selected>日本 (JP)</option>
-                  <option>アメリカ合衆国 (US)</option>
-                  <option>台湾 (TW)</option>
-                  <option>未設定</option>
-                </select>
+                <input class="input" id="basicEmailInput" type="email" value="tanaka.rina@example.jp">
               </label>
               <label class="field">
                 <span>住所</span>
-                <textarea class="input textarea" rows="2">東京都渋谷区神南1-2-3 サンプルマンション 502</textarea>
+                <textarea class="input textarea" id="basicAddressInput" rows="2">東京都渋谷区神南1-2-3 サンプルマンション 502</textarea>
               </label>
+              <div class="action-row">
+                <button class="btn primary" id="updateBasicInfoBtn" type="button">基本情報を更新</button>
+                <button class="btn" id="openBasicInfoHistoryBtn" type="button">変更履歴を見る</button>
+              </div>
+              <div class="status-banner success" id="basicInfoUpdateStatus" hidden>基本情報を更新しました。</div>
             </div>
           </article>
 
@@ -218,6 +214,31 @@
       </div>
     </div>
   </div>
+  <div class="modal-backdrop" id="basicInfoHistoryModal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="basicInfoHistoryTitle">
+      <div class="modal-head">
+        <h2 class="modal-title" id="basicInfoHistoryTitle">基本情報の変更履歴</h2>
+        <button class="btn" type="button" id="closeBasicInfoHistoryTop">閉じる</button>
+      </div>
+      <div class="modal-body table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>更新日時</th>
+              <th>更新者</th>
+              <th>氏名</th>
+              <th>メールアドレス</th>
+              <th>住所</th>
+            </tr>
+          </thead>
+          <tbody id="basicInfoHistoryBody"></tbody>
+        </table>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" id="closeBasicInfoHistoryBottom">閉じる</button>
+      </div>
+    </div>
+  </div>
   <div class="modal-backdrop" id="memberStatusHistoryModal" aria-hidden="true">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="memberStatusHistoryTitle">
       <div class="modal-head">
@@ -289,8 +310,18 @@
       const memberStatusHistoryBody = document.getElementById("memberStatusHistoryBody");
       const closeMemberStatusHistoryTop = document.getElementById("closeMemberStatusHistoryTop");
       const closeMemberStatusHistoryBottom = document.getElementById("closeMemberStatusHistoryBottom");
+      const updateBasicInfoBtn = document.getElementById("updateBasicInfoBtn");
+      const basicInfoUpdateStatus = document.getElementById("basicInfoUpdateStatus");
+      const openBasicInfoHistoryBtn = document.getElementById("openBasicInfoHistoryBtn");
+      const basicInfoHistoryModal = document.getElementById("basicInfoHistoryModal");
+      const basicInfoHistoryBody = document.getElementById("basicInfoHistoryBody");
+      const closeBasicInfoHistoryTop = document.getElementById("closeBasicInfoHistoryTop");
+      const closeBasicInfoHistoryBottom = document.getElementById("closeBasicInfoHistoryBottom");
+      const basicNameInput = document.getElementById("basicNameInput");
+      const basicEmailInput = document.getElementById("basicEmailInput");
+      const basicAddressInput = document.getElementById("basicAddressInput");
 
-      if (!judgementResult || !judgementReason || !judgementMemo || !judgementLastUpdated || !updateJudgementBtn || !openJudgementHistoryBtn || !judgementHistoryModal || !judgementHistoryBody || !closeJudgementHistoryTop || !closeJudgementHistoryBottom || !paypalRefetchBtn || !paypalRefetchScenario || !paypalRefetchStatus || !paypalName || !paypalEmail || !paypalCountry || !paypalAddress || !paypalFetchedAt || !memberStatusBadge || !memberStatusSelect || !memberStatusMemo || !memberStatusLastUpdated || !updateMemberStatusBtn || !openMemberStatusHistoryBtn || !memberStatusHistoryModal || !memberStatusHistoryBody || !closeMemberStatusHistoryTop || !closeMemberStatusHistoryBottom) return;
+      if (!judgementResult || !judgementReason || !judgementMemo || !judgementLastUpdated || !updateJudgementBtn || !openJudgementHistoryBtn || !judgementHistoryModal || !judgementHistoryBody || !closeJudgementHistoryTop || !closeJudgementHistoryBottom || !paypalRefetchBtn || !paypalRefetchScenario || !paypalRefetchStatus || !paypalName || !paypalEmail || !paypalCountry || !paypalAddress || !paypalFetchedAt || !memberStatusBadge || !memberStatusSelect || !memberStatusMemo || !memberStatusLastUpdated || !updateMemberStatusBtn || !openMemberStatusHistoryBtn || !memberStatusHistoryModal || !memberStatusHistoryBody || !closeMemberStatusHistoryTop || !closeMemberStatusHistoryBottom || !updateBasicInfoBtn || !basicInfoUpdateStatus || !openBasicInfoHistoryBtn || !basicInfoHistoryModal || !basicInfoHistoryBody || !closeBasicInfoHistoryTop || !closeBasicInfoHistoryBottom || !basicNameInput || !basicEmailInput || !basicAddressInput) return;
 
       const resultLabelMap = { domestic: "国内", overseas: "国外", review: "要確認" };
       const judgementHistory = [
@@ -333,6 +364,36 @@
         judgementHistoryModal.setAttribute("aria-hidden", "true");
       };
 
+      const basicInfoHistory = [
+        {
+          updatedAt: "2026/03/14 09:00",
+          updatedBy: "admin01",
+          name: "田中 里奈",
+          email: "tanaka.rina@example.jp",
+          address: "東京都渋谷区神南1-2-3 サンプルマンション 502"
+        }
+      ];
+
+      const renderBasicInfoHistory = () => {
+        basicInfoHistoryBody.innerHTML = "";
+        basicInfoHistory.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td>" + item.updatedAt + "</td><td>" + item.updatedBy + "</td><td>" + item.name + "</td><td>" + item.email + "</td><td>" + item.address + "</td>";
+          basicInfoHistoryBody.appendChild(tr);
+        });
+      };
+
+      const openBasicInfoHistoryModal = () => {
+        renderBasicInfoHistory();
+        basicInfoHistoryModal.classList.add("is-open");
+        basicInfoHistoryModal.setAttribute("aria-hidden", "false");
+      };
+
+      const closeBasicInfoHistoryModal = () => {
+        basicInfoHistoryModal.classList.remove("is-open");
+        basicInfoHistoryModal.setAttribute("aria-hidden", "true");
+      };
+
       const memberStatusClassMap = { "有効": "success", "休眠": "warning", "停止": "danger" };
       const memberStatusHistory = [
         {
@@ -362,6 +423,19 @@
         memberStatusHistoryModal.classList.remove("is-open");
         memberStatusHistoryModal.setAttribute("aria-hidden", "true");
       };
+
+      updateBasicInfoBtn.addEventListener("click", () => {
+        const updatedAt = formatNow();
+        basicInfoHistory.unshift({
+          updatedAt: updatedAt,
+          updatedBy: "admin01",
+          name: (basicNameInput.value || "").trim() || "-",
+          email: (basicEmailInput.value || "").trim() || "-",
+          address: (basicAddressInput.value || "").trim() || "-"
+        });
+        basicInfoUpdateStatus.hidden = false;
+        basicInfoUpdateStatus.textContent = "基本情報を更新しました。";
+      });
 
       updateMemberStatusBtn.addEventListener("click", () => {
         const status = memberStatusSelect.value;
@@ -401,6 +475,13 @@
       closeJudgementHistoryBottom.addEventListener("click", closeHistoryModal);
       judgementHistoryModal.addEventListener("click", (event) => {
         if (event.target === judgementHistoryModal) closeHistoryModal();
+      });
+
+      openBasicInfoHistoryBtn.addEventListener("click", openBasicInfoHistoryModal);
+      closeBasicInfoHistoryTop.addEventListener("click", closeBasicInfoHistoryModal);
+      closeBasicInfoHistoryBottom.addEventListener("click", closeBasicInfoHistoryModal);
+      basicInfoHistoryModal.addEventListener("click", (event) => {
+        if (event.target === basicInfoHistoryModal) closeBasicInfoHistoryModal();
       });
 
       openMemberStatusHistoryBtn.addEventListener("click", openMemberStatusHistoryModal);
